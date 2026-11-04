@@ -1,0 +1,28 @@
+---
+layout: base.njk
+permalink: /geven/
+titel: Geven · Stichting Bonisa
+eenvoudigeKop: true
+verborgen: true
+scripts: ["/assets/js/geven.js"]
+---
+{#- Overzicht van de projecten. De lijst komt uit site/_data/projecten.json (Pages CMS). -#}
+<div class="container geven" id="geven" data-functies="{{ ticketsysteem.functiesUrl }}">
+  <h1>{{ projecten.titel }}</h1>
+  <p class="tekst-gedempt">{{ projecten.intro }}</p>
+  <div class="melding" id="melding" role="alert" hidden></div>
+
+  <ul class="projectlijst" role="list">
+    {%- for project in projecten.projecten %}{% if project.open %}
+    <li class="projectkaart">
+      {%- if project.foto %}
+      <img src="{{ project.foto }}" alt="{{ project.alt }}" sizes="(min-width: 800px) 33vw, 100vw">
+      {%- endif %}
+      <h2>{{ project.naam }}</h2>
+      <p>{{ project.tekst }}</p>
+      {% include "blokken/voortgang.njk" %}
+      <a class="knop knop--oranje" href="/geven/{{ project.slug }}/">Geef voor dit project</a>
+    </li>
+    {%- endif %}{% endfor %}
+  </ul>
+</div>

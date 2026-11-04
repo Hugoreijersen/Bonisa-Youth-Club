@@ -279,6 +279,53 @@ content:
         type: boolean
         description: Pas aanzetten bij livegang. Uit = zoekmachines slaan de site over.
 
+  # Giften voor bonisa.nl (docs/giften.md). De vaste naam van een project
+  # staat in elke gift; verander hem niet meer zodra er giften binnenkomen.
+  - name: projecten
+    label: Projecten (giften)
+    type: file
+    path: site/_data/projecten.json
+    format: json
+    fields:
+      - { name: titel, label: Titel van de geefpagina, type: string }
+      - { name: intro, label: Tekst bovenaan de geefpagina, type: text }
+      - name: projecten
+        label: Projecten
+        type: object
+        list: true
+        fields:
+          - { name: naam, label: Naam, type: string, required: true, pattern: { regex: '^.{1,120}$', message: 'Maximaal 120 tekens' } }
+          - name: slug
+            label: Vaste naam (voor het webadres)
+            type: string
+            required: true
+            pattern: { regex: '^[a-z0-9-]{1,60}$', message: 'Alleen kleine letters, cijfers en streepjes, bijvoorbeeld "waterput-2027"' }
+            description: Wordt het adres /geven/<vaste naam>/ en staat bij elke gift. Niet meer wijzigen zodra er giften binnenkomen.
+          - { name: tekst, label: Korte tekst, type: text }
+          - { name: foto, label: Foto, component: foto, description: 'Geen herkenbare partners in Azië.' }
+          - { name: alt, component: alt, required: false }
+          - name: doel
+            label: Doelbedrag (in euro)
+            type: number
+            options: { min: 0, step: 1 }
+            description: 0 = geen doel; dan staat er alleen hoeveel er is opgehaald.
+          - name: bank
+            label: Giften via de bank (in euro)
+            type: number
+            options: { min: 0, step: 0.01 }
+            description: Het totaal van giften voor dit project die per bankoverschrijving binnenkwamen. Telt mee in de voortgangsbalk. Giften via de site tellen vanzelf mee; die hier niet invullen.
+          - name: bedragen
+            label: Vaste bedragen (in euro)
+            type: number
+            list: { min: 0, max: 5 }
+            options: { min: 1, step: 1 }
+            description: De knoppen op het geefformulier. Een eigen bedrag kan altijd.
+          - name: open
+            label: Open voor giften
+            type: boolean
+            default: true
+            description: Uit = het project verdwijnt van de site en er kunnen geen giften meer voor binnenkomen.
+
 # Commitberichten volgens Conventional Commits (CLAUDE.md). Inhoud gaat direct
 # naar main; Cloudflare zet de wijziging daarna vanzelf online.
 settings:

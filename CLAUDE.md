@@ -23,7 +23,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 - Sitegenerator: **Eleventy 3** (besluit 23). Sjablonen in gewone HTML (Nunjucks), zo dicht mogelijk bij `design/`. Uitleg van de opbouw: `docs/hoe-de-site-werkt.md`.
 - Hosting: **Cloudflare Workers, alleen statische bestanden** (besluit 45). Instellingen in `wrangler.jsonc`; er draait geen Worker-code. Variabelen voor de bouw staan in Cloudflare onder Settings → Build → Build variables and secrets.
 - Bewerkscherm: **Pages CMS**, de online versie op app.pagescms.org (besluit 48), configuratie in `.pages.yml`. Alles wat kantoor moet kunnen aanpassen (teksten, foto's, datum, prijs, hosts, musici, shirts) staat als JSON in `site/_data/` (één bestand per onderdeel, besluit 26), niet in sjablonen. Nieuw veld in een datafile? Voeg het ook toe aan `.pages.yml`.
-- Database en functies: **Supabase, regio Frankfurt (`eu-central-1`)**. Functies altijd vastzetten op die regio. Code in `supabase/`; uitleg in `docs/ticketsysteem.md`. Functies zonder npm-pakketten (besluit 31).
+- Database en functies: **Supabase, regio Frankfurt (`eu-central-1`)**. Functies altijd vastzetten op die regio. Code in `supabase/`; uitleg in `docs/ticketsysteem.md` en, voor giften, `docs/giften.md`. Functies zonder npm-pakketten (besluit 31).
 - Betalen: **Mollie** (iDEAL), betalen op de pagina van Mollie.
 - Mail: MailerSend (ticketmail), MailerLite (nieuwsbrief, alleen met vinkje). Beide via `fetch` in `supabase/functions/_shared/`.
 
@@ -36,6 +36,8 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 - `npm run functies`: de functies lokaal (eerst `supabase/functions/.env.example` kopiëren naar `.env.local`)
 - `npm run nep`: nagebootste Mollie, MailerSend en MailerLite (mails op http://localhost:54399/mails)
 - `npm run test:tickets`: alle tests van het ticketsysteem
+- `npm run start:giften`: testversie mét de geefpagina's (`/geven/`, voor bonisa.nl)
+- `npm run test:giften`: alle tests van de giften (niet tegelijk met `test:tickets`)
 
 ## Harde regels
 
@@ -61,4 +63,5 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 - Fase 1 gebouwd: de homepage van jongerenzang.nl in Eleventy, met `.pages.yml` voor Pages CMS.
 - Fase 2 gebouwd en lokaal getest: bestellen en betalen (`supabase/`, `site/tickets/`), met een nagebootste Mollie. Nog geen echte Mollie (besluit 30).
 - Fase 3 gebouwd en lokaal getest: ticketmail met QR-codes, ticketpagina `/tickets/mijn/`, scanpagina `/scan/`, beheerpagina `/beheer/`, nieuwsbrief naar MailerLite.
+- Giften voor bonisa.nl gebouwd en lokaal getest: eenmalig en maandelijks, per project (`docs/giften.md`). Geefpagina's alleen met `GIFTEN_PAGINAS=aan`.
 - Nog niets online. Volgende stap: online zetten in Hugo's accounts (besluit 38); vanaf 25 november de voorkant van bonisa.nl.

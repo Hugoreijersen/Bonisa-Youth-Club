@@ -1,0 +1,9 @@
+{#- Voortgangsbalk van één project. geven.js vult hem met de online giften
+    (uit het ticketsysteem) plus de giften via de bank (uit Pages CMS).
+    Zonder doelbedrag: alleen het opgehaalde bedrag. -#}
+<div class="geefstand" data-voortgang="{{ project.slug }}" data-doel-cent="{{ ((project.doel or 0) * 100) | round }}" data-bank-cent="{{ ((project.bank or 0) * 100) | round }}" hidden>
+  {%- if project.doel %}
+  <progress class="geefstand__balk" max="{{ ((project.doel or 0) * 100) | round }}" value="0" aria-label="Opgehaald voor {{ project.naam }}"></progress>
+  {%- endif %}
+  <p class="geefstand__tekst"><strong data-veld="opgehaald"></strong>{% if project.doel %} van {{ project.doel | euroKort }}{% endif %} opgehaald</p>
+</div>

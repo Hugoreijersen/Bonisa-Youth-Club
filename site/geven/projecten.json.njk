@@ -1,0 +1,6 @@
+---
+permalink: /geven/projecten.json
+eleventyExcludeFromCollections: true
+---
+{#- The list the gift function checks every gift against (slug, name, open). No personal data. -#}
+{"projecten":[{% for p in projecten.projecten %}{{ { slug: p.slug, naam: p.naam, open: p.open } | dump | safe }}{% if not loop.last %},{% endif %}{% endfor %}]}

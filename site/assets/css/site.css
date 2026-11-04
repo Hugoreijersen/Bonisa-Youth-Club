@@ -999,3 +999,74 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 .tabel__knop:hover { background: var(--groen-tint); }
 /* display:flex would otherwise win over the hidden attribute */
 .formulier[hidden], .scan[hidden], .beheer[hidden], .beheer__blok[hidden], .melding[hidden], .bevestiging[hidden], .knop[hidden] { display: none; }
+
+/* ---------- Geven (/geven/, voor bonisa.nl; docs/giften.md) ---------- */
+.geven {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 820px;
+  padding-top: clamp(24px, 5vw, 56px);
+  padding-bottom: var(--sectie);
+}
+.geven h1 { font-weight: 800; font-size: clamp(34px, 5vw, 52px); line-height: 1.05; }
+.geven .formulier {
+  background: var(--wit);
+  border-radius: var(--rond-groot);
+  padding: clamp(24px, 5vw, 40px);
+}
+.geven .knop { border: 0; font: inherit; font-weight: 700; cursor: pointer; align-self: flex-start; }
+.geven .knop:disabled { opacity: 0.6; cursor: not-allowed; }
+.melding[hidden] { display: none; }
+
+.projectlijst { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 20px; }
+.projectkaart {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--wit);
+  border-radius: var(--rond-kaart);
+  padding: 24px;
+}
+.projectkaart img { width: 100%; height: 200px; object-fit: cover; border-radius: 16px; }
+.projectkaart h2 { font-weight: 800; font-size: 26px; line-height: 1.1; }
+.projectkaart p { color: var(--tekst-gedempt); }
+.projectkaart .knop { margin-top: auto; }
+
+.geefstand { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.geefstand[hidden] { display: none; }
+.geefstand__balk {
+  width: 100%;
+  height: 14px;
+  border: 0;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--groen-tint);
+  appearance: none;
+}
+.geefstand__balk::-webkit-progress-bar { background: var(--groen-tint); border-radius: 999px; }
+.geefstand__balk::-webkit-progress-value { background: var(--groen-donker); border-radius: 999px; }
+.geefstand__balk::-moz-progress-bar { background: var(--groen-donker); border-radius: 999px; }
+.geefstand__tekst { font-size: 16px; color: var(--tekst-gedempt); }
+
+.keuzes { border: 0; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.keuzes legend { font-weight: 600; font-size: 16px; margin-bottom: 8px; padding: 0; }
+.keuze { position: relative; cursor: pointer; }
+.keuze input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.keuze span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1.5px solid #8FA394;
+  border-radius: 999px;
+  background: var(--wit);
+  font-weight: 700;
+}
+.keuze input:checked + span { background: var(--groen-donker); border-color: var(--groen-donker); color: var(--wit); }
+.keuze input:focus-visible + span { outline: 3px solid var(--oranje); outline-offset: 2px; }
+.keuze:hover span { background: var(--groen-tint); }
+.keuze:hover input:checked + span { background: var(--groen-donker); }
+.keuzes__anders { flex: 1 1 100%; max-width: 280px; }
+.keuzes__anders[hidden] { display: none; }

@@ -58,6 +58,16 @@ export default function (eleventyConfig) {
     new Intl.NumberFormat("nl-NL", { style: "currency", currency: "EUR" })
       .format(Number(bedrag)));
 
+  // 25 -> "€ 25", 12.5 -> "€ 12,50" (amount buttons on the gift pages)
+  eleventyConfig.addFilter("euroKort", (bedrag) =>
+    new Intl.NumberFormat("nl-NL", {
+      style: "currency", currency: "EUR", minimumFractionDigits: Number.isInteger(Number(bedrag)) ? 0 : 2,
+    }).format(Number(bedrag)));
+
+  // Gift pages (/geven/, bonisa.nl) only with the build variable
+  // GIFTEN_PAGINAS=aan; jongerenzang.nl is built without them. docs/giften.md
+  if (process.env.GIFTEN_PAGINAS !== "aan") eleventyConfig.ignores.add("site/geven/**");
+
   // "Recht" -> "recht" (for the theme words in the hero)
   // Adds ?v=<hash of the file> to /assets/ links. Those files are cached for a
   // year (site/_headers.njk), so a changed file needs a new address.

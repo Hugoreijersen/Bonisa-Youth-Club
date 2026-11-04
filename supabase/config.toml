@@ -442,3 +442,15 @@ verify_jwt = false
 
 [functions.beheer]
 verify_jwt = false
+
+[functions.create-gift]
+verify_jwt = false
+
+[functions.gift-webhook]
+verify_jwt = false
+
+[functions.giftinfo]
+verify_jwt = false
+
+[functions.gift-stoppen]
+verify_jwt = false

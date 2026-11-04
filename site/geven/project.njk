@@ -1,0 +1,73 @@
+---
+layout: base.njk
+pagination:
+  data: giften.openProjecten
+  size: 1
+  alias: project
+permalink: "/geven/{{ project.slug }}/"
+eleventyComputed:
+  titel: "{{ project.naam }} · Geven · Stichting Bonisa"
+eenvoudigeKop: true
+verborgen: true
+scripts: ["/assets/js/geven.js"]
+---
+{#- Geefformulier voor één project. Werkt ook zonder JavaScript: het formulier
+    gaat dan direct naar create-gift, die doorstuurt naar Mollie. -#}
+<div class="container geven" id="geven" data-functies="{{ ticketsysteem.functiesUrl }}">
+  <p><a href="/geven/">← Alle projecten</a></p>
+  <h1>{{ project.naam }}</h1>
+  <p>{{ project.tekst }}</p>
+  {% include "blokken/voortgang.njk" %}
+
+  <form id="geefformulier" class="formulier" method="post" action="{{ ticketsysteem.functiesUrl }}/create-gift" novalidate>
+    <div class="melding" id="melding" role="alert" hidden></div>
+    <input type="hidden" name="project" value="{{ project.slug }}">
+    {#- Spamval: mensen zien dit veld niet, robots vullen het in. #}
+    <div class="visueel-verborgen" aria-hidden="true">
+      <label for="website">Laat dit veld leeg</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <fieldset class="keuzes">
+      <legend>Hoe vaak wilt u geven? *</legend>
+      <label class="keuze"><input type="radio" name="frequentie" value="eenmalig" checked><span>Eenmalig</span></label>
+      <label class="keuze"><input type="radio" name="frequentie" value="maandelijks"><span>Maandelijks</span></label>
+    </fieldset>
+
+    <fieldset class="keuzes">
+      <legend>Bedrag *</legend>
+      {%- for bedrag in project.bedragen %}
+      <label class="keuze"><input type="radio" name="bedrag" value="{{ bedrag }}"{% if loop.first %} checked{% endif %}><span>{{ bedrag | euroKort }}</span></label>
+      {%- endfor %}
+      <label class="keuze"><input type="radio" name="bedrag" value="anders"{% if not project.bedragen.length %} checked{% endif %}><span>Ander bedrag</span></label>
+      <div class="veld keuzes__anders">
+        <label for="bedrag_anders">Ander bedrag in euro</label>
+        <input id="bedrag_anders" name="bedrag_anders" type="text" inputmode="decimal" maxlength="9" placeholder="bijvoorbeeld 20" autocomplete="off">
+      </div>
+    </fieldset>
+    <p class="klein tekst-gedempt" data-uitleg="maandelijks" hidden>U betaalt de eerste keer met iDEAL. Daarna schrijft Mollie het bedrag elke maand automatisch af. Stoppen kan altijd, met de link in de bevestigingsmail.</p>
+
+    <div class="velden">
+      <div class="veld">
+        <label for="voornaam">Voornaam *</label>
+        <input id="voornaam" name="voornaam" type="text" required maxlength="100" autocomplete="given-name">
+      </div>
+      <div class="veld">
+        <label for="achternaam">Achternaam *</label>
+        <input id="achternaam" name="achternaam" type="text" required maxlength="100" autocomplete="family-name">
+      </div>
+      <div class="veld">
+        <label for="email">E-mailadres *</label>
+        <input id="email" name="email" type="email" required maxlength="254" autocomplete="email">
+      </div>
+    </div>
+
+    <label class="vinkje" for="nieuwsbrief">
+      <input id="nieuwsbrief" name="nieuwsbrief" type="checkbox">
+      <span>Ja, houd me op de hoogte van nieuws en activiteiten van Bonisa. Afmelden kan altijd.</span>
+    </label>
+
+    <button type="submit" class="knop knop--oranje knop--groot" id="geefknop">Geef met iDEAL</button>
+    <p class="klein tekst-gedempt">U betaalt op de beveiligde pagina van Mollie. Lees hoe we met uw gegevens omgaan in de <a href="{{ stichting.documenten.privacy }}">privacyverklaring</a>.</p>
+  </form>
+</div>

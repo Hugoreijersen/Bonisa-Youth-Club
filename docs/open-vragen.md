@@ -42,7 +42,11 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 ## Fase 2 (bonisa.nl)
 
 - [ ] Hoe worden giften en donateurs nu bijgehouden? Bekend (4 nov 2026): doneren loopt nu via betaallinks van iDEAL | Wero (pay.ideal.nl); de administratie daarvan is omslachtig. Nog uitzoeken: hoe kantoor giften nu koppelt aan projecten en donateurs, wat het kost, en naar welk systeem de gegevens gaan.
-- [ ] Is periodiek doneren nodig?
+- [x] Is periodiek doneren nodig? Ja, maandelijks (4 nov 2026, besluit 50).
+- [ ] Giften: in het Mollie-account een websiteprofiel voor bonisa.nl, met iDEAL en SEPA-incasso (nodig voor maandelijkse giften). Daarna de sleutel `MOLLIE_GIFTEN_API_KEY` in Supabase (docs/giften.md §5).
+- [ ] Giften: afzender van de bedankmail (bijvoorbeeld giften@bonisa.nl) en bonisa.nl verifiëren in MailerSend.
+- [ ] Giften: welke projecten komen erin, met doelbedrag en vaste bedragen, en hoeveel er al via de bank binnenkwam.
+- [ ] Giften: bewaartermijn van gegevens van gevers, en of kantoor een jaaroverzicht per gever wil (voor de belastingaangifte van gevers).
 - [ ] Webshop: bonisa.nl heeft nu WooCommerce (in WordPress). Uitzoeken: welke producten en hoeveel, verzending en voorraad, en welke betaalplugin WooCommerce gebruikt. Bekend (4 nov 2026): de webshop is gekoppeld aan het Mollie-account van Bonisa.
 - [ ] Welke webshopdienst bouwen we in, of volstaat bij weinig producten een eenvoudig bestelformulier op basis van het ticketsysteem?
 

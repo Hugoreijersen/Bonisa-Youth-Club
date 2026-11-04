@@ -3,15 +3,19 @@
 //   POST {"actie": "...", ...}   (Authorization: Bearer <login token>)
 //
 // Actions: ik, evenementen, overzicht, bestellingen, export, mail_opnieuw,
-// evenement_opslaan, beheerders, beheerder_toevoegen, beheerder_verwijderen.
+// evenement_opslaan, beheerders, beheerder_toevoegen, beheerder_verwijderen,
+// and for gifts (docs/giften.md): giften_overzicht, giften_export,
+// periodieke_giften, periodiek_stoppen.
 // Everything except "ik" is only for the role kantoor.
 import {
   authAdmin, corsHeaders, DatabaseFout, gebruikerVan, json, log, rpc, tabel,
 } from "../_shared/algemeen.ts";
+import { stopPeriodiek } from "../_shared/giften.ts";
 import { verstuurTicketmail } from "../_shared/ticketmail.ts";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const SLUG = /^[a-z0-9-]{1,60}$/;
+const DATUM = /^\d{4}-\d{2}-\d{2}$/;
 
 class Fout extends Error {
   constructor(public code: string, public status = 400) { super(code); }
@@ -181,6 +185,35 @@ Deno.serve(async (req) => {
         await tabel(`beheerders?user_id=eq.${id}`, { method: "DELETE" });
         await authAdmin(`users/${id}`, { method: "DELETE" });
         antwoord = { verwijderd: id };
+        break;
+      }
+
+      // --- Gifts -------------------------------------------------------------
+      case "giften_overzicht":
+        antwoord = await rpc("giften_overzicht", {});
+        break;
+
+      case "giften_export": {
+        // All gifts paid (or started) between two dates, for the administration.
+        const van = String(v.van ?? ""), tot = String(v.tot ?? "");
+        if (!DATUM.test(van) || !DATUM.test(tot) || van > tot) throw new Fout("ongeldige_periode");
+        const rijen = await rpc<Record<string, unknown>[]>("giften_export", { p_van: van, p_tot: tot });
+        // Fixed column order for the CSV (the database returns keys sorted otherwise).
+        const kolommen = ["datum", "project", "soort", "bedrag", "status", "voornaam", "achternaam", "email",
+          "maandelijkse_gift", "mollie_betaling", "gift_id"];
+        antwoord = rijen.map((r) => Object.fromEntries(kolommen.map((k) => [k, r[k]])));
+        break;
+      }
+
+      case "periodieke_giften":
+        antwoord = await rpc("periodieke_giften_lijst", {});
+        break;
+
+      case "periodiek_stoppen": {
+        if (typeof v.id !== "string" || !UUID.test(v.id)) throw new Fout("onbekend", 404);
+        const uitkomst = await stopPeriodiek({ id: v.id }, "kantoor");
+        if (uitkomst === "onbekend") throw new Fout("onbekend", 404);
+        antwoord = { uitkomst };
         break;
       }
 

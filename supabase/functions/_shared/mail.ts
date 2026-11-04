@@ -13,15 +13,22 @@ export async function verstuurMail(mail: {
   html: string;
   tekst: string;
   bijlagen?: Bijlage[];
+  // Sender for other mails than the ticket mail (e.g. gifts for bonisa.nl).
+  afzender?: { email: string; naam: string; antwoordAan?: string };
 }) {
+  const van = mail.afzender ?? {
+    email: env("MAIL_FROM"),
+    naam: env("MAIL_FROM_NAAM", false) || "Katwijkse Jongerenzang",
+    antwoordAan: env("MAIL_REPLY_TO", false),
+  };
   const url = env("MAIL_API_URL", false) || "https://api.mailersend.com/v1";
   const antwoord = await fetch(`${url}/email`, {
     method: "POST",
     headers: { Authorization: `Bearer ${env("MAIL_API_KEY")}`, "Content-Type": "application/json" },
     body: JSON.stringify({
-      from: { email: env("MAIL_FROM"), name: env("MAIL_FROM_NAAM", false) || "Katwijkse Jongerenzang" },
+      from: { email: van.email, name: van.naam },
       to: [{ email: mail.aan, name: mail.naam }],
-      ...(env("MAIL_REPLY_TO", false) ? { reply_to: { email: env("MAIL_REPLY_TO", false) } } : {}),
+      ...(van.antwoordAan ? { reply_to: { email: van.antwoordAan } } : {}),
       subject: mail.onderwerp,
       html: mail.html,
       text: mail.tekst,

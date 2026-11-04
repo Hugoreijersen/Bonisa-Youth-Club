@@ -15,6 +15,7 @@ De sites zijn eigen code, zonder WordPress. Alles met persoonsgegevens staat en 
 | --- | --- | --- |
 | [docs/hoe-de-site-werkt.md](docs/hoe-de-site-werkt.md) | Technisch | Hoe de site in elkaar zit: mappen, bouwen, foto's, bewerkscherm |
 | [docs/ticketsysteem.md](docs/ticketsysteem.md) | Technisch | Bestellen en betalen: database, functies, testen, online zetten |
+| [docs/giften.md](docs/giften.md) | Technisch + kantoor | Giften per project voor bonisa.nl: eenmalig en maandelijks |
 | [docs/plan.md](docs/plan.md) | Iedereen | Het volledige plan: onderdelen, hoe het werkt, fases, kosten |
 | [docs/beslissingen.md](docs/beslissingen.md) | Iedereen | Alle gemaakte keuzes, met datum en reden |
 | [docs/beveiliging.md](docs/beveiliging.md) | Technisch + bestuur | Waar gegevens staan, maatregelen, bescherming van partners |
