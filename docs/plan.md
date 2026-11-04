@@ -14,7 +14,7 @@ Laatst bijgewerkt: 4 november 2026. Het overleg-exemplaar van dit plan staat als
 
 | Onderdeel | Keuze | Waarom |
 | --- | --- | --- |
-| Website | Sitegenerator Eleventy, gehost bij Cloudflare Pages | Gratis, snel, automatische testversie per wijziging, sterke bescherming tegen aanvallen |
+| Website | Sitegenerator Eleventy, gehost bij Cloudflare (Worker met alleen statische bestanden, besluit 45) | Gratis, snel, automatische testversie per wijziging, sterke bescherming tegen aanvallen |
 | Aanpassen | Pages CMS (zelf gehost in de EU), gekoppeld aan deze repository | Kantoor wijzigt tekst en foto's in velden; de opmaak staat vast |
 | Grotere wijzigingen | Claude (Team-abonnement, non-profitkorting), via de testsite | Geen bouwer nodig voor nieuwe blokken of pagina's |
 | Tickets | Eigen systeem met QR-tickets, voor meerdere evenementen | Geen kosten per ticket aan een ticketplatform |
@@ -28,7 +28,7 @@ Zie [beslissingen.md](beslissingen.md) voor datum en reden per keuze.
 ## 3. Hoe het werkt
 
 ```
-Kantoor ──> Pages CMS ──> GitHub (code + teksten) ──publiceert──> Cloudflare Pages (website)
+Kantoor ──> Pages CMS ──> GitHub (code + teksten) ──publiceert──> Cloudflare (website)
                                                                         │
 Bezoeker ──bekijkt en bestelt──────────────────────────────────────────┘
                                                                         │ bestelformulier
@@ -55,7 +55,7 @@ Scanpagina (deur) <──geldig?──> Database (Supabase, Frankfurt) ──stu
 
 1. Kantoor past in Pages CMS een tekst of foto aan.
 2. Pages CMS slaat dat op in GitHub.
-3. Cloudflare Pages bouwt de site opnieuw met Eleventy en zet hem binnen een paar minuten online.
+3. Cloudflare bouwt de site opnieuw met Eleventy en zet hem binnen een paar minuten online.
 
 ## 4. Gegevensmodel (eerste opzet)
 
@@ -115,7 +115,7 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 
 | Dienst | Kosten | Let op |
 | --- | --- | --- |
-| Cloudflare Pages | Gratis | Inclusief testversie per wijziging |
+| Cloudflare Workers (statische bestanden) | Gratis | Inclusief testversie per branch |
 | GitHub | Gratis | Organisatie op naam van de stichting |
 | Pages CMS | Gratis, open source | Zelf hosten in de EU |
 | Mollie | €0,32 per iDEAL-betaling | Per bestelling, niet per ticket |
@@ -143,7 +143,7 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 | Nieuws, activiteiten, magazine, presentaties | Overzichten in Pages CMS | Middel |
 | Formulieren (magazine, nodig ons uit, contact, vrijwilligers) | Opslag in Supabase + mail naar kantoor | Klein |
 | Zoeken, ANBI, Schenken of nalaten, Sponsors | Zoeken zonder server; gewone pagina's | Klein |
-| Overstap | Inhoud uit WordPress halen; oude links doorverwijzen; jongerenzang.nl en chinaindeles.nl mee | Middel |
+| Overstap | Inhoud uit WordPress halen; oude links doorverwijzen; jongerenzang.nl en de andere oude domeinen van Bonisa mee | Middel |
 | Huisstijl | Logo (.svg), kleuren, lettertypen in één stijlgids | Klein |
 
 ## 10. Bronnen
@@ -156,7 +156,6 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 - [MailerLite: waar staan de gegevens](https://www.mailerlite.com/help/is-my-data-safe-with-mailerlite)
 - [Pages CMS](https://pagescms.org)
 - [Cloudflare-netwerk](https://www.cloudflare.com/network/)
-- [Cloudflare China Network FAQ](https://developers.cloudflare.com/china-network/faq/)
 - [Neon-prijzen](https://neon.com/pricing)
 - [Cloudflare D1-prijzen](https://developers.cloudflare.com/d1/platform/pricing/)
 - [Claude for Nonprofits](https://www.anthropic.com/news/claude-for-nonprofits)

@@ -1,5 +1,6 @@
 // Where the ticket system (Supabase) can be reached. Set these in the
-// Cloudflare Pages settings (docs/ticketsysteem.md):
+// Cloudflare build settings, under Settings -> Build -> Build variables and
+// secrets (docs/ticketsysteem.md):
 //   FUNCTIES_URL                 https://<project-ref>.supabase.co/functions/v1
 //   SUPABASE_PUBLIEKE_SLEUTEL    the "publishable" key (sb_publishable_...);
 //                                public by design: it only allows logging in

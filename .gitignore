@@ -19,3 +19,6 @@ supabase/.branches/
 .DS_Store
 Thumbs.db
 .Rhistory
+
+# Cloudflare (wrangler) local files
+.wrangler/
