@@ -17,8 +17,9 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 
 ## Voor de ticketverkoop
 
+- [ ] Mollie-account van de stichting (bestaand account met een extra websiteprofiel, of nieuw). Daarna alleen de sleutel in Supabase zetten (besluit 30, docs/ticketsysteem.md §5).
 - [ ] Startdatum van de ticketverkoop.
-- [ ] Maximum aantal tickets (capaciteit van de kerk) en maximum per bestelling.
+- [ ] Maximum aantal tickets (capaciteit van de kerk) en maximum per bestelling (nu voorlopig 10, besluit 33).
 - [ ] Ticketmail: MailerSend of een andere dienst; navragen waar MailerSend de mailgegevens bewaart.
 - [ ] Domein jongerenzang.nl (in eigen beheer) bij livegang naar Cloudflare laten wijzen. Let op: neem bestaande mailinstellingen (MX-records) mee, anders stopt de mail op dat domein.
 - [ ] Toestemming voor foto's van herkenbare jongeren op de site (onder 16: ouders).

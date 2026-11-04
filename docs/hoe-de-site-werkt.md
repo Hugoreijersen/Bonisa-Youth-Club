@@ -28,7 +28,8 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── index.njk          de homepage: zet de blokken onder elkaar
 │   ├── 404.njk            pagina "bestaat niet"
 │   ├── robots.njk         robots.txt (zoekmachines aan of uit)
-│   ├── _headers           beveiligingsregels voor Cloudflare
+│   ├── _headers.njk       beveiligingsregels voor Cloudflare (wordt _headers)
+│   ├── tickets/           bestelpagina en bedankpagina (zie ticketsysteem.md)
 │   ├── _includes/
 │   │   ├── base.njk       het basissjabloon: <head>, menu, footer, ronde knop
 │   │   ├── iconen.njk     de iconen van de themakaarten
@@ -36,10 +37,11 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── _data/             de inhoud, één JSON-bestand per onderdeel
 │   └── assets/
 │       ├── css/site.css   alle opmaak, met de kleuren als variabelen bovenaan
-│       ├── js/menu.js     het uitklapmenu op de telefoon (het enige script)
+│       ├── js/            menu.js (uitklapmenu), bestellen.js en bedankt.js (tickets)
 │       ├── fonts/         Bricolage Grotesque en DM Sans (+ licenties)
 │       ├── img/           de originele foto's (worden nooit zo gepubliceerd)
 │       └── docs/          de pdf's (voorwaarden, privacy, disclaimer)
+├── supabase/              het ticketsysteem: database, functies, tests (zie ticketsysteem.md)
 ├── design/                het ontwerp, alleen ter referentie
 └── docs/                  documentatie
 ```
@@ -149,7 +151,7 @@ Een fotobeschrijving (`alt`) is verplicht: zonder kan kantoor niet opslaan. Tijd
 
 ## 8. Beveiliging en privacy van de site zelf
 
-- `site/_headers` geeft Cloudflare beveiligingsregels mee. De belangrijkste is de **Content-Security-Policy**: de browser laadt alleen bestanden van de eigen site. Komt er ooit een ingesloten video, kaart of formulier van een andere dienst bij, dan moet die dienst hier worden toegestaan, en eerst in `beveiliging.md` staan.
+- `site/_headers.njk` (wordt `_headers`) geeft Cloudflare beveiligingsregels mee. De belangrijkste is de **Content-Security-Policy**: de browser laadt alleen bestanden van de eigen site. Komt er ooit een ingesloten video, kaart of formulier van een andere dienst bij, dan moet die dienst hier worden toegestaan, en eerst in `beveiliging.md` staan.
 - De lettertypen staan in de eigen site in plaats van bij Google Fonts. Google Fonts zou het IP-adres van elke bezoeker naar Google sturen.
 - Tot livegang staat `zichtbaarVoorZoekmachines` uit: elke pagina krijgt `noindex` en `robots.txt` weert alle zoekmachines. Bij livegang zet kantoor of Hugo dit aan in het bewerkscherm.
 
@@ -158,7 +160,7 @@ Een fotobeschrijving (`alt`) is verplicht: zonder kan kantoor niet opslaan. Tijd
 | Klus | Hoe |
 | --- | --- |
 | Tekst, foto, datum of prijs aanpassen | Bewerkscherm, of het JSON-bestand in `site/_data/` |
-| Ticketverkoop openzetten | Bewerkscherm → Evenement → Tickets → "Ticketverkoop is open" aan, en de link naar het bestelformulier invullen |
+| Ticketverkoop openzetten | Bewerkscherm → Evenement → Tickets → "Ticketverkoop is open" aan, met als link `/tickets/`. Het evenement moet ook in de database staan (ticketsysteem.md §5) |
 | Nieuw jaar | Evenement (label, thema, datum), Thema (Bijbeltekst, kaarten), Terugblik (foto's), Bonisa (collecteproject, projecten), Hosts en musici |
 | Kleur aanpassen | `--groen` of `--oranje` bovenaan `site.css` |
 | Nieuw blok op de homepage | Nieuw bestand in `site/_includes/blokken/`, een `{% include %}` in `site/index.njk`, een datafile in `site/_data/`, en de velden in `.pages.yml` |
@@ -173,4 +175,4 @@ Bewust zo weinig mogelijk (besluit 24):
 | `@11ty/eleventy` | Bouwt de site |
 | `@11ty/eleventy-img` | Verkleint foto's en haalt EXIF/GPS eruit |
 
-Er draait geen JavaScript-framework in de browser; het enige script is `menu.js` (ruim 20 regels).
+Er draait geen JavaScript-framework in de browser. Scripts: `menu.js` (ruim 20 regels) en op de ticketpagina's `bestellen.js` en `bedankt.js`. Het ticketsysteem zelf gebruikt geen npm-pakketten (besluit 31); de Supabase CLI start je met `npx` (besluit 36).

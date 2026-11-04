@@ -36,12 +36,12 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 
 ### Website
 - Geen bronnen van andere domeinen: lettertypen staan op de eigen site (niet Google Fonts), geen trackers of scripts van derden.
-- Beveiligingsregels in `site/_headers` (onder andere een Content-Security-Policy die alleen de eigen site toelaat). Cloudflare stuurt ze mee met elke pagina.
+- Beveiligingsregels in `site/_headers.njk` (onder andere een Content-Security-Policy die alleen de eigen site toelaat, plus het ticketsysteem bij Supabase en het doorsturen naar Mollie). Cloudflare stuurt ze mee met elke pagina.
 - Foto's: Eleventy Image haalt bij het bouwen alle EXIF-, GPS- en andere metagegevens uit elke foto (getest op 4 november 2026 met een foto met GPS-plek).
 - Testversies zijn niet vindbaar in Google (`noindex`) tot livegang.
 
 ### Database
-- Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven.
+- Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven. Ook de SQL-functies zijn alleen voor de functies te gebruiken (getest, zie [ticketsysteem.md](ticketsysteem.md)).
 - De beheer- en scanpagina werken alleen na inloggen, met rollen `kantoor` en `scanner`.
 
 ### Betalingen en tickets
@@ -51,8 +51,8 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 - Een ticket kan maar één keer gescand worden.
 
 ### Formulieren
-- Europese botcontrole (bijvoorbeeld Friendly Captcha) of een verborgen veld tegen spam.
-- Maximaal aantal bestellingen per e-mailadres en per tijdseenheid.
+- Een verborgen veld tegen spam. Komt er toch veel spam, dan een Europese botcontrole (bijvoorbeeld Friendly Captcha).
+- Maximaal 5 bestellingen per e-mailadres per uur.
 
 ### Back-ups en logboeken
 - Gratis plan: geen back-ups door Supabase. Daarom tijdens de verkoop een wekelijkse export volgens [back-up.md](back-up.md).
