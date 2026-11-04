@@ -16,6 +16,7 @@
     ongeldig_email: "Vul een geldig e-mailadres in.",
     niet_jezelf: "Je kunt je eigen account niet verwijderen.",
     ongeldig_slug: "De vaste naam mag alleen kleine letters, cijfers en streepjes bevatten.",
+    ongeldige_periode: "Kies een geldige periode: de begindatum vóór de einddatum.",
     geen_toegang: "Dit account heeft geen toegang.",
   };
 
@@ -332,6 +333,66 @@
     } catch (e) { melding(e.message); }
   });
 
+  // --- Gifts (bonisa.nl, docs/giften.md) ---------------------------------------
+  const MAANDSTATUS = { actief: "Actief", gestopt: "Gestopt" };
+  async function laadGiften() {
+    const [overzicht, maand] = await Promise.all([vraag("giften_overzicht"), vraag("periodieke_giften")]);
+    $("[data-giftenoverzicht]").replaceChildren(...(overzicht.length ? overzicht.map((p) => {
+      const tr = document.createElement("tr");
+      tr.append(cel(p.project_naam), cel(euro(p.opgehaald_cent)), cel(String(p.giften)), cel(String(p.maandelijks_actief)));
+      return tr;
+    }) : [Object.assign(document.createElement("tr"), { innerHTML: '<td colspan="4">Nog geen giften.</td>' })]));
+
+    $("[data-maandgiften]").replaceChildren(...maand.map((m) => {
+      const tr = document.createElement("tr");
+      const status = m.status === "gestopt" && m.gestopt_op
+        ? `Gestopt ${datumTijd(m.gestopt_op)} (${m.gestopt_door === "gever" ? "door gever" : "door kantoor"})`
+        : MAANDSTATUS[m.status] ?? m.status;
+      tr.append(cel(`${m.voornaam} ${m.achternaam}`), cel(m.email), cel(m.project), cel(euro(m.bedrag_cent)),
+        cel(euro(m.betaald_cent)), cel(status));
+      const actie = document.createElement("td");
+      if (m.status === "actief") {
+        const knop = document.createElement("button");
+        knop.type = "button";
+        knop.className = "tabel__knop";
+        knop.textContent = "Stoppen";
+        knop.setAttribute("aria-label", `Maandelijkse gift van ${m.voornaam} ${m.achternaam} stoppen`);
+        knop.addEventListener("click", async () => {
+          if (knop.dataset.zeker !== "ja") { knop.dataset.zeker = "ja"; knop.textContent = "Zeker weten?"; return; }
+          try {
+            await vraag("periodiek_stoppen", { id: m.id });
+            melding(`De maandelijkse gift van ${m.voornaam} ${m.achternaam} is gestopt, ook bij Mollie.`, true);
+            laadGiften();
+          } catch (e) { melding(e.message); }
+        });
+        actie.append(knop);
+      }
+      tr.append(actie);
+      return tr;
+    }));
+  }
+
+  const giftenexport = $("[data-giftenexport]");
+  {
+    // Default period: the previous calendar month.
+    const nu = new Date();
+    const p = (n) => String(n).padStart(2, "0");
+    const eerste = new Date(nu.getFullYear(), nu.getMonth() - 1, 1);
+    const laatste = new Date(nu.getFullYear(), nu.getMonth(), 0);
+    giftenexport.elements.van.value = `${eerste.getFullYear()}-${p(eerste.getMonth() + 1)}-01`;
+    giftenexport.elements.tot.value = `${laatste.getFullYear()}-${p(laatste.getMonth() + 1)}-${p(laatste.getDate())}`;
+  }
+  giftenexport.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const { van, tot } = giftenexport.elements;
+    try {
+      const rijen = await vraag("giften_export", { van: van.value, tot: tot.value });
+      if (!rijen.length) return melding("Geen giften in deze periode.", true);
+      download(`giften_${van.value}_tot_${tot.value}.csv`, csv(rijen));
+      melding("De export staat in je map Downloads. Verwijder hem daar na gebruik.", true);
+    } catch (e) { melding(e.message); }
+  });
+
   $("[data-zoek]").addEventListener("input", toonBestellingen);
   $("[data-status]").addEventListener("change", toonBestellingen);
 
@@ -345,11 +406,11 @@
           root.querySelectorAll("[data-paneel], [data-heeft-evenement]").forEach((el) => { el.hidden = true; });
           nieuwblok.hidden = false;
           $('[data-actie="annuleer-nieuw"]').hidden = true;
-          await laadAccounts();
+          await Promise.all([laadAccounts(), laadGiften()]);
           return melding("Er is nog geen evenement. Maak hieronder het eerste evenement aan.", true);
         }
         if (!evenementen.some((e) => e.slug === slug)) slug = evenementen[0].slug;
-        await Promise.all([laadCijfers(), laadBestellingen(), laadAccounts()]);
+        await Promise.all([laadCijfers(), laadBestellingen(), laadAccounts(), laadGiften()]);
       } catch (e) { melding(e.message); }
     },
   });

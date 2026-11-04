@@ -127,7 +127,12 @@ export type MollieBetaling = {
   status: string;
   amount: { value: string; currency: string };
   amountRefunded?: { value: string; currency: string };
-  metadata?: { order_id?: string } | null;
+  amountChargedBack?: { value: string; currency: string };
+  metadata?: { order_id?: string; gift_id?: string } | null;
+  customerId?: string;
+  mandateId?: string;
+  subscriptionId?: string;
+  sequenceType?: string;
   _links?: { checkout?: { href: string } };
 };
 
@@ -135,11 +140,15 @@ export class MollieFout extends Error {
   constructor(public status: number, bericht: string) { super(bericht); }
 }
 
-async function mollie(pad: string, init: RequestInit = {}): Promise<MollieBetaling> {
+// One call to the Mollie API. The key decides which website profile is used:
+// MOLLIE_API_KEY for tickets, MOLLIE_GIFTEN_API_KEY for gifts (besluit 39).
+export async function mollieVerzoek<T = MollieBetaling>(
+  pad: string, init: RequestInit = {}, sleutel = env("MOLLIE_API_KEY"),
+): Promise<T> {
   const antwoord = await fetch(`${mollieUrl()}${pad}`, {
     ...init,
     headers: {
-      Authorization: `Bearer ${env("MOLLIE_API_KEY")}`,
+      Authorization: `Bearer ${sleutel}`,
       "Content-Type": "application/json",
       ...(init.headers ?? {}),
     },
@@ -147,8 +156,11 @@ async function mollie(pad: string, init: RequestInit = {}): Promise<MollieBetali
   if (!antwoord.ok) {
     throw new MollieFout(antwoord.status, `Mollie ${init.method ?? "GET"} ${pad.split("?")[0]} gave ${antwoord.status}`);
   }
-  return await antwoord.json();
+  const tekst = await antwoord.text();
+  return (tekst ? JSON.parse(tekst) : null) as T;
 }
+
+const mollie = (pad: string, init: RequestInit = {}) => mollieVerzoek<MollieBetaling>(pad, init);
 
 export function maakBetaling(gegevens: {
   bedragCent: number;

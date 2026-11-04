@@ -31,6 +31,7 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── robots.njk         robots.txt (zoekmachines aan of uit)
 │   ├── _headers.njk       beveiligingsregels voor Cloudflare (wordt _headers)
 │   ├── tickets/           bestelpagina, bedankpagina en ticketpagina (zie ticketsysteem.md)
+│   ├── geven/             geefpagina's voor bonisa.nl, alleen met GIFTEN_PAGINAS=aan (zie giften.md)
 │   ├── scan.njk           scanpagina voor de deur (/scan/)
 │   ├── beheer.njk         beheerpagina voor kantoor (/beheer/)
 │   ├── _includes/
@@ -186,6 +187,7 @@ We gebruiken de online versie op [app.pagescms.org](https://app.pagescms.org) (b
 | Tekst, foto, datum of prijs aanpassen | Bewerkscherm, of het JSON-bestand in `site/_data/` |
 | Ticketverkoop openzetten | Bewerkscherm → Evenement → Tickets → "Ticketverkoop is open" aan, met als link `/tickets/`. Het evenement moet ook in de database staan (ticketsysteem.md §5) |
 | Nieuw jaar | Evenement (label, thema, datum), Thema (Bijbeltekst, kaarten), Terugblik (foto's), Bonisa (collecteproject, projecten), Hosts en musici |
+| Project voor giften toevoegen | Bewerkscherm → Projecten (giften). Zie giften.md §6 |
 | Kleur aanpassen | `--groen` of `--oranje` bovenaan `site.css` |
 | Nieuw blok op de homepage | Nieuw bestand in `site/_includes/blokken/`, een `{% include %}` in `site/index.njk`, een datafile in `site/_data/`, en de velden in `.pages.yml` |
 | Pakketten bijwerken | `npm outdated` laat zien wat er nieuw is. `npm update` voor kleine updates; bij een nieuwe hoofdversie (bijv. Eleventy 4) eerst de release notes lezen en lokaal testen |

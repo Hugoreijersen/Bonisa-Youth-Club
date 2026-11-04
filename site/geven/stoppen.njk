@@ -1,0 +1,31 @@
+---
+layout: base.njk
+permalink: /geven/stoppen/
+titel: Maandelijkse gift stoppen · Stichting Bonisa
+eenvoudigeKop: true
+verborgen: true
+scripts: ["/assets/js/geven-stoppen.js"]
+---
+{#- Stoplink uit de bevestigingsmail: /geven/stoppen/#<code>. De code staat
+    achter het #-teken, zodat hij niet in de adresgegevens van servers komt. -#}
+<div class="container geven" id="stoppen" data-functies="{{ ticketsysteem.functiesUrl }}">
+  <div class="uitslag" data-toon="laden">
+    <h1>Maandelijkse gift stoppen</h1>
+    <p class="tekst-gedempt">Even geduld…</p>
+    <noscript><p>Zet JavaScript aan om uw maandelijkse gift te stoppen, of mail <a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a>.</p></noscript>
+  </div>
+  <div class="uitslag" data-toon="actief" hidden>
+    <h1>Maandelijkse gift stoppen</h1>
+    <p>U geeft nu elke maand <strong data-veld="bedrag"></strong> voor <strong data-veld="project"></strong>. Wilt u daarmee stoppen?</p>
+    <div class="melding" id="melding" role="alert" hidden></div>
+    <button type="button" class="knop knop--zwart" id="stopknop">Ja, stop mijn maandelijkse gift</button>
+  </div>
+  <div class="uitslag" data-toon="gestopt" hidden>
+    <h1>Uw maandelijkse gift is gestopt</h1>
+    <p>Er wordt niets meer afgeschreven. Hartelijk dank voor alles wat u gegeven heeft.</p>
+  </div>
+  <div class="uitslag" data-toon="onbekend" hidden>
+    <h1>We vinden deze maandelijkse gift niet</h1>
+    <p class="tekst-gedempt">Gebruik de link uit uw bevestigingsmail, of mail <a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a>.</p>
+  </div>
+</div>

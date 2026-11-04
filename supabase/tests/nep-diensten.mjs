@@ -8,6 +8,15 @@ import { createServer } from "node:http";
 import { randomBytes } from "node:crypto";
 
 const betalingen = new Map();
+const klanten = new Map();
+const abonnementen = new Map();
+const idempotent = new Map(); // Idempotency-Key -> earlier answer, like Mollie
+// Project list as the website publishes it at /geven/projecten.json.
+let projecten = [
+  { slug: "waterput", naam: "Waterput in het dorp", open: true },
+  { slug: "waar-het-nodig-is", naam: "Waar het nodig is", open: true },
+  { slug: "afgerond", naam: "Afgerond project", open: false },
+];
 export const verzoeken = [];
 export const mails = [];
 export const aanmeldingen = [];
@@ -65,6 +74,20 @@ export function start(poort = 54399) {
       return stuur(res, 200, b);
     }
     if (url.pathname === "/__verzoeken") return stuur(res, 200, verzoeken);
+    if (url.pathname === "/__abonnementen") return stuur(res, 200, [...abonnementen.values()]);
+    if (url.pathname === "/__projecten" && req.method === "POST") { projecten = JSON.parse(body); return stuur(res, 200, {}); }
+    if (url.pathname === "/geven/projecten.json") return stuur(res, 200, { projecten });
+    // A monthly payment that Mollie collects itself for a subscription.
+    const ab = url.pathname.match(/^\/__abonnement\/(sub_\w+)\/betaling$/);
+    if (ab) {
+      const s = abonnementen.get(ab[1]);
+      if (!s) return stuur(res, 404, {});
+      const id = "tr_" + randomBytes(6).toString("hex");
+      const b = { id, status: "paid", amount: s.amount, sequenceType: "recurring", customerId: s.customerId,
+        subscriptionId: s.id, mandateId: s.mandateId, metadata: null, ...(body ? JSON.parse(body) : {}) };
+      betalingen.set(id, b);
+      return stuur(res, 201, b);
+    }
     if (url.pathname === "/__storing") { server.storing = JSON.parse(body).aan; return stuur(res, 200, {}); }
     if (url.pathname === "/__mailstoring") { server.mailstoring = JSON.parse(body).aan; return stuur(res, 200, {}); }
     if (url.pathname === "/__mails") return stuur(res, 200, mails);
@@ -111,18 +134,58 @@ export function start(poort = 54399) {
     verzoeken.push({ methode: req.method, pad: url.pathname, body: body ? JSON.parse(body) : null, idempotency: req.headers["idempotency-key"] ?? null });
     if (server.storing) return stuur(res, 503, { title: "Service unavailable" });
 
+    // Same Idempotency-Key and same path: the same answer as the first time.
+    const sleutel = req.headers["idempotency-key"];
+    if (req.method === "POST" && sleutel && idempotent.has(`${url.pathname} ${sleutel}`)) {
+      return stuur(res, 201, idempotent.get(`${url.pathname} ${sleutel}`));
+    }
+    const onthoud = (data) => { if (sleutel) idempotent.set(`${url.pathname} ${sleutel}`, data); return stuur(res, 201, data); };
+
     if (req.method === "POST" && url.pathname === "/v2/payments") {
       const data = JSON.parse(body);
+      if (data.sequenceType === "first" && !klanten.has(data.customerId)) return stuur(res, 422, { title: "Unknown customer" });
       const id = "tr_" + randomBytes(6).toString("hex");
       const b = { id, status: "open", amount: data.amount, metadata: data.metadata, redirectUrl: data.redirectUrl,
+        ...(data.customerId ? { customerId: data.customerId, sequenceType: data.sequenceType ?? "oneoff" } : {}),
         _links: { checkout: { href: `http://localhost:${poort}/checkout/${id}` } } };
       betalingen.set(id, b);
-      return stuur(res, 201, b);
+      return onthoud(b);
     }
     const m = url.pathname.match(/^\/v2\/payments\/(tr_\w+)$/);
     if (req.method === "GET" && m) {
       const b = betalingen.get(m[1]);
-      return b ? stuur(res, 200, b) : stuur(res, 404, { title: "Not Found" });
+      if (!b) return stuur(res, 404, { title: "Not Found" });
+      // A paid first payment creates a mandate, like at Mollie.
+      if (b.sequenceType === "first" && b.status === "paid" && !b.mandateId) b.mandateId = "mdt_" + randomBytes(5).toString("hex");
+      return stuur(res, 200, b);
+    }
+
+    // Customers and subscriptions (monthly gifts)
+    if (req.method === "POST" && url.pathname === "/v2/customers") {
+      const data = JSON.parse(body);
+      const k = { id: "cst_" + randomBytes(5).toString("hex"), name: data.name, email: data.email };
+      klanten.set(k.id, k);
+      return onthoud(k);
+    }
+    const sb = url.pathname.match(/^\/v2\/customers\/(cst_\w+)\/subscriptions(?:\/(sub_\w+))?$/);
+    if (sb) {
+      if (!klanten.has(sb[1])) return stuur(res, 404, { title: "Not Found" });
+      if (req.method === "POST" && !sb[2]) {
+        const data = JSON.parse(body);
+        const s = { id: "sub_" + randomBytes(5).toString("hex"), customerId: sb[1], status: "active", amount: data.amount,
+          interval: data.interval, startDate: data.startDate, description: data.description, mandateId: data.mandateId,
+          webhookUrl: data.webhookUrl, metadata: data.metadata };
+        abonnementen.set(s.id, s);
+        return onthoud(s);
+      }
+      const s = abonnementen.get(sb[2]);
+      if (!s || s.customerId !== sb[1]) return stuur(res, 404, { title: "Not Found" });
+      if (req.method === "GET") return stuur(res, 200, s);
+      if (req.method === "DELETE") {
+        if (s.status === "canceled") return stuur(res, 422, { title: "Unprocessable Entity", detail: "The subscription has been canceled" });
+        s.status = "canceled";
+        return stuur(res, 200, s);
+      }
     }
     stuur(res, 404, { title: "Not Found" });
   });

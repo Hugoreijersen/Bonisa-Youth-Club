@@ -144,6 +144,32 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
       </form>
     </section>
 
+    <section class="beheer__blok" aria-labelledby="kop-giften">
+      <h2 id="kop-giften">Giften (bonisa.nl)</h2>
+      <p class="tekst-gedempt">Online giften per project. Giften via de bank vult u per project in bij het bewerkscherm van de site (Pages CMS); die staan hier niet bij.</p>
+      <div class="tabel-scroll" tabindex="0" role="region" aria-label="Giften per project">
+        <table class="tabel">
+          <thead><tr><th>Project</th><th>Opgehaald online</th><th>Giften</th><th>Maandelijkse gevers</th></tr></thead>
+          <tbody data-giftenoverzicht></tbody>
+        </table>
+      </div>
+      <form class="formulier" data-giftenexport>
+        <h3>Exporteer giften voor de administratie</h3>
+        <div class="velden">
+          <div class="veld"><label for="gx-van">Van</label><input id="gx-van" name="van" type="date" required></div>
+          <div class="veld"><label for="gx-tot">Tot en met</label><input id="gx-tot" name="tot" type="date" required></div>
+        </div>
+        <div><button class="knop knop--zwart knop--klein" type="submit">Exporteer (CSV)</button></div>
+      </form>
+      <h3>Maandelijkse giften</h3>
+      <div class="tabel-scroll" tabindex="0" role="region" aria-label="Maandelijkse giften">
+        <table class="tabel">
+          <thead><tr><th>Naam</th><th>E-mail</th><th>Project</th><th>Per maand</th><th>Totaal betaald</th><th>Status</th><th><span class="visueel-verborgen">Actie</span></th></tr></thead>
+          <tbody data-maandgiften></tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="beheer__blok" aria-labelledby="kop-accounts">
       <h2 id="kop-accounts">Accounts</h2>
       <p class="tekst-gedempt">Scanners kunnen alleen de scanpagina gebruiken. Kantoor kan alles op deze pagina.</p>

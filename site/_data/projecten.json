@@ -1,0 +1,28 @@
+{
+  "titel": "Geef voor een project",
+  "intro": "Kies een project en geef eenmalig of maandelijks. U betaalt veilig met iDEAL via Mollie.",
+  "projecten": [
+    {
+      "slug": "waar-het-nodig-is",
+      "naam": "Waar het meest nodig is",
+      "tekst": "Uw gift gaat naar het project dat het op dat moment het meest nodig heeft.",
+      "foto": "",
+      "alt": "",
+      "doel": 0,
+      "bank": 0,
+      "bedragen": [10, 25, 50],
+      "open": true
+    },
+    {
+      "slug": "voorbeeldproject",
+      "naam": "Voorbeeldproject",
+      "tekst": "Voorbeeld van een project met een doelbedrag. Kantoor vervangt dit in het bewerkscherm.",
+      "foto": "",
+      "alt": "",
+      "doel": 5000,
+      "bank": 750,
+      "bedragen": [15, 35, 75],
+      "open": true
+    }
+  ]
+}

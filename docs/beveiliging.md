@@ -2,7 +2,7 @@
 
 Laatst bijgewerkt: 4 november 2026.
 
-**Uitgangspunt:** persoonsgegevens (bestellingen, tickets, aanmeldingen) staan en draaien bij voorkeur in de EU; dat is nu zo. Voor diensten zonder persoonsgegevens weegt gemak zwaarder dan de plek (besluit 48). Alleen kopieën van de openbare pagina's (tekst en foto's, geen persoonsgegevens) staan wereldwijd via Cloudflare, ook in Azië. Dat is een bewuste keuze voor gemak (besluit 15).
+**Uitgangspunt:** persoonsgegevens (bestellingen, tickets, giften, aanmeldingen) staan en draaien bij voorkeur in de EU; dat is nu zo. Voor diensten zonder persoonsgegevens weegt gemak zwaarder dan de plek (besluit 48). Alleen kopieën van de openbare pagina's (tekst en foto's, geen persoonsgegevens) staan wereldwijd via Cloudflare, ook in Azië. Dat is een bewuste keuze voor gemak (besluit 15).
 
 Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard worden. Wees dus extra zorgvuldig met wat je publiceert (zie *Bescherming van partners in Azië*).
 
@@ -11,8 +11,8 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 | Dienst | Wat | Waar | Afspraak |
 | --- | --- | --- | --- |
 | Cloudflare (Worker met alleen statische bestanden) | Openbare pagina's | Wereldwijd, ook in Azië | Alleen openbare pagina's. **Geen** Cloudflare-functies (Workers) of formulieren voor iets met persoonsgegevens: die draaien bij Supabase in Frankfurt |
-| Supabase | Bestellingen, tickets, aanmeldingen, functies | Frankfurt (`eu-central-1`) | Functies draaien standaard dicht bij de bezoeker. Altijd vastzetten op Frankfurt: `x-region: eu-central-1`, en voor Mollie-meldingen `?forceFunctionRegion=eu-central-1` |
-| Mollie | Betalingen | Nederland | Bank- en betaalgegevens komen nooit op onze eigen systemen (betalen gebeurt op de pagina van Mollie) |
+| Supabase | Bestellingen, tickets, giften, aanmeldingen, functies | Frankfurt (`eu-central-1`) | Functies draaien standaard dicht bij de bezoeker. Altijd vastzetten op Frankfurt: `x-region: eu-central-1`, en voor Mollie-meldingen `?forceFunctionRegion=eu-central-1` |
+| Mollie | Betalingen; voor maandelijkse giften ook een klant (naam, e-mail) en de machtiging | EU | Bank- en betaalgegevens komen nooit op onze eigen systemen (betalen gebeurt op de pagina van Mollie) |
 | MailerLite | Nieuwsbriefadressen | Datacenter in de EU | |
 | MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard. Krijgt naam, e-mailadres en de ticketcodes |
 | GitHub | Code en teksten | Verenigde Staten | Geen persoonsgegevens, geen wachtwoorden of sleutels. Europees alternatief: Codeberg (Berlijn) |
@@ -63,6 +63,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 
 ### Bewaartermijn
 - Bestellingen: verwijderen of anonimiseren [X] maanden na het evenement (nog vaststellen).
+- Giften: naam en e-mail bewaren zolang de administratie dat vraagt (fiscaal meestal 7 jaar); daarna anonimiseren. Termijn nog vaststellen. Gestopte maandelijkse giften: ook bij Mollie de klant verwijderen.
 - Nieuwsbriefadressen: tot iemand zich afmeldt.
 
 ### Datalek

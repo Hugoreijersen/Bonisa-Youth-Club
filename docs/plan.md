@@ -137,8 +137,8 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 | Onderdeel | Wat er nodig is | Zwaarte |
 | --- | --- | --- |
 | Webshop (nu WooCommerce) | Advies: bestaande Europese webshopdienst inbouwen, niet zelf bouwen | Groot |
-| Doneren: losse gift, per project, vaste bedragen | Nu: betaallinks via pay.ideal.nl, handmatige administratie. Straks: donatieformulier → Mollie (iDEAL \| Wero) → Supabase registreert alleen project, bedrag en status → automatische bedankmail, voortgangsbalk en export voor de bestaande administratie. Eventueel periodiek via machtiging | Middel |
-| Projecten met voortgangsbalk | Projectenlijst in Pages CMS; giften via de bank kunnen bijtellen | Middel |
+| Doneren: per project, eenmalig of maandelijks, vaste bedragen plus eigen bedrag | **Achterkant gebouwd en lokaal getest (4 nov 2026)**, zie [giften.md](giften.md). Geefformulier → Mollie (iDEAL; maandelijks daarna SEPA-incasso) → Supabase → bedankmail, voortgangsbalk, export op `/beheer/`. Voorkant komt mee met de bouw van bonisa.nl | Middel |
+| Projecten met voortgangsbalk | Gebouwd: projectenlijst in Pages CMS; giften via de bank tellen bij (besluit 53) | Middel |
 | Tickets (nu events.bonisa.nl) | Ticketsysteem van de jongerenzang | Klein |
 | Nieuws, activiteiten, magazine, presentaties | Overzichten in Pages CMS | Middel |
 | Formulieren (magazine, nodig ons uit, contact, vrijwilligers) | Opslag in Supabase + mail naar kantoor | Klein |

@@ -3,10 +3,15 @@
 // Without MAILERLITE_API_KEY nothing happens (the order stays "to do").
 import { env, log, rpc } from "./algemeen.ts";
 
-export async function aanmeldenNieuwsbrief(orderId: string) {
+// The same sign-up is used for gifts; then the claim functions for gifts are
+// passed in (see _shared/giften.ts).
+export async function aanmeldenNieuwsbrief(
+  orderId: string,
+  sql = { claim: "nieuwsbrief_claim", mislukt: "nieuwsbrief_mislukt", parameter: "p_order_id" },
+) {
   if (!env("MAILERLITE_API_KEY", false)) return "uit";
   const persoon = await rpc<{ email: string; voornaam: string; achternaam: string } | null>(
-    "nieuwsbrief_claim", { p_order_id: orderId });
+    sql.claim, { [sql.parameter]: orderId });
   if (!persoon) return "niets";
 
   const url = env("MAILERLITE_API_URL", false) || "https://connect.mailerlite.com/api";
@@ -26,10 +31,10 @@ export async function aanmeldenNieuwsbrief(orderId: string) {
       }),
     });
     if (!antwoord.ok) throw new Error(`MailerLite gave ${antwoord.status}`);
-    log("nieuwsbrief_aangemeld", { order_id: orderId });
+    log("nieuwsbrief_aangemeld", { [sql.parameter.slice(2)]: orderId });
     return "aangemeld";
   } catch (e) {
-    await rpc("nieuwsbrief_mislukt", { p_order_id: orderId });
+    await rpc(sql.mislukt, { [sql.parameter]: orderId });
     throw e;
   }
 }

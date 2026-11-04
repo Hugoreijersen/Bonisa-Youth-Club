@@ -1,0 +1,39 @@
+---
+layout: base.njk
+permalink: /geven/bedankt/
+titel: Bedankt · Stichting Bonisa
+eenvoudigeKop: true
+verborgen: true
+scripts: ["/assets/js/geven-bedankt.js"]
+---
+{#- Hierheen stuurt Mollie de gever na het betalen. geven-bedankt.js vraagt de status op. -#}
+<div class="container geven" id="bedankt" data-functies="{{ ticketsysteem.functiesUrl }}">
+  <div class="uitslag" data-toon="laden">
+    <h1>Even geduld…</h1>
+    <p class="tekst-gedempt">We controleren uw betaling.</p>
+    <noscript><p>Zet JavaScript aan om de status te zien. U krijgt ook een e-mail zodra de betaling binnen is.</p></noscript>
+  </div>
+  <div class="uitslag" data-toon="betaald" hidden>
+    <h1>Hartelijk dank!</h1>
+    <p>Uw gift van <strong data-veld="bedrag"></strong> voor <strong data-veld="project"></strong> is ontvangen. U krijgt een bevestiging per e-mail.</p>
+    <a class="knop knop--groen" href="/geven/">Naar de projecten</a>
+  </div>
+  <div class="uitslag" data-toon="maandelijks" hidden>
+    <h1>Hartelijk dank!</h1>
+    <p>Uw maandelijkse gift van <strong data-veld="bedrag"></strong> voor <strong data-veld="project"></strong> is gestart. De eerste gift is ontvangen; daarna schrijft Mollie het bedrag elke maand af. In de bevestigingsmail staat een link om te stoppen.</p>
+    <a class="knop knop--groen" href="/geven/">Naar de projecten</a>
+  </div>
+  <div class="uitslag" data-toon="open" hidden>
+    <h1>We wachten nog op uw betaling</h1>
+    <p class="tekst-gedempt">Zodra Mollie de betaling bevestigt, ziet u het hier. Dit duurt meestal een paar seconden.</p>
+  </div>
+  <div class="uitslag" data-toon="mislukt" hidden>
+    <h1>De betaling is niet gelukt</h1>
+    <p class="tekst-gedempt">Er is niets afgeschreven. U kunt het opnieuw proberen.</p>
+    <a class="knop knop--oranje" href="/geven/">Opnieuw proberen</a>
+  </div>
+  <div class="uitslag" data-toon="onbekend" hidden>
+    <h1>We vinden deze gift niet</h1>
+    <p class="tekst-gedempt">Heeft u wel betaald en geen e-mail gekregen? Mail <a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a>.</p>
+  </div>
+</div>
