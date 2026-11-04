@@ -29,7 +29,9 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── 404.njk            pagina "bestaat niet"
 │   ├── robots.njk         robots.txt (zoekmachines aan of uit)
 │   ├── _headers.njk       beveiligingsregels voor Cloudflare (wordt _headers)
-│   ├── tickets/           bestelpagina en bedankpagina (zie ticketsysteem.md)
+│   ├── tickets/           bestelpagina, bedankpagina en ticketpagina (zie ticketsysteem.md)
+│   ├── scan.njk           scanpagina voor de deur (/scan/)
+│   ├── beheer.njk         beheerpagina voor kantoor (/beheer/)
 │   ├── _includes/
 │   │   ├── base.njk       het basissjabloon: <head>, menu, footer, ronde knop
 │   │   ├── iconen.njk     de iconen van de themakaarten
@@ -37,7 +39,7 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── _data/             de inhoud, één JSON-bestand per onderdeel
 │   └── assets/
 │       ├── css/site.css   alle opmaak, met de kleuren als variabelen bovenaan
-│       ├── js/            menu.js (uitklapmenu), bestellen.js en bedankt.js (tickets)
+│       ├── js/            menu.js (uitklapmenu) en de scripts van de ticketpagina's; vendor/jsQR.js leest QR-codes
 │       ├── fonts/         Bricolage Grotesque en DM Sans (+ licenties)
 │       ├── img/           de originele foto's (worden nooit zo gepubliceerd)
 │       └── docs/          de pdf's (voorwaarden, privacy, disclaimer)
@@ -175,4 +177,4 @@ Bewust zo weinig mogelijk (besluit 24):
 | `@11ty/eleventy` | Bouwt de site |
 | `@11ty/eleventy-img` | Verkleint foto's en haalt EXIF/GPS eruit |
 
-Er draait geen JavaScript-framework in de browser. Scripts: `menu.js` (ruim 20 regels) en op de ticketpagina's `bestellen.js` en `bedankt.js`. Het ticketsysteem zelf gebruikt geen npm-pakketten (besluit 31); de Supabase CLI start je met `npx` (besluit 36).
+Er draait geen JavaScript-framework in de browser. Scripts: `menu.js` (ruim 20 regels) en op de ticketpagina's `bestellen.js`, `bedankt.js`, `mijn-tickets.js`, `inloggen.js`, `scan.js` en `beheer.js`. Eén bibliotheek in eigen beheer: `vendor/jsQR.js` (besluit 40). Het ticketsysteem zelf gebruikt geen npm-pakketten (besluit 31); de Supabase CLI start je met `npx` (besluit 36).

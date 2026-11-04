@@ -14,7 +14,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 | Supabase | Bestellingen, tickets, aanmeldingen, functies | Frankfurt (`eu-central-1`) | Functies draaien standaard dicht bij de bezoeker. Altijd vastzetten op Frankfurt: `x-region: eu-central-1`, en voor Mollie-meldingen `?forceFunctionRegion=eu-central-1` |
 | Mollie | Betalingen | Nederland | Bank- en betaalgegevens komen nooit op onze eigen systemen (betalen gebeurt op de pagina van Mollie) |
 | MailerLite | Nieuwsbriefadressen | Datacenter in de EU | |
-| MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard |
+| MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard. Krijgt naam, e-mailadres en de ticketcodes |
 | GitHub | Code en teksten | Verenigde Staten | Geen persoonsgegevens, geen wachtwoorden of sleutels. Europees alternatief: Codeberg (Berlijn) |
 | Pages CMS | Bewerkscherm | Zelf hosten in de EU | Niet de online versie gebruiken |
 | Claude | Hulp bij code en teksten | Verenigde Staten | Geen persoonsgegevens delen |
@@ -42,13 +42,15 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 
 ### Database
 - Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven. Ook de SQL-functies zijn alleen voor de functies te gebruiken (getest, zie [ticketsysteem.md](ticketsysteem.md)).
-- De beheer- en scanpagina werken alleen na inloggen, met rollen `kantoor` en `scanner`.
+- De beheer- en scanpagina werken alleen na inloggen (Supabase Auth, wachtwoord), met rollen `kantoor` en `scanner` in de tabel `beheerders`. Zelf een account aanmaken kan niet; kantoor maakt accounts aan. Het inloggen blijft alleen bewaard in het geopende tabblad.
+- De scanpagina toont alleen voornaam en "ticket x van y". Alle andere gegevens alleen op de beheerpagina.
 
 ### Betalingen en tickets
 - Een melding van Mollie wordt altijd nagecontroleerd door de betaling zelf bij Mollie op te vragen.
 - Bedragen worden altijd op de server berekend, nooit overgenomen uit het formulier.
 - QR-codes zijn lange, willekeurige codes (minstens 128 bits), niet te raden.
-- Een ticket kan maar één keer gescand worden.
+- Een ticket kan maar één keer gescand worden (getest, ook met twee scanners tegelijk).
+- De persoonlijke ticketpagina werkt met een aparte geheime sleutel van 128 bits achter het `#`-teken in de link. Die sleutel komt niet in de logboeken van de site.
 
 ### Formulieren
 - Een verborgen veld tegen spam. Komt er toch veel spam, dan een Europese botcontrole (bijvoorbeeld Friendly Captcha).

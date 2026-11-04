@@ -20,7 +20,8 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 - [ ] In het bestaande Mollie-account van Bonisa een websiteprofiel voor jongerenzang.nl aanmaken (besluit 39). Eerst de `test_`-sleutel daarvan in Supabase zetten om met de echte Mollie-testomgeving te testen, later de `live_`-sleutel (docs/ticketsysteem.md §5).
 - [ ] Startdatum van de ticketverkoop.
 - [ ] Maximum aantal tickets (capaciteit van de kerk) en maximum per bestelling (nu voorlopig 10, besluit 33).
-- [ ] Ticketmail: MailerSend of een andere dienst; navragen waar MailerSend de mailgegevens bewaart.
+- [ ] Ticketmail: MailerSend-account (gratis tot 500 mails per maand), domein jongerenzang.nl daar verifiëren, en een afzender kiezen (voorstel: tickets@jongerenzang.nl, antwoorden naar het adres van de BYC). Navragen waar MailerSend de mailgegevens bewaart.
+- [ ] MailerLite: API-sleutel en de groep waarin nieuwe aanmeldingen moeten komen.
 - [ ] Domein jongerenzang.nl (in eigen beheer) bij livegang naar Cloudflare laten wijzen. Let op: neem bestaande mailinstellingen (MX-records) mee, anders stopt de mail op dat domein. (Volgens Hugo geen zorg; regelen bij livegang.)
 - [ ] Toestemming voor foto's van herkenbare jongeren op de site (onder 16: ouders).
 - [ ] Privacyverklaring en voorwaarden laten nakijken en aanpassen (apart nieuwsbriefvakje).

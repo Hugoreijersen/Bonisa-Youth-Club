@@ -106,7 +106,7 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 | --- | --- | --- |
 | 1 | nov 2026 (gebouwd 4 nov) | Nieuwe jongerenzang-site met Pages CMS; documentatie |
 | 2 | nov 2026 (gebouwd 4 nov) | Bestellen en betalen, database en functies; getest met een nagebootste Mollie (besluit 29, 30) |
-| 3 | nov 2026 | QR-tickets, ticketmail, scanpagina, beheerpagina, koppeling met MailerLite |
+| 3 | nov 2026 (gebouwd 4 nov) | QR-tickets, ticketmail, scanpagina, beheerpagina, koppeling met MailerLite |
 | 4 | zodra Mollie van de stichting er is | Alles naar de accounts van de stichting; testbestellingen, daarna Mollie live |
 | Verkoop | [startdatum] t/m 21 mei 2027 | Ticketverkoop open |
 | bonisa.nl | vanaf 25 nov 2026 | Voorkant van bonisa.nl op dezelfde basis (zie §9) |

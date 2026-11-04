@@ -17,15 +17,11 @@ Zolang Supabase op het gratis plan staat, maakt Supabase **zelf geen back-ups**.
 
 ## Hoe (ongeveer 5 minuten)
 
-1. Log in bij Supabase (eigen account, met tweestapsverificatie) en open het project van de websites.
-2. Ga naar **Table Editor**.
-3. Open de tabel `orders` en kies **Export → CSV**.
-4. Doe hetzelfde voor de tabel `tickets`.
-5. Geef de bestanden een naam met de datum: `2027-03-08_orders.csv` en `2027-03-08_tickets.csv`.
-6. Zet ze in de afgeschermde back-upmap: **[map nog vaststellen]**. Die map moet in de EU staan en alleen toegankelijk zijn voor kantoor en het technisch aanspreekpunt.
-7. Noteer de export in het logboek onderaan dit bestand of in de back-upmap.
-
-> Later (beheerpagina): er komt een knop **Exporteer bestellingen** die beide bestanden in één keer maakt. Dan vervallen stap 1 tot en met 4.
+1. Log in op de beheerpagina (jongerenzang.nl/beheer/).
+2. Klik bij Bestellingen op **Exporteer (CSV)**. Je krijgt twee bestanden in je map Downloads, met de datum in de naam: `2027-03-08_jongerenzang-2027_orders.csv` en `..._tickets.csv`.
+3. Zet ze in de afgeschermde back-upmap: **[map nog vaststellen]**. Die map moet in de EU staan en alleen toegankelijk zijn voor kantoor en het technisch aanspreekpunt.
+4. Verwijder ze uit je map Downloads.
+5. Noteer de export in het logboek onderaan dit bestand of in de back-upmap.
 
 ## Regels
 

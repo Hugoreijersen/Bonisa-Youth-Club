@@ -25,7 +25,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 - Bewerkscherm: **Pages CMS**, configuratie in `.pages.yml`. Alles wat kantoor moet kunnen aanpassen (teksten, foto's, datum, prijs, hosts, musici, shirts) staat als JSON in `site/_data/` (één bestand per onderdeel, besluit 26), niet in sjablonen. Nieuw veld in een datafile? Voeg het ook toe aan `.pages.yml`.
 - Database en functies: **Supabase, regio Frankfurt (`eu-central-1`)**. Functies altijd vastzetten op die regio. Code in `supabase/`; uitleg in `docs/ticketsysteem.md`. Functies zonder npm-pakketten (besluit 31).
 - Betalen: **Mollie** (iDEAL), betalen op de pagina van Mollie.
-- Mail: MailerSend (ticketmail), MailerLite (nieuwsbrief, alleen met vinkje).
+- Mail: MailerSend (ticketmail), MailerLite (nieuwsbrief, alleen met vinkje). Beide via `fetch` in `supabase/functions/_shared/`.
 
 ## Opdrachten
 
@@ -34,7 +34,8 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 - `npm run build`: bouwt de site in `_site/` (dit doet Cloudflare ook)
 - `npm run db:start` / `db:stop` / `db:reset`: lokale Supabase (Docker nodig)
 - `npm run functies`: de functies lokaal (eerst `supabase/functions/.env.example` kopiëren naar `.env.local`)
-- `npm run test:tickets`: tests van bestellen en betalen, met een nagebootste Mollie
+- `npm run nep`: nagebootste Mollie, MailerSend en MailerLite (mails op http://localhost:54399/mails)
+- `npm run test:tickets`: alle tests van het ticketsysteem
 
 ## Harde regels
 
@@ -59,4 +60,5 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 4 november 2026:
 - Fase 1 gebouwd: de homepage van jongerenzang.nl in Eleventy, met `.pages.yml` voor Pages CMS.
 - Fase 2 gebouwd en lokaal getest: bestellen en betalen (`supabase/`, `site/tickets/`), met een nagebootste Mollie. Nog geen echte Mollie (besluit 30).
-- Nog niets online. Volgende stap: fase 3 (QR-ticket per mail, scanpagina, beheerpagina, MailerLite); vanaf 25 november de voorkant van bonisa.nl.
+- Fase 3 gebouwd en lokaal getest: ticketmail met QR-codes, ticketpagina `/tickets/mijn/`, scanpagina `/scan/`, beheerpagina `/beheer/`, nieuwsbrief naar MailerLite.
+- Nog niets online. Volgende stap: online zetten in Hugo's accounts (besluit 38); vanaf 25 november de voorkant van bonisa.nl.
