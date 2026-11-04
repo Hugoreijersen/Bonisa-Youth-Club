@@ -7,7 +7,13 @@
   },
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "db:start": "npx --yes supabase@3.0.0 start",
+    "db:stop": "npx --yes supabase@3.0.0 stop",
+    "db:reset": "npx --yes supabase@3.0.0 db reset",
+    "functies": "npx --yes supabase@3.0.0 functions serve --env-file supabase/functions/.env.local",
+    "nep": "node supabase/tests/nep-diensten.mjs",
+    "test:tickets": "node --test supabase/tests/bestellen.test.mjs"
   },
   "license": "UNLICENSED",
   "devDependencies": {

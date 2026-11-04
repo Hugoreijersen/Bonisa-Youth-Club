@@ -1,0 +1,40 @@
+---
+layout: base.njk
+permalink: /scan/
+titel: Scannen · Katwijkse Jongerenzang
+eenvoudigeKop: true
+verborgen: true
+inlogKop: Tickets scannen
+scripts: ["/assets/js/vendor/jsQR.js", "/assets/js/inloggen.js", "/assets/js/scan.js"]
+---
+{#- Scanpagina voor de deur. Werkt op een telefoon; de camera leest de QR-codes. -#}
+<div class="container werkpagina" data-inloggen
+     data-functies="{{ ticketsysteem.functiesUrl }}" data-auth="{{ ticketsysteem.authUrl }}"
+     data-sleutel="{{ ticketsysteem.publiekeSleutel }}" data-evenement="{{ ticketsysteem.evenement }}">
+  {% include "blokken/inlogformulier.njk" %}
+
+  <div class="scan" data-app hidden>
+    <div class="scan__balk">
+      <p><strong>Binnen: <span data-veld="binnen">–</span></strong> van <span data-veld="verkocht">–</span></p>
+      <button class="knop knop--klein" type="button" data-uitloggen>Uitloggen</button>
+    </div>
+
+    <div class="scan__beeld">
+      <video data-video playsinline muted aria-label="Camerabeeld"></video>
+      <button class="knop knop--groen knop--groot" type="button" data-actie="camera">Start de camera</button>
+    </div>
+
+    <div class="scan__uitslag" data-uitslag data-soort="leeg" role="status" aria-live="assertive">
+      <p class="scan__titel" data-veld="titel">Richt de camera op een QR-code</p>
+      <p data-veld="details"></p>
+    </div>
+
+    <form class="scan__handmatig" data-handmatig>
+      <div class="veld">
+        <label for="code">Code met de hand invoeren</label>
+        <input id="code" name="code" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="32 tekens onder de QR-code">
+      </div>
+      <button class="knop knop--zwart knop--klein" type="submit">Controleer</button>
+    </form>
+  </div>
+</div>

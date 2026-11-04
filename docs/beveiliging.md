@@ -14,7 +14,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 | Supabase | Bestellingen, tickets, aanmeldingen, functies | Frankfurt (`eu-central-1`) | Functies draaien standaard dicht bij de bezoeker. Altijd vastzetten op Frankfurt: `x-region: eu-central-1`, en voor Mollie-meldingen `?forceFunctionRegion=eu-central-1` |
 | Mollie | Betalingen | Nederland | Bank- en betaalgegevens komen nooit op onze eigen systemen (betalen gebeurt op de pagina van Mollie) |
 | MailerLite | Nieuwsbriefadressen | Datacenter in de EU | |
-| MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard |
+| MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard. Krijgt naam, e-mailadres en de ticketcodes |
 | GitHub | Code en teksten | Verenigde Staten | Geen persoonsgegevens, geen wachtwoorden of sleutels. Europees alternatief: Codeberg (Berlijn) |
 | Pages CMS | Bewerkscherm | Zelf hosten in de EU | Niet de online versie gebruiken |
 | Claude | Hulp bij code en teksten | Verenigde Staten | Geen persoonsgegevens delen |
@@ -36,23 +36,25 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 
 ### Website
 - Geen bronnen van andere domeinen: lettertypen staan op de eigen site (niet Google Fonts), geen trackers of scripts van derden.
-- Beveiligingsregels in `site/_headers` (onder andere een Content-Security-Policy die alleen de eigen site toelaat). Cloudflare stuurt ze mee met elke pagina.
+- Beveiligingsregels in `site/_headers.njk` (onder andere een Content-Security-Policy die alleen de eigen site toelaat, plus het ticketsysteem bij Supabase en het doorsturen naar Mollie). Cloudflare stuurt ze mee met elke pagina.
 - Foto's: Eleventy Image haalt bij het bouwen alle EXIF-, GPS- en andere metagegevens uit elke foto (getest op 4 november 2026 met een foto met GPS-plek).
 - Testversies zijn niet vindbaar in Google (`noindex`) tot livegang.
 
 ### Database
-- Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven.
-- De beheer- en scanpagina werken alleen na inloggen, met rollen `kantoor` en `scanner`.
+- Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven. Ook de SQL-functies zijn alleen voor de functies te gebruiken (getest, zie [ticketsysteem.md](ticketsysteem.md)).
+- De beheer- en scanpagina werken alleen na inloggen (Supabase Auth, wachtwoord), met rollen `kantoor` en `scanner` in de tabel `beheerders`. Zelf een account aanmaken kan niet; kantoor maakt accounts aan. Het inloggen blijft alleen bewaard in het geopende tabblad.
+- De scanpagina toont alleen voornaam en "ticket x van y". Alle andere gegevens alleen op de beheerpagina.
 
 ### Betalingen en tickets
 - Een melding van Mollie wordt altijd nagecontroleerd door de betaling zelf bij Mollie op te vragen.
 - Bedragen worden altijd op de server berekend, nooit overgenomen uit het formulier.
 - QR-codes zijn lange, willekeurige codes (minstens 128 bits), niet te raden.
-- Een ticket kan maar één keer gescand worden.
+- Een ticket kan maar één keer gescand worden (getest, ook met twee scanners tegelijk).
+- De persoonlijke ticketpagina werkt met een aparte geheime sleutel van 128 bits achter het `#`-teken in de link. Die sleutel komt niet in de logboeken van de site.
 
 ### Formulieren
-- Europese botcontrole (bijvoorbeeld Friendly Captcha) of een verborgen veld tegen spam.
-- Maximaal aantal bestellingen per e-mailadres en per tijdseenheid.
+- Een verborgen veld tegen spam. Komt er toch veel spam, dan een Europese botcontrole (bijvoorbeeld Friendly Captcha).
+- Maximaal 5 bestellingen per e-mailadres per uur.
 
 ### Back-ups en logboeken
 - Gratis plan: geen back-ups door Supabase. Daarom tijdens de verkoop een wekelijkse export volgens [back-up.md](back-up.md).

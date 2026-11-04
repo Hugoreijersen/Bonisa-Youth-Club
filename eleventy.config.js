@@ -12,7 +12,6 @@ export default function (eleventyConfig) {
     "site/assets/js": "assets/js",
     "site/assets/fonts": "assets/fonts",
     "site/assets/docs": "assets/docs",
-    "site/_headers": "_headers",
   });
 
   // Every <img> in the output is resized, converted to WebP and stripped of

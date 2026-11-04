@@ -1,0 +1,38 @@
+---
+layout: base.njk
+permalink: /tickets/bedankt/
+titel: Bestelling · Katwijkse Jongerenzang
+eenvoudigeKop: true
+scripts: ["/assets/js/bedankt.js"]
+---
+{#- Hierheen stuurt Mollie de bezoeker na het betalen. bedankt.js vraagt de status op. -#}
+<div class="container bestellen">
+  {% include "blokken/ticket-samenvatting.njk" %}
+
+  <div class="bestellen__formulier" id="bedankt" data-functies="{{ ticketsysteem.functiesUrl }}">
+    <div class="uitslag" data-toon="laden">
+      <h2>Even geduld…</h2>
+      <p class="tekst-gedempt">We controleren je betaling.</p>
+      <noscript><p>Zet JavaScript aan om de status te zien. Je krijgt je tickets ook per e-mail zodra de betaling binnen is.</p></noscript>
+    </div>
+    <div class="uitslag" data-toon="betaald" hidden>
+      <div class="uitslag__teken" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg></div>
+      <h2>Bedankt, je bent erbij!</h2>
+      <p class="tekst-gedempt">We hebben je betaling voor <strong data-veld="aantal"></strong> ontvangen. Totaal: <strong data-veld="bedrag"></strong>. Je tickets komen per e-mail; neem ze mee op je telefoon of geprint.</p>
+      <a class="knop knop--groen" href="/">Terug naar de site</a>
+    </div>
+    <div class="uitslag" data-toon="open" hidden>
+      <h2>We wachten nog op je betaling</h2>
+      <p class="tekst-gedempt">Zodra Mollie de betaling bevestigt, zie je het hier. Dit duurt meestal een paar seconden.</p>
+    </div>
+    <div class="uitslag" data-toon="mislukt" hidden>
+      <h2>De betaling is niet gelukt</h2>
+      <p class="tekst-gedempt">Er is niets afgeschreven. Je kunt het opnieuw proberen.</p>
+      <a class="knop knop--oranje" href="/tickets/">Opnieuw bestellen</a>
+    </div>
+    <div class="uitslag" data-toon="onbekend" hidden>
+      <h2>We vinden deze bestelling niet</h2>
+      <p class="tekst-gedempt">Heb je wel betaald en geen e-mail gekregen? Mail <a href="mailto:{{ stichting.bycEmail }}">{{ stichting.bycEmail }}</a>.</p>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@
 Deze repository bevat de websites van Stichting Bonisa: eerst **jongerenzang.nl**, daarna **bonisa.nl**.
 De sites zijn eigen code, zonder WordPress. Alles met persoonsgegevens staat en draait in de EU.
 
-> Status (4 november 2026): **website gebouwd, nog niet online.** De homepage staat in `site/`; het ticketsysteem volgt in fase 2.
+> Status (4 november 2026): **website en ticketsysteem gebouwd, nog niet online.** De homepage staat in `site/`, het ticketsysteem (bestellen, betalen, ticketmail, scannen, beheer) in `supabase/`.
 >
 > Zelf bekijken: `npm install` en daarna `npm start`, dan staat de site op http://localhost:8080.
 >
@@ -14,10 +14,12 @@ De sites zijn eigen code, zonder WordPress. Alles met persoonsgegevens staat en 
 | Document | Voor wie | Inhoud |
 | --- | --- | --- |
 | [docs/hoe-de-site-werkt.md](docs/hoe-de-site-werkt.md) | Technisch | Hoe de site in elkaar zit: mappen, bouwen, foto's, bewerkscherm |
+| [docs/ticketsysteem.md](docs/ticketsysteem.md) | Technisch | Bestellen en betalen: database, functies, testen, online zetten |
 | [docs/plan.md](docs/plan.md) | Iedereen | Het volledige plan: onderdelen, hoe het werkt, fases, kosten |
 | [docs/beslissingen.md](docs/beslissingen.md) | Iedereen | Alle gemaakte keuzes, met datum en reden |
 | [docs/beveiliging.md](docs/beveiliging.md) | Technisch + bestuur | Waar gegevens staan, maatregelen, bescherming van partners |
 | [docs/beheer-met-claude.md](docs/beheer-met-claude.md) | Kantoor | Hoe je de site aanpast: zelf in het bewerkscherm, of met Claude |
+| [docs/beheer-tickets.md](docs/beheer-tickets.md) | Kantoor | De beheerpagina en scannen bij de deur |
 | [docs/back-up.md](docs/back-up.md) | Kantoor | Wekelijkse back-up van de bestellingen tijdens de verkoop |
 | [docs/open-vragen.md](docs/open-vragen.md) | Iedereen | Wat nog beslist of geregeld moet worden |
 | [design/](design/) | Bouwers | Het goedgekeurde ontwerp van de jongerenzang-site 2027 |

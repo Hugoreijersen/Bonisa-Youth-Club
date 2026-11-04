@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ titel or site.titel }}</title>
   <meta name="description" content="{{ site.beschrijving }}">
-  {%- if not site.zichtbaarVoorZoekmachines %}
+  {%- if not site.zichtbaarVoorZoekmachines or verborgen %}
   <meta name="robots" content="noindex, nofollow">
   {%- endif %}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
@@ -21,8 +21,12 @@
   <link rel="preload" href="/assets/fonts/dm-sans-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/site.css">
   <script src="/assets/js/menu.js"></script>
+  {%- for script in scripts %}
+  <script src="{{ script }}" defer></script>
+  {%- endfor %}
 </head>
-<body{% if ticketknop.verkoopOpen %} class="met-zwevende-knop"{% endif %}>
+{%- set zwevendeKnop = ticketknop.verkoopOpen and not eenvoudigeKop %}
+<body{% if zwevendeKnop %} class="met-zwevende-knop"{% endif %}>
 <a class="overslaan" href="#inhoud">Naar de inhoud</a>
 
 <div class="menubalk">
@@ -32,6 +36,9 @@
         <span class="logo-tekst__klein">Katwijkse</span>
         <span class="logo-tekst__groot">JONGERENZANG</span>
       </a>
+      {%- if eenvoudigeKop %}
+      <a class="terug" href="/">← Terug naar de site</a>
+      {%- else %}
       <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         Menu
@@ -51,6 +58,7 @@
         </ul>
         <a class="knop knop--oranje knop--klein" href="{{ ticketknop.link }}">{{ ticketknop.tekst }}</a>
       </nav>
+      {%- endif %}
     </header>
   </div>
 </div>
@@ -77,7 +85,7 @@
   </div>
 </footer>
 
-{%- if ticketknop.verkoopOpen %}
+{%- if zwevendeKnop %}
 <a class="zwevend" href="{{ ticketknop.link }}">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg>
   <span>Bestel je<br>ticket</span>
