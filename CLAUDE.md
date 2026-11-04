@@ -47,6 +47,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 
 - Wijzigingen via een branch en pull request; Cloudflare maakt per pull request een testversie. Nooit direct op `main`.
 - Documentatie bijwerken in dezelfde pull request als de code.
+- Commitberichten volgens [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/): `type(scope): omschrijving`, bijvoorbeeld `feat(tickets): bestelformulier`, `fix(css): menu op telefoon`, `docs: uitleg back-up`. Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`.
 - Schrijf documentatie voor kantoor in eenvoudig Nederlands; code-commentaar mag Engels.
 - Taal van de site: Nederlands. "D.V." voor toekomstige datums.
 
