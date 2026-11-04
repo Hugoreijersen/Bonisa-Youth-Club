@@ -14,5 +14,8 @@
     "not_found_handling": "404-page"
   },
   "workers_dev": true,
-  "preview_urls": true
+  "preview_urls": true,
+  // Test version per pull request ("npx wrangler preview" in Workers Builds).
+  // That command needs this block; empty means: same settings as above.
+  "previews": {}
 }
