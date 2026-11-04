@@ -134,8 +134,9 @@ Testen met de echte Mollie-testomgeving: haal in `.env.local` de regel `MOLLIE_A
    ```
    npx supabase@3.0.0 login
    npx supabase@3.0.0 link --project-ref <project-ref>
-   npx supabase@3.0.0 db push
+   npx supabase@3.0.0 db push --remote
    ```
+   Let op `--remote`: zonder die vlag zet `db push` de tabellen in je lokale testdatabase, niet online. Controleren kan met `npx supabase@3.0.0 migration list --remote`. De commando's `secrets set` en `functions deploy` hieronder werken altijd op het online project.
 3. **Geheimen** instellen (nooit in een bestand in de repository):
    ```
    npx supabase@3.0.0 secrets set MOLLIE_API_KEY=test_... SITE_URL=https://<testsite> SITE_ORIGINS=https://<testsite> PUBLIC_FUNCTIONS_URL=https://<project-ref>.supabase.co/functions/v1
