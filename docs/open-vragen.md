@@ -12,16 +12,16 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 - [x] Technisch aanspreekpunt: Hugo (4 nov 2026). Opvolgers staan op Hugo's lijst; voorwaarde is dat alles in deze repository gedocumenteerd is.
 - [ ] Cloudflare-account op naam van de stichting.
 - [x] Bevestigen: sitegenerator Eleventy (4 nov 2026, besluit 23).
-- [ ] Betalingen: navragen bij kantoor welke betaaldienst bonisa.nl nu gebruikt (giften gaan via pay.ideal.nl; webshop en events.bonisa.nl nog navragen). Is dat Mollie, dan een extra websiteprofiel in hetzelfde account. Zo niet: keuze heroverwegen. Tijdens de bouw: Mollie-testmodus.
+- [x] Betalingen: Bonisa heeft al een Mollie-account; alleen de webshop is eraan gekoppeld (4 nov 2026). Giften gaan nog via pay.ideal.nl. Gevolg: besluit 39.
 - [ ] Supabase-account (regio Frankfurt) en MailerSend-account op naam van de stichting.
 
 ## Voor de ticketverkoop
 
-- [ ] Mollie-account van de stichting (bestaand account met een extra websiteprofiel, of nieuw). Daarna alleen de sleutel in Supabase zetten (besluit 30, docs/ticketsysteem.md §5).
+- [ ] In het bestaande Mollie-account van Bonisa een websiteprofiel voor jongerenzang.nl aanmaken (besluit 39). Eerst de `test_`-sleutel daarvan in Supabase zetten om met de echte Mollie-testomgeving te testen, later de `live_`-sleutel (docs/ticketsysteem.md §5).
 - [ ] Startdatum van de ticketverkoop.
 - [ ] Maximum aantal tickets (capaciteit van de kerk) en maximum per bestelling (nu voorlopig 10, besluit 33).
 - [ ] Ticketmail: MailerSend of een andere dienst; navragen waar MailerSend de mailgegevens bewaart.
-- [ ] Domein jongerenzang.nl (in eigen beheer) bij livegang naar Cloudflare laten wijzen. Let op: neem bestaande mailinstellingen (MX-records) mee, anders stopt de mail op dat domein.
+- [ ] Domein jongerenzang.nl (in eigen beheer) bij livegang naar Cloudflare laten wijzen. Let op: neem bestaande mailinstellingen (MX-records) mee, anders stopt de mail op dat domein. (Volgens Hugo geen zorg; regelen bij livegang.)
 - [ ] Toestemming voor foto's van herkenbare jongeren op de site (onder 16: ouders).
 - [ ] Privacyverklaring en voorwaarden laten nakijken en aanpassen (apart nieuwsbriefvakje).
 - [ ] Bewaartermijn van bestellingen vaststellen.
@@ -42,7 +42,7 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 
 - [ ] Hoe worden giften en donateurs nu bijgehouden? Bekend (4 nov 2026): doneren loopt nu via betaallinks van iDEAL | Wero (pay.ideal.nl); de administratie daarvan is omslachtig. Nog uitzoeken: hoe kantoor giften nu koppelt aan projecten en donateurs, wat het kost, en naar welk systeem de gegevens gaan.
 - [ ] Is periodiek doneren nodig?
-- [ ] Webshop: bonisa.nl heeft nu WooCommerce (in WordPress). Uitzoeken: welke producten en hoeveel, verzending en voorraad, en welke betaalplugin WooCommerce gebruikt. Is dat Mollie, dan heeft Bonisa al een Mollie-account.
+- [ ] Webshop: bonisa.nl heeft nu WooCommerce (in WordPress). Uitzoeken: welke producten en hoeveel, verzending en voorraad, en welke betaalplugin WooCommerce gebruikt. Bekend (4 nov 2026): de webshop is gekoppeld aan het Mollie-account van Bonisa.
 - [ ] Welke webshopdienst bouwen we in, of volstaat bij weinig producten een eenvoudig bestelformulier op basis van het ticketsysteem?
 
 ## Na de bouw van fase 1 (website)
