@@ -3,9 +3,11 @@
 // Cloudflare (besluit 17); the ticket system runs at Supabase in Frankfurt.
 // Explanation in Dutch: docs/hoe-de-site-werkt.md
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "bonisa-youth-club",
   "compatibility_date": "2026-11-01",
+  // Builds the site before every deploy, also when the Cloudflare dashboard
+  // has no build command set.
+  "build": { "command": "npm run build" },
   "assets": {
     "directory": "./_site",
     "html_handling": "auto-trailing-slash",
