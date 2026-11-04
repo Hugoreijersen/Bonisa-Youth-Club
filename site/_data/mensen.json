@@ -1,0 +1,36 @@
+{
+  "titel": "Hosts & musici",
+  "hosts": [
+    {
+      "naam": "Bart Bolier",
+      "rol": "Host",
+      "foto": "/assets/img/host-bart-bolier.jpg",
+      "alt": "Portret van Bart Bolier",
+      "geheim": false
+    },
+    {
+      "naam": "Jaap den Butter",
+      "rol": "Host",
+      "foto": "/assets/img/host-jaap-den-butter.jpg",
+      "alt": "Portret van Jaap den Butter",
+      "geheim": false
+    }
+  ],
+  "musici": [
+    {
+      "naam": "Jan Peter Teeuw",
+      "rol": "Orgel",
+      "foto": "/assets/img/musicus-jan-peter-teeuw.jpg",
+      "alt": "Jan Peter Teeuw op de galerij, met het orgel op de achtergrond",
+      "geheim": false
+    },
+    {
+      "naam": "Auke Kieviet",
+      "rol": "Piano",
+      "foto": "/assets/img/musicus-auke-kieviet.jpg",
+      "alt": "Portret van Auke Kieviet",
+      "geheim": false
+    }
+  ],
+  "meerMusiciVolgen": true
+}

@@ -1,0 +1,29 @@
+{#- 1. Hero: titel, thema, datum en foto. Inhoud: _data/evenement.json -#}
+<section id="top" class="hero" aria-labelledby="hero-titel">
+  <div class="container hero__inhoud">
+    <div class="hero__tekst">
+      <span class="pil">{{ evenement.label }}</span>
+      <h1 id="hero-titel" class="hero__titel">{{ evenement.titel }}</h1>
+      <p class="hero__ondertitel">{{ evenement.ondertitelBegin }}
+        {%- for kaart in thema.kaarten %}
+        {%- if loop.last and not loop.first %} en{% elif not loop.first %},{% endif %} <span class="markeer markeer--{{ loop.index }}">{{ kaart.titel | klein }}</span>
+        {%- endfor %}</p>
+      <p class="hero__feiten">
+        <strong>D.V. {{ evenement.datum | datumLang }}</strong>
+        <span>{{ evenement.begintijd }} – {{ evenement.eindtijd }}</span>
+        <span>{{ evenement.locatie.naam }}</span>
+      </p>
+      <p class="hero__organisatie">Georganiseerd door de Bonisa Youth Club · collecte voor <a href="#bonisa">Stichting Bonisa</a></p>
+      <div class="knoppen">
+        <a class="knop knop--oranje knop--groot" href="{{ ticketknop.link }}">{{ ticketknop.tekst if ticketknop.verkoopOpen else "Over de tickets" }}</a>
+        <a class="knop" href="#terugblik">Bekijk de terugblik</a>
+      </div>
+    </div>
+    <div class="hero__foto">
+      <img src="{{ evenement.hero.foto }}" alt="{{ evenement.hero.alt }}" loading="eager" fetchpriority="high" sizes="(min-width: 1080px) 580px, 100vw">
+      {%- if evenement.hero.label %}
+      <span class="pil pil--oranje">{{ evenement.hero.label }}</span>
+      {%- endif %}
+    </div>
+  </div>
+</section>

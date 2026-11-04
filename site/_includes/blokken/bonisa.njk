@@ -1,0 +1,41 @@
+{#- 5. Stichting Bonisa en de collecteprojecten. Inhoud: _data/bonisa.json -#}
+<section id="bonisa" class="bonisa" aria-labelledby="bonisa-titel">
+  <div class="container sectie-inhoud">
+    <div class="bonisa__intro">
+      <div class="bonisa__tekst">
+        <span class="pil pil--oranje">{{ bonisa.label }}</span>
+        <h2 id="bonisa-titel">{{ bonisa.titel }}</h2>
+        {{ bonisa.tekst | renderContent("md") | safe }}
+        {%- if bonisa.collecteProject %}
+        <p>De collecte van de jongerenzang gaat elk jaar naar een project van Bonisa. Dit jaar: <strong>{{ bonisa.collecteProject }}</strong>.</p>
+        {%- endif %}
+        <div class="knoppen">
+          <a class="knop" href="{{ stichting.website }}">Meer over Bonisa</a>
+          <a class="knop knop--oranje" href="{{ stichting.donatieLink }}">Doneer aan Bonisa</a>
+        </div>
+      </div>
+      {%- if bonisa.logo %}
+      <div class="bonisa__logo">
+        <img src="{{ bonisa.logo }}" alt="{{ bonisa.logoAlt }}" sizes="320px">
+      </div>
+      {%- endif %}
+    </div>
+    {%- if bonisa.projecten.length %}
+    <div class="tekst-blok">
+      <h3 class="bovenkop">{{ bonisa.projectenTitel }}</h3>
+      <div class="projecten">
+        {%- for p in bonisa.projecten %}
+        <article class="project">
+          <img src="{{ p.foto }}" alt="{{ p.alt }}" sizes="(min-width: 1080px) 600px, 100vw">
+          <div class="project__tekst">
+            <span class="bovenkop">{{ p.kop }}</span>
+            <h4>{{ p.titel }}</h4>
+            <p class="tekst-gedempt">{{ p.tekst }}</p>
+          </div>
+        </article>
+        {%- endfor %}
+      </div>
+    </div>
+    {%- endif %}
+  </div>
+</section>

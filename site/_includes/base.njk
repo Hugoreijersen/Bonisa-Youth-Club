@@ -1,0 +1,87 @@
+{#- Basissjabloon: alles wat op elke pagina staat (kop, menu, footer). -#}
+<!doctype html>
+<html lang="nl" class="geen-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ titel or site.titel }}</title>
+  <meta name="description" content="{{ site.beschrijving }}">
+  {%- if not site.zichtbaarVoorZoekmachines %}
+  <meta name="robots" content="noindex, nofollow">
+  {%- endif %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="nl_NL">
+  <meta property="og:title" content="{{ titel or site.titel }}">
+  <meta property="og:description" content="{{ site.beschrijving }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{% deelfoto site.deelfoto %}">
+  <meta name="theme-color" content="#4C8C40">
+  <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/dm-sans-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/assets/css/site.css">
+  <script src="/assets/js/menu.js"></script>
+</head>
+<body{% if ticketknop.verkoopOpen %} class="met-zwevende-knop"{% endif %}>
+<a class="overslaan" href="#inhoud">Naar de inhoud</a>
+
+<div class="menubalk">
+  <div class="container">
+    <header class="menubalk__inhoud">
+      <a class="logo-tekst" href="/#top" aria-label="Katwijkse Jongerenzang, naar boven">
+        <span class="logo-tekst__klein">Katwijkse</span>
+        <span class="logo-tekst__groot">JONGERENZANG</span>
+      </a>
+      <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        Menu
+      </button>
+      <nav id="hoofdmenu" class="menu" aria-label="Hoofdmenu">
+        <ul class="menu__lijst">
+          <li><a href="/#thema">Thema</a></li>
+          <li><a href="/#terugblik">Terugblik</a></li>
+          <li><a href="/#bonisa">Bonisa</a></li>
+          <li><a href="/#programma">Programma</a></li>
+          <li><a href="/#tickets">Tickets</a></li>
+          {%- if kingfisher.zichtbaar %}
+          <li><a href="/#kingfisher">Kingfisher</a></li>
+          {%- endif %}
+          <li><a href="/#byc">Wie zijn wij</a></li>
+          <li><a href="{{ stichting.donatieLink }}">Doneer</a></li>
+        </ul>
+        <a class="knop knop--oranje knop--klein" href="{{ ticketknop.link }}">{{ ticketknop.tekst }}</a>
+      </nav>
+    </header>
+  </div>
+</div>
+
+<main id="inhoud">
+{{ content | safe }}
+</main>
+
+<footer class="footer">
+  <div class="container footer__inhoud">
+    <div class="footer__adres">
+      <p class="footer__naam">{{ stichting.naam }}</p>
+      <p>{{ stichting.adres }} · <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a></p>
+      <p><a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> · <a href="{{ stichting.website }}">{{ stichting.website | replace('https://', '') | replace('www.', '') }}</a></p>
+      <p>{{ stichting.voettekst }}</p>
+    </div>
+    <nav aria-label="Juridisch">
+      <ul class="footer__links">
+        <li><a href="{{ stichting.documenten.voorwaarden }}">Algemene voorwaarden</a></li>
+        <li><a href="{{ stichting.documenten.privacy }}">Privacyverklaring</a></li>
+        <li><a href="{{ stichting.documenten.disclaimer }}">Disclaimer</a></li>
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+{%- if ticketknop.verkoopOpen %}
+<a class="zwevend" href="{{ ticketknop.link }}">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg>
+  <span>Bestel je<br>ticket</span>
+</a>
+{%- endif %}
+</body>
+</html>

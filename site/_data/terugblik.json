@@ -1,0 +1,50 @@
+{
+  "titel": "Terugblik",
+  "intro": "Een volle kerk, honderden jongeren en één stem. Zo zag de jongerenzang in Katwijk eruit. Dankbaar kijken we terug, en we zien uit naar 2027.",
+  "citaat": {
+    "tekst": "Ik vond het super indrukwekkend en ik zou het iedereen aanraden.",
+    "wie": "[Naam], [leeftijd] · bezoeker 2025"
+  },
+  "fotos": [
+    {
+      "foto": "/assets/img/terugblik-5.jpg",
+      "alt": "Jongeren staan te zingen met het liedboekje in de hand",
+      "formaat": "groot"
+    },
+    {
+      "foto": "/assets/img/terugblik-6.jpg",
+      "alt": "Het orgel boven de zingende menigte",
+      "formaat": "hoog"
+    },
+    {
+      "foto": "/assets/img/terugblik-8.jpg",
+      "alt": "Twee jongeren zingen vol overgave",
+      "formaat": "hoog"
+    },
+    {
+      "foto": "/assets/img/terugblik-3.jpg",
+      "alt": "Overzicht van de volle kerk met podium en musici",
+      "formaat": "normaal"
+    },
+    {
+      "foto": "/assets/img/terugblik-4.jpg",
+      "alt": "Lichtbundels door de ramen van de kerk tijdens het zingen",
+      "formaat": "breed"
+    },
+    {
+      "foto": "/assets/img/terugblik-7.jpg",
+      "alt": "Zwart-witfoto van zingende jongeren",
+      "formaat": "normaal"
+    },
+    {
+      "foto": "/assets/img/terugblik-9.jpg",
+      "alt": "Jongeren in de kerkbanken onder de kroonluchters",
+      "formaat": "breed"
+    },
+    {
+      "foto": "/assets/img/terugblik-1.jpg",
+      "alt": "De volle kerk vanaf de galerij gezien",
+      "formaat": "breed"
+    }
+  ]
+}

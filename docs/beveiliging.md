@@ -1,0 +1,82 @@
+# Beveiliging en locatie van gegevens
+
+Laatst bijgewerkt: 4 november 2026.
+
+**Uitgangspunt:** alles met persoonsgegevens staat en draait in de EU. Alleen kopieën van de openbare pagina's (tekst en foto's, geen persoonsgegevens) staan wereldwijd via Cloudflare, ook in Azië (niet in China zelf). Dat is een bewuste keuze voor gemak (besluit 15).
+
+Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard worden. Wees dus extra zorgvuldig met wat je publiceert (zie *Bescherming van partners in Azië*).
+
+## Waar staat wat
+
+| Dienst | Wat | Waar | Afspraak |
+| --- | --- | --- | --- |
+| Cloudflare Pages | Openbare pagina's | Wereldwijd, ook in Azië; niet in China zelf | Alleen openbare pagina's. **Geen** Cloudflare-functies (Workers) of formulieren voor iets met persoonsgegevens: die draaien bij Supabase in Frankfurt |
+| Supabase | Bestellingen, tickets, aanmeldingen, functies | Frankfurt (`eu-central-1`) | Functies draaien standaard dicht bij de bezoeker. Altijd vastzetten op Frankfurt: `x-region: eu-central-1`, en voor Mollie-meldingen `?forceFunctionRegion=eu-central-1` |
+| Mollie | Betalingen | Nederland | Bank- en betaalgegevens komen nooit op onze eigen systemen (betalen gebeurt op de pagina van Mollie) |
+| MailerLite | Nieuwsbriefadressen | Datacenter in de EU | |
+| MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard |
+| GitHub | Code en teksten | Verenigde Staten | Geen persoonsgegevens, geen wachtwoorden of sleutels. Europees alternatief: Codeberg (Berlijn) |
+| Pages CMS | Bewerkscherm | Zelf hosten in de EU | Niet de online versie gebruiken |
+| Claude | Hulp bij code en teksten | Verenigde Staten | Geen persoonsgegevens delen |
+
+**Nieuwe dienst toevoegen?** Eerst nagaan waar die gegevens opslaat en code uitvoert, en dat in deze tabel zetten. Persoonsgegevens: alleen EU.
+
+## Maatregelen
+
+### Accounts
+- Tweestapsverificatie op elk account.
+- Iedereen een eigen account; nooit gedeelde logins.
+- Alle accounts op een algemeen adres van de stichting, met minstens twee beheerders.
+- Wachtwoorden in een gedeelde wachtwoordkluis.
+
+### Sleutels en code
+- Geheime sleutels (Mollie, Supabase service key, MailerSend, MailerLite) staan alleen in de instellingen van Supabase. Nooit in GitHub, nooit in de website-code.
+- `.env`-bestanden staan in `.gitignore`.
+- Automatische meldingen van GitHub over verouderde onderdelen (Dependabot) aanzetten.
+
+### Website
+- Geen bronnen van andere domeinen: lettertypen staan op de eigen site (niet Google Fonts), geen trackers of scripts van derden.
+- Beveiligingsregels in `site/_headers` (onder andere een Content-Security-Policy die alleen de eigen site toelaat). Cloudflare stuurt ze mee met elke pagina.
+- Foto's: Eleventy Image haalt bij het bouwen alle EXIF-, GPS- en andere metagegevens uit elke foto (getest op 4 november 2026 met een foto met GPS-plek).
+- Testversies zijn niet vindbaar in Google (`noindex`) tot livegang.
+
+### Database
+- Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven.
+- De beheer- en scanpagina werken alleen na inloggen, met rollen `kantoor` en `scanner`.
+
+### Betalingen en tickets
+- Een melding van Mollie wordt altijd nagecontroleerd door de betaling zelf bij Mollie op te vragen.
+- Bedragen worden altijd op de server berekend, nooit overgenomen uit het formulier.
+- QR-codes zijn lange, willekeurige codes (minstens 128 bits), niet te raden.
+- Een ticket kan maar één keer gescand worden.
+
+### Formulieren
+- Europese botcontrole (bijvoorbeeld Friendly Captcha) of een verborgen veld tegen spam.
+- Maximaal aantal bestellingen per e-mailadres en per tijdseenheid.
+
+### Back-ups en logboeken
+- Gratis plan: geen back-ups door Supabase. Daarom tijdens de verkoop een wekelijkse export volgens [back-up.md](back-up.md).
+- Zodra bonisa.nl giften verwerkt: Supabase Pro met dagelijkse back-up, plus een maandelijkse eigen export.
+- Logbestanden bevatten geen persoonsgegevens.
+
+### Bewaartermijn
+- Bestellingen: verwijderen of anonimiseren [X] maanden na het evenement (nog vaststellen).
+- Nieuwsbriefadressen: tot iemand zich afmeldt.
+
+### Datalek
+- Binnen 72 uur melden bij de Autoriteit Persoonsgegevens.
+- Verantwoordelijke: [naam, nog vaststellen].
+
+## Bescherming van partners in Azië
+
+- Publiceer geen namen, herkenbare gezichten of precieze plaatsen van lokale partners en ontvangers, tenzij zeker is dat dat veilig is.
+- Foto's bevatten vaak de GPS-plek waar ze gemaakt zijn. De site haalt die gegevens (EXIF) bij het bouwen automatisch uit elke foto.
+- Noem op projectpagina's waar nodig een regio in plaats van een plaats.
+
+## Privacy
+
+Dit is geen juridisch advies; laat het nakijken.
+
+- Het nieuwsbriefvakje staat los van het akkoord met de voorwaarden en is standaard niet aangevinkt.
+- De privacyverklaring moet worden aangepast: de huidige tekst gaat ervan uit dat wie gegevens invult akkoord is met mailings.
+- Verwerkersovereenkomsten afsluiten met Supabase, Mollie, MailerSend, MailerLite en Cloudflare.

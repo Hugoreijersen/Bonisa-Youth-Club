@@ -1,0 +1,21 @@
+{#- 6. Over de avond en 7. programma. Inhoud: _data/avond.json -#}
+<div class="container">
+  <section id="over" class="rij rij--lijn" aria-labelledby="over-titel">
+    <h2 id="over-titel" class="rij__kop">{{ avond.titel }}</h2>
+    <div class="rij__inhoud tekst-blok tekst-gedempt">
+      {{ avond.tekst | renderContent("md") | safe }}
+    </div>
+  </section>
+
+  <section id="programma" class="rij" aria-labelledby="programma-titel">
+    <div class="rij__kop">
+      <h2 id="programma-titel">Programma</h2>
+      <a class="knop knop--oranje" href="{{ ticketknop.link }}">{{ ticketknop.tekst }}</a>
+    </div>
+    <ol class="rij__inhoud programma">
+      {%- for p in avond.programma %}
+      <li><time>{{ p.tijd }}</time><span>{{ p.onderdeel }}</span></li>
+      {%- endfor %}
+    </ol>
+  </section>
+</div>

@@ -1,0 +1,16 @@
+{
+  "naam": "Stichting Bonisa",
+  "adres": "Grachtweg 20, 2161 HN Lisse",
+  "telefoon": "0252 – 418269",
+  "email": "info@bonisa.nl",
+  "website": "https://www.bonisa.nl",
+  "donatieLink": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=-EYy0VLuQ3yKdvA2C2f0Kg",
+  "bycEmail": "jong@bonisa.nl",
+  "instagram": "https://www.instagram.com/bonisa_youth_club/",
+  "voettekst": "De jongerenzang is een initiatief van de Bonisa Youth Club, onderdeel van Stichting Bonisa.",
+  "documenten": {
+    "voorwaarden": "/assets/docs/algemene-voorwaarden.pdf",
+    "privacy": "/assets/docs/privacyverklaring.pdf",
+    "disclaimer": "/assets/docs/disclaimer.pdf"
+  }
+}

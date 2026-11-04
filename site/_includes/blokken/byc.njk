@@ -1,0 +1,18 @@
+{#- 11. Wie zijn wij (Bonisa Youth Club). Inhoud: _data/byc.json -#}
+<section id="byc" class="byc" aria-labelledby="byc-titel">
+  <div class="container byc__inhoud">
+    <div class="byc__logo">
+      <img src="{{ byc.logo }}" alt="{{ byc.logoAlt }}" sizes="400px">
+    </div>
+    <div class="byc__tekst">
+      <span class="bovenkop">{{ byc.label }}</span>
+      <h2 id="byc-titel">{{ byc.titel }}</h2>
+      <div class="tekst-blok tekst-gedempt">{{ byc.tekst | renderContent("md") | safe }}</div>
+      <div class="knoppen">
+        <a class="knop knop--groen" href="mailto:{{ stichting.bycEmail }}">Doe mee met de BYC</a>
+        <a class="knop knop--oranje" href="{{ stichting.donatieLink }}">Doneer</a>
+        <a class="knop" href="{{ stichting.instagram }}">Instagram</a>
+      </div>
+    </div>
+  </div>
+</section>

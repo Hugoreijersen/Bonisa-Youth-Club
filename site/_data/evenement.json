@@ -1,0 +1,26 @@
+{
+  "label": "Interkerkelijke jongerenzangavond · 3e editie",
+  "titel": "Gods Koninkrijk komt!",
+  "ondertitelBegin": "Met",
+  "datum": "2027-05-21",
+  "begintijd": "19:45",
+  "eindtijd": "21:45",
+  "locatie": {
+    "naam": "Nieuwe Kerk Katwijk",
+    "adres": "Voorstraat 79, 2225 EM Katwijk aan Zee",
+    "parkeren": "Parkeren kan in de parkeergarage aan de Boulevard of aan de Tramstraat. Op het marktterrein is parkeren na 18:00 uur gratis."
+  },
+  "hero": {
+    "foto": "/assets/img/hero-2025.jpg",
+    "alt": "Jongeren zingen samen in de Nieuwe Kerk in Katwijk, in warm zonlicht",
+    "label": "Jongerenzang 2025"
+  },
+  "tickets": {
+    "prijs": 4.5,
+    "tekst": "Meld je aan, dan is je plaats gereserveerd. Tijdens de avond is er een collecte voor het werk van Stichting Bonisa.",
+    "verkoopOpen": false,
+    "link": "/tickets/",
+    "tekstVoorVerkoop": "De ticketverkoop start binnenkort. Volg ons op Instagram, dan hoor je het als eerste."
+  },
+  "slotTitel": "Ben jij erbij op {datum}?"
+}

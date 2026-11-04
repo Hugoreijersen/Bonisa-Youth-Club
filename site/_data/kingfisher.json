@@ -1,0 +1,15 @@
+{
+  "zichtbaar": true,
+  "label": "Kleding van de BYC",
+  "titel": "Kingfisher",
+  "logo": "/assets/img/kingfisher-logo.png",
+  "logoAlt": "Logo Kingfisher: een vogel met een kroon",
+  "tekst": "Shirts met een boodschap: **Praise the Lord** en **Walk by faith, not by sight**. Met elk shirt steun je het werk van Bonisa. Verkrijgbaar in XS t/m L. [Te koop tijdens de avond en online.]",
+  "winkellink": "",
+  "shirts": [
+    { "foto": "/assets/img/kingfisher-joas-wit-voor.jpg", "alt": "Joas in een wit shirt met het Kingfisher-vogeltje op de borst", "naam": "Wit · voorkant", "opdruk": "Kingfisher-vogel", "prijs": 28.5 },
+    { "foto": "/assets/img/kingfisher-joas-groen-kruis-rug.jpg", "alt": "Joas van achteren in een olijfgroen shirt met een kruis van de woorden Walk by faith, not by sight", "naam": "Kruis · groen", "opdruk": "Walk by faith", "prijs": 28.5 },
+    { "foto": "/assets/img/kingfisher-nora-blauw-voor.jpg", "alt": "Nora in een lichtblauw shirt met het Kingfisher-vogeltje op de borst", "naam": "Wereldbol · blauw", "opdruk": "Praise the Lord", "prijs": 28.5 },
+    { "foto": "/assets/img/kingfisher-nora-wit-wereld-rug.jpg", "alt": "Nora van achteren in een wit shirt met een wereldbol en de tekst Praise the Lord", "naam": "Wereldbol · wit", "opdruk": "Praise the Lord", "prijs": 28.5 }
+  ]
+}

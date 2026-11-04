@@ -1,0 +1,10 @@
+{
+  "titel": "Samen zingen over het Koninkrijk dat komt",
+  "tekst": "Op vrijdag 21 mei 2027 (D.V.) komen jongeren uit allerlei kerken samen in Katwijk om psalmen en liederen te zingen. Het thema van deze derde editie neemt ons mee naar het Koninkrijk van God: er al waar Christus regeert, en eens volkomen.\n\nEen avond van samenzang en bezinning, begeleid door musici en geleid door hosts die je door de liederen heen nemen. Iedereen is welkom.",
+  "programma": [
+    { "tijd": "19:15", "onderdeel": "Inloop" },
+    { "tijd": "19:45", "onderdeel": "Opening" },
+    { "tijd": "20:00", "onderdeel": "Samenzang" },
+    { "tijd": "21:45", "onderdeel": "Sluiting" }
+  ]
+}

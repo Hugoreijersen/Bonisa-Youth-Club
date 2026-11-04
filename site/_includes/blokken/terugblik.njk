@@ -1,0 +1,25 @@
+{#- 4. Terugblik: fotomozaïek met citaat. Inhoud: _data/terugblik.json -#}
+<section id="terugblik" class="terugblik" aria-labelledby="terugblik-titel">
+  <div class="container sectie-inhoud">
+    <div class="sectiekop">
+      <h2 id="terugblik-titel">{{ terugblik.titel }}</h2>
+      <p>{{ terugblik.intro }}</p>
+    </div>
+    <div class="mozaiek">
+      {%- if terugblik.citaat.tekst %}
+      <figure class="citaat">
+        <span class="citaat__teken" aria-hidden="true">“</span>
+        <blockquote><p>{{ terugblik.citaat.tekst }}</p></blockquote>
+        <figcaption>
+          <span>{{ terugblik.citaat.wie }}</span>
+          <a class="knop knop--oranje" href="{{ ticketknop.link }}">{{ ticketknop.tekst }}</a>
+        </figcaption>
+      </figure>
+      {%- endif %}
+      {%- for f in terugblik.fotos %}
+      <img class="{{ f.formaat or 'normaal' }}" src="{{ f.foto }}" alt="{{ f.alt }}"
+        sizes="{% if f.formaat == 'groot' or f.formaat == 'breed' %}(min-width: 900px) 560px, 100vw{% else %}(min-width: 900px) 280px, 50vw{% endif %}">
+      {%- endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Ticket bestellen</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;display=swap">
+<style>
+body{margin:0;background:#F3F8EF}
+a{color:#3A7230}a:hover{color:#2A5523}
+input:focus-visible,button:focus-visible{outline:3px solid #F28C1E;outline-offset:2px}
+</style>
+</helmet>
+<div style="background: #F3F8EF; color: #1C1F1A; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.6; padding-bottom: 96px">
+
+<div style="background: {{groenTint}}; border-bottom: 1px solid rgba(28,31,26,0.08)">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<a href="website.html" style="display: flex; flex-direction: column; text-decoration: none; color: #1C1F1A; line-height: 1">
+<span style="font-size: 14px; letter-spacing: 0.06em">Katwijkse</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: 0.04em; color: {{groenDonker}}">JONGERENZANG</span>
+</a>
+<a href="website.html" style="display: inline-flex; align-items: center; min-height: 44px; color: #1C1F1A; font-weight: 600">← Terug naar de site</a>
+</div>
+</div>
+
+<div style="max-width: 1240px; margin: 0 auto; padding: 56px 24px 0; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 32px">
+
+<aside style="flex: 1 1 340px; min-width: 0; background: {{groenDonker}}; color: #FFFFFF; border-radius: 28px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/hero-2025.jpg" alt="Jongeren zingen samen in de Nieuwe Kerk in Katwijk" style="display: block; width: 100%; height: 220px; object-fit: cover">
+<div style="padding: 32px; display: flex; flex-direction: column; gap: 16px">
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; line-height: 1">Gods Koninkrijk komt!</h1>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 22px">Met recht, vrede en blijdschap</p>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px">
+<li><strong>D.V. vrijdag 21 mei 2027</strong></li>
+<li>Inloop 19:15 · aanvang 19:45</li>
+<li>Nieuwe Kerk Katwijk, Voorstraat 79</li>
+</ul>
+<div style="display: flex; align-items: baseline; gap: 8px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.3)">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 36px">€ 4,50</span>
+<span>per persoon</span>
+</div>
+</div>
+</aside>
+
+<div style="flex: 2 1 520px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 40px">
+<sc-if value="{{done}}" hint-placeholder-val="{{ false }}">
+<div style="display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 0">
+<div style="width: 72px; height: 72px; border-radius: 50%; background: {{groenTint2}}; display: flex; align-items: center; justify-content: center">
+<svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="#1C1F1A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L19 7"></path></svg>
+</div>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05">Bedankt, je bent erbij!</h2>
+<p style="margin: 0; color: #3D4639">We hebben je bestelling van {{count}} {{ticketWord}} ontvangen. Totaal: <strong style="color: #1C1F1A">€ {{total}}</strong>. [Je ontvangt je ticket en de betaalgegevens per e-mail.]</p>
+<a href="website.html" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: {{groenDonker}}; color: #FFFFFF; font-weight: 600; text-decoration: none">Terug naar de site</a>
+</div>
+</sc-if>
+<sc-if value="{{notDone}}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{submit}}" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05">Bestel je ticket</h2>
+<p style="margin: 0; color: #3D4639">Vul je gegevens in. Velden met * zijn verplicht.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px 20px">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="voornaam" style="font-weight: 600; font-size: 16px">Voornaam *</label>
+<input id="voornaam" name="voornaam" type="text" required autocomplete="given-name" style="min-height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #C3D1C6; border-radius: 14px; font: inherit; color: #1C1F1A; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="achternaam" style="font-weight: 600; font-size: 16px">Achternaam *</label>
+<input id="achternaam" name="achternaam" type="text" required autocomplete="family-name" style="min-height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #C3D1C6; border-radius: 14px; font: inherit; color: #1C1F1A; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="email" style="font-weight: 600; font-size: 16px">E-mailadres *</label>
+<input id="email" name="email" type="email" required autocomplete="email" style="min-height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #C3D1C6; border-radius: 14px; font: inherit; color: #1C1F1A; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="telefoon" style="font-weight: 600; font-size: 16px">Telefoonnummer</label>
+<input id="telefoon" name="telefoon" type="tel" autocomplete="tel" style="min-height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #C3D1C6; border-radius: 14px; font: inherit; color: #1C1F1A; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<label for="woonplaats" style="font-weight: 600; font-size: 16px">Woonplaats *</label>
+<input id="woonplaats" name="woonplaats" type="text" required autocomplete="address-level2" style="min-height: 52px; box-sizing: border-box; padding: 0 16px; border: 1.5px solid #C3D1C6; border-radius: 14px; font: inherit; color: #1C1F1A; background: #FFFFFF">
+</div>
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span id="aantal-label" style="font-weight: 600; font-size: 16px">Aantal tickets *</span>
+<div role="group" aria-labelledby="aantal-label" style="display: flex; align-items: center; gap: 8px">
+<button type="button" onClick="{{dec}}" aria-label="Eén ticket minder" style="width: 52px; height: 52px; border-radius: 14px; border: 1.5px solid #C3D1C6; background: #FFFFFF; font: inherit; font-size: 24px; font-weight: 700; color: #1C1F1A; cursor: pointer">−</button>
+<output aria-live="polite" style="min-width: 48px; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 28px">{{count}}</output>
+<button type="button" onClick="{{inc}}" aria-label="Eén ticket meer" style="width: 52px; height: 52px; border-radius: 14px; border: 1.5px solid #C3D1C6; background: #FFFFFF; font: inherit; font-size: 24px; font-weight: 700; color: #1C1F1A; cursor: pointer">+</button>
+</div>
+</div>
+</div>
+
+<label for="akkoord" style="display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: #3D4639; cursor: pointer">
+<input id="akkoord" name="akkoord" type="checkbox" required style="width: 22px; height: 22px; margin: 2px 0 0; accent-color: #3A7230; flex: none">
+<span>Ik ga akkoord met de <a href="assets/algemene-voorwaarden.pdf">algemene voorwaarden</a> en de <a href="assets/privacyverklaring.pdf">privacyverklaring</a>. *</span>
+</label>
+
+<label for="nieuwsbrief" style="display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: #3D4639; cursor: pointer">
+<input id="nieuwsbrief" name="nieuwsbrief" type="checkbox" style="width: 22px; height: 22px; margin: 2px 0 0; accent-color: #3A7230; flex: none">
+<span>Ja, houd me op de hoogte van nieuws en activiteiten van Bonisa en de Bonisa Youth Club. Afmelden kan altijd.</span>
+</label>
+
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border-radius: 20px; background: {{oranjeTint}}">
+<div style="display: flex; flex-direction: column; line-height: 1.3">
+<span style="font-size: 15px; color: #3D4639">{{count}} × € 4,50</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 32px">€ {{total}}</span>
+</div>
+<button type="submit" style="min-height: 56px; padding: 0 32px; border: none; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font: inherit; font-size: 19px; font-weight: 700; cursor: pointer">Bestel je ticket</button>
+</div>
+</form>
+</sc-if>
+</div>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"groen":{"editor":"color","default":"#4C8C40","section":"BYC-kleuren"},"oranje":{"editor":"color","default":"#F28C1E","section":"BYC-kleuren"},"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { count: 1, done: false };
+}
+mix(hex, w, to) {
+var h = /^#[0-9a-fA-F]{6}$/.test(hex) ? hex : '#888888';
+var n = parseInt(h.slice(1), 16);
+var c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (v) { return Math.round(v + (to - v) * w); });
+return 'rgb(' + c.join(',') + ')';
+}
+renderVals() {
+var self = this;
+var groen = this.props.groen ?? '#4C8C40';
+var oranje = this.props.oranje ?? '#F28C1E';
+var count = this.state.count;
+return {
+groen: groen,
+oranje: oranje,
+groenDonker: this.mix(groen, 0.24, 0),
+groenTint: this.mix(groen, 0.80, 255),
+groenTint2: this.mix(groen, 0.62, 255),
+oranjeTint: this.mix(oranje, 0.80, 255),
+count: count,
+ticketWord: count === 1 ? 'ticket' : 'tickets',
+total: (count * 4.5).toFixed(2).replace('.', ','),
+done: this.state.done,
+notDone: !this.state.done,
+inc: function () { self.setState({ count: Math.min(10, self.state.count + 1) }); },
+dec: function () { self.setState({ count: Math.max(1, self.state.count - 1) }); },
+submit: function (e) { if (e && e.preventDefault) { e.preventDefault(); } self.setState({ done: true }); }
+};
+}
+}
+</script>
+</body>
+</html>

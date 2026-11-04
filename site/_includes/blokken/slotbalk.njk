@@ -1,0 +1,7 @@
+{#- 12. Oranje slotbalk. Tekst: evenement.slotTitel, {datum} wordt vervangen door de datum. -#}
+<section class="slotbalk" aria-labelledby="slot-titel">
+  <div class="container slotbalk__inhoud">
+    <h2 id="slot-titel">{{ evenement.slotTitel | replace("{datum}", evenement.datum | datumKort) }}</h2>
+    <a class="knop knop--groen knop--groot" href="{{ ticketknop.link }}">{{ ticketknop.tekst if ticketknop.verkoopOpen else "Over de tickets" }}</a>
+  </div>
+</section>

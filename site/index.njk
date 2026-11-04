@@ -1,0 +1,16 @@
+---
+layout: base.njk
+permalink: /
+---
+{#- De homepage. Elk blok staat in een eigen bestand in _includes/blokken/. -#}
+{% include "blokken/hero.njk" %}
+{% include "blokken/thema.njk" %}
+{% include "blokken/terugblik.njk" %}
+{% include "blokken/bonisa.njk" %}
+{% include "blokken/avond.njk" %}
+{% include "blokken/mensen-en-tickets.njk" %}
+{%- if kingfisher.zichtbaar %}
+{% include "blokken/kingfisher.njk" %}
+{%- endif %}
+{% include "blokken/byc.njk" %}
+{% include "blokken/slotbalk.njk" %}

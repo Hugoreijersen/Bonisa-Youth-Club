@@ -1,0 +1,23 @@
+{
+  "bijbeltekst": {
+    "verwijzing": "Romeinen 14:17",
+    "tekst": "Want het Koninkrijk Gods is niet spijs en drank, maar rechtvaardigheid, en vrede, en blijdschap door den Heiligen Geest."
+  },
+  "kaarten": [
+    {
+      "titel": "Recht",
+      "tekst": "Waar God Koning is, wordt recht gedaan. Voor wie onrecht ondergaat is dat geen mooi idee, maar een vaste hoop.",
+      "icoon": "weegschaal"
+    },
+    {
+      "titel": "Vrede",
+      "tekst": "Vrede met God door Christus, en daardoor vrede met elkaar. Een Koninkrijk dat niet met geweld komt, maar met genade.",
+      "icoon": "olijftak"
+    },
+    {
+      "titel": "Blijdschap",
+      "tekst": "Blijdschap door de Heilige Geest. Dat is de reden om samen, met opgeheven stem, te zingen.",
+      "icoon": "muziek"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{#- 8. Hosts en musici (_data/mensen.json) en 9. tickets en locatie (_data/evenement.json) -#}
+{% macro persoon(p) %}
+<li class="persoon">
+  {%- if p.geheim or not p.foto %}
+  <div class="persoon__geheim" aria-hidden="true">?</div>
+  {%- else %}
+  <img src="{{ p.foto }}" alt="{{ p.alt }}" sizes="(min-width: 900px) 240px, 50vw">
+  {%- endif %}
+  <div class="persoon__naam"><h4>{{ p.naam }}</h4><p>{{ p.rol }}</p></div>
+</li>
+{% endmacro %}
+<div class="container">
+  <section id="hosts" class="rij" aria-labelledby="mensen-titel">
+    <h2 id="mensen-titel" class="rij__kop">{{ mensen.titel }}</h2>
+    <div class="rij__inhoud mensen">
+      {%- if mensen.hosts.length %}
+      <div class="mensen__groep">
+        <h3 class="bovenkop">Hosts</h3>
+        <ul class="mensen__raster">
+          {%- for p in mensen.hosts %}{{ persoon(p) }}{% endfor %}
+        </ul>
+      </div>
+      {%- endif %}
+      <div class="mensen__groep">
+        <h3 class="bovenkop">Musici</h3>
+        <ul class="mensen__raster">
+          {%- for p in mensen.musici %}{{ persoon(p) }}{% endfor %}
+          {%- if mensen.meerMusiciVolgen %}
+          <li class="persoon persoon--meer">
+            <span class="plus" aria-hidden="true">+</span>
+            <p>Meer musici volgen</p>
+            <a href="{{ stichting.instagram }}">Volg ons op Instagram</a>
+          </li>
+          {%- endif %}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="tickets" class="tickets" aria-label="Tickets en locatie">
+    <div class="blok blok--groen">
+      <h2>Tickets</h2>
+      <p class="prijs">{{ evenement.tickets.prijs | euro }} <span>per persoon</span></p>
+      <p>{{ evenement.tickets.tekst }}</p>
+      {%- if ticketknop.verkoopOpen %}
+      <a class="knop knop--oranje knop--groot" href="{{ ticketknop.link }}">Bestel je ticket</a>
+      <p class="klein">Met je bestelling ga je akkoord met de <a href="{{ stichting.documenten.voorwaarden }}">algemene voorwaarden</a> en de <a href="{{ stichting.documenten.privacy }}">privacyverklaring</a>.</p>
+      {%- else %}
+      <p><strong>{{ evenement.tickets.tekstVoorVerkoop }}</strong></p>
+      <a class="knop knop--oranje" href="{{ stichting.instagram }}">Volg ons op Instagram</a>
+      {%- endif %}
+    </div>
+    <div class="blok">
+      <h2>Locatie</h2>
+      <p class="adres">{{ evenement.locatie.naam }}<br>{{ evenement.locatie.adres }}</p>
+      <p class="tekst-gedempt">{{ evenement.locatie.parkeren }}</p>
+      <a class="maillink" href="mailto:{{ stichting.bycEmail }}">Vragen? Mail {{ stichting.bycEmail }}</a>
+    </div>
+  </section>
+</div>

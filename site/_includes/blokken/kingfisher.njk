@@ -1,0 +1,31 @@
+{#- 10. Kingfisher-kleding. Inhoud: _data/kingfisher.json -#}
+<section id="kingfisher" class="kingfisher" aria-labelledby="kingfisher-titel">
+  <div class="container sectie-inhoud">
+    <div class="kingfisher__kop">
+      <div class="kingfisher__merk">
+        <img src="{{ kingfisher.logo }}" alt="{{ kingfisher.logoAlt }}" sizes="128px">
+        <div>
+          <span class="bovenkop">{{ kingfisher.label }}</span>
+          <h2 id="kingfisher-titel">{{ kingfisher.titel }}</h2>
+        </div>
+      </div>
+      <div class="kingfisher__tekst">
+        {{ kingfisher.tekst | renderContent("md") | safe }}
+        {%- if kingfisher.winkellink %}
+        <a class="knop knop--zwart" href="{{ kingfisher.winkellink }}">Bekijk de collectie</a>
+        {%- endif %}
+      </div>
+    </div>
+    <ul class="shirts">
+      {%- for s in kingfisher.shirts %}
+      <li class="shirt">
+        <img src="{{ s.foto }}" alt="{{ s.alt }}" sizes="(min-width: 1080px) 300px, 50vw">
+        <div class="shirt__tekst">
+          <h3>{{ s.naam }}</h3>
+          <div class="shirt__regel"><span>{{ s.opdruk }}</span><strong>{{ s.prijs | euro }}</strong></div>
+        </div>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>

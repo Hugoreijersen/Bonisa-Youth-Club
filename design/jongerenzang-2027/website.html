@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Jongerenzang 2027</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=DM+Sans:opsz,wght@9..40,400..700&amp;display=swap">
+<style>
+body{margin:0;background:#F3F8EF}
+a{color:#3A7230}a:hover{color:#2A5523}
+</style>
+</helmet>
+<div style="background: #F3F8EF; color: #1C1F1A; font-family: 'DM Sans', system-ui, sans-serif; font-size: 18px; line-height: 1.6">
+
+<div style="position: sticky; top: 0; z-index: 20; background: {{groenTint}}; border-bottom: 1px solid rgba(28,31,26,0.08)">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px">
+<header style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 16px; padding: 14px 0">
+<a href="#top" style="display: flex; flex-direction: column; text-decoration: none; color: #1C1F1A; line-height: 1">
+<span style="font-size: 14px; letter-spacing: 0.06em">Katwijkse</span>
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 24px; letter-spacing: 0.04em; color: {{groenDonker}}">JONGERENZANG</span>
+</a>
+<nav aria-label="Hoofdmenu" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; font-size: 16px; font-weight: 500">
+<a href="#thema" style="color: #1C1F1A; text-decoration: none">Thema</a>
+<a href="#terugblik" style="color: #1C1F1A; text-decoration: none">Terugblik</a>
+<a href="#bonisa" style="color: #1C1F1A; text-decoration: none">Bonisa</a>
+<a href="#programma" style="color: #1C1F1A; text-decoration: none">Programma</a>
+<a href="#tickets" style="color: #1C1F1A; text-decoration: none">Tickets</a>
+<a href="#kingfisher" style="color: #1C1F1A; text-decoration: none">Kingfisher</a>
+<a href="#byc" style="color: #1C1F1A; text-decoration: none">Wie zijn wij</a>
+<a href="https://betaalverzoek.rabobank.nl/betaalverzoek/?id=-EYy0VLuQ3yKdvA2C2f0Kg" style="color: #1C1F1A; text-decoration: none">Doneer</a>
+<a href="{{ticketLink}}" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-weight: 700; text-decoration: none">Bestel je ticket</a>
+</nav>
+</header>
+</div>
+</div>
+
+<section id="top" style="background: {{groenTint}}">
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 48px; padding: 48px 0 88px">
+<div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 28px">
+<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #FFFFFF; font-size: 15px; font-weight: 600; color: {{groenDonker}}">Interkerkelijke jongerenzangavond · 3e editie</span>
+<h1 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 88px; line-height: 0.95; letter-spacing: -0.02em">Gods Koninkrijk komt!</h1>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; font-size: 32px; line-height: 1.35">Met <span style="background: #FFFFFF; padding: 0 8px; border-radius: 8px">recht</span>, <span style="background: {{groenTint2}}; padding: 0 8px; border-radius: 8px">vrede</span> en <span style="background: {{oranjeTint2}}; padding: 0 8px; border-radius: 8px">blijdschap</span></p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px 32px; font-size: 18px; color: #3D4639">
+<span><strong style="color: #1C1F1A">D.V. vrijdag 21 mei 2027</strong></span>
+<span>19:45 – 21:45</span>
+<span>Nieuwe Kerk Katwijk</span>
+</div>
+<p style="margin: 0; font-size: 16px; color: #3D4639">Georganiseerd door de Bonisa Youth Club · collecte voor <a href="#bonisa" style="color: {{groenDonker}}; font-weight: 700">Stichting Bonisa</a></p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a href="{{ticketLink}}" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 32px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-size: 19px; font-weight: 700; text-decoration: none">Bestel je ticket</a>
+<a href="#terugblik" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: #FFFFFF; color: #1C1F1A; font-weight: 600; text-decoration: none">Bekijk de terugblik</a>
+</div>
+</div>
+<div style="flex: 1 1 480px; min-width: 0; position: relative">
+<img src="assets/hero-2025.jpg" alt="Jongeren zingen samen in de Nieuwe Kerk in Katwijk, in warm zonlicht" style="display: block; width: 100%; height: 520px; object-fit: cover; border-radius: 28px">
+<span style="position: absolute; left: 20px; bottom: 20px; padding: 8px 16px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-size: 15px; font-weight: 700">Jongerenzang 2025</span>
+</div>
+</div>
+</div>
+</section>
+
+<section id="thema" style="background: {{groen}}; color: #FFFFFF">
+<div style="max-width: 960px; margin: 0 auto; padding: 88px 24px; display: flex; flex-direction: column; gap: 20px; text-align: center">
+<p style="align-self: center; margin: 0; padding: 4px 14px; border-radius: 999px; background: #FFFFFF; font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: {{groenDonker}}">Romeinen 14:17</p>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 38px; line-height: 1.3">“Want het Koninkrijk Gods is niet spijs en drank, maar rechtvaardigheid, en vrede, en blijdschap door den Heiligen Geest.”</p>
+</div>
+</section>
+
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px">
+<section aria-label="Recht, vrede en blijdschap" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; padding: 96px 0">
+<div style="background: #FFFFFF; border-radius: 24px; padding: 36px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="{{groenDonker}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M7 21h10M5 7h14M5 7l-3 7a3 3 0 0 0 6 0L5 7zM19 7l-3 7a3 3 0 0 0 6 0l-3-7z"></path></svg>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 34px">Recht</h2>
+<p style="margin: 0; color: #3D4639">Waar God Koning is, wordt recht gedaan. Voor wie onrecht ondergaat is dat geen mooi idee, maar een vaste hoop.</p>
+</div>
+<div style="background: {{groenTint2}}; border-radius: 24px; padding: 36px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="{{groenDonker}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20C9 15 13 10 20 4"></path><path d="M9 15c-3 0-4-2-4-4 2 0 4 1 4 4z"></path><path d="M12 12c-3 0-4-2-4-4 2 0 4 1 4 4z"></path><path d="M12 12c0-3 2-4 4-4 0 2-1 4-4 4z"></path><path d="M15 9c0-3 2-4 4-4 0 2-1 4-4 4z"></path></svg>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 34px">Vrede</h2>
+<p style="margin: 0; color: #3D4639">Vrede met God door Christus, en daardoor vrede met elkaar. Een Koninkrijk dat niet met geweld komt, maar met genade.</p>
+</div>
+<div style="background: {{oranjeTint2}}; border-radius: 24px; padding: 36px; display: flex; flex-direction: column; gap: 16px">
+<svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="{{groenDonker}}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="17" cy="16" r="3"></circle></svg>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 34px">Blijdschap</h2>
+<p style="margin: 0; color: #3D4639">Blijdschap door de Heilige Geest. Dat is de reden om samen, met opgeheven stem, te zingen.</p>
+</div>
+</section>
+</div>
+
+<section id="terugblik" style="background: {{oranjeTint}}">
+<div style="max-width: 1240px; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 48px">
+<h2 style="flex: 1 1 400px; margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 56px; line-height: 1">Terugblik</h2>
+<p style="flex: 1 1 420px; margin: 0; color: #3D4639">Een volle kerk, honderden jongeren en één stem. Zo zag de jongerenzang in Katwijk eruit. Dankbaar kijken we terug, en we zien uit naar 2027.</p>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 40%), 1fr)); grid-auto-rows: 220px; grid-auto-flow: dense; gap: 16px">
+<figure style="grid-column: span 2; grid-row: span 2; margin: 0; background: {{groenDonker}}; color: #FFFFFF; border-radius: 20px; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; gap: 20px">
+<span aria-hidden="true" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 120px; line-height: 0.6; color: {{oranje}}">“</span>
+<blockquote style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 36px; line-height: 1.2">Ik vond het super indrukwekkend en ik zou het iedereen aanraden.</blockquote>
+<figcaption style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<span style="font-size: 17px">[Naam], [leeftijd] · bezoeker 2025</span>
+<a href="{{ticketLink}}" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 24px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-weight: 700; text-decoration: none">Bestel je ticket</a>
+</figcaption>
+</figure>
+<img src="assets/terugblik-5.jpg" alt="Jongeren staan te zingen met het liedboekje in de hand" style="grid-column: span 2; grid-row: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-6.jpg" alt="Het orgel boven de zingende menigte" style="grid-row: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-8.jpg" alt="Twee jongeren zingen vol overgave" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-3.jpg" alt="Overzicht van de volle kerk met podium en musici" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-4.jpg" alt="Lichtbundels door de ramen van de kerk tijdens het zingen" style="grid-column: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-7.jpg" alt="Zwart-witfoto van zingende jongeren" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-9.jpg" alt="Jongeren in de kerkbanken onder de kroonluchters" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+<img src="assets/terugblik-1.jpg" alt="De volle kerk vanaf de galerij gezien" style="grid-column: span 2; width: 100%; height: 100%; object-fit: cover; border-radius: 20px">
+</div>
+</div>
+</section>
+
+<section id="bonisa" style="background: {{groenDonker}}; color: #FFFFFF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; gap: 48px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px">
+<div style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-size: 15px; font-weight: 700">Stichting Bonisa</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 64px; line-height: 1">Zingen in Katwijk, helpen in Azië</h2>
+<p style="margin: 0; font-size: 20px">Deze avond is er dankzij Stichting Bonisa, een christelijke zendingsorganisatie uit Lisse. Samen met lokale christenen in Azië helpt Bonisa mensen in fysieke én geestelijke nood: met voedsel, hulp en een Bijbel in hun eigen taal.</p>
+<p style="margin: 0; font-size: 20px">De collecte van de jongerenzang gaat elk jaar naar een project van Bonisa. Dit jaar: <strong>[PROJECT 2027]</strong>.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="https://www.bonisa.nl" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: #FFFFFF; color: #1C1F1A; font-weight: 700; text-decoration: none">Meer over Bonisa</a>
+<a href="https://betaalverzoek.rabobank.nl/betaalverzoek/?id=-EYy0VLuQ3yKdvA2C2f0Kg" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-weight: 700; text-decoration: none">Doneer aan Bonisa</a>
+</div>
+</div>
+<div style="flex: 1 1 300px; min-width: 0; aspect-ratio: 4 / 3; background: #FFFFFF; border-radius: 28px; display: flex; align-items: center; justify-content: center; padding: 32px; box-sizing: border-box">
+<div style="width: 100%; height: 100%; border: 2px dashed #B9CFAE; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #3D4639; font-size: 16px">[Logo Bonisa]</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 20px">
+<h3 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #FFFFFF">Waar jullie collecte naartoe ging</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px">
+<div style="background: #FFFFFF; color: #1C1F1A; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/collecte-2026-project-68a.jpg" alt="Kinderen in een vluchtelingenkamp met een voedselpakket en een Bijbel" style="display: block; width: 100%; height: 300px; object-fit: cover">
+<div style="padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: {{groenDonker}}">2026 · Bonisa-project 68A</span>
+<h4 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px">Voedsel en een Bijbel voor vluchtelingen</h4>
+<p style="margin: 0; color: #3D4639">Vluchtelingen uit Myanmar in Thailand kregen samen met lokale christenen een hulppakket met voedsel en een Birmese Bijbel.</p>
+</div>
+</div>
+<div style="background: #FFFFFF; color: #1C1F1A; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/collecte-2025-project-9.jpg" alt="Gelovigen lezen samen in hun nieuwe Bijbels" style="display: block; width: 100%; height: 300px; object-fit: cover">
+<div style="padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 14px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #8A4A00">2025 · Bonisa-project 9</span>
+<h4 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 28px">[Titel project 9]</h4>
+<p style="margin: 0; color: #3D4639">[Korte omschrijving van wat de collecte van 2025 mogelijk maakte.]</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px">
+<section id="over" style="display: flex; flex-wrap: wrap; gap: 32px 64px; padding: 96px 0; border-bottom: 1px solid #D5E3CD">
+<h2 style="flex: 1 1 340px; margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 48px; line-height: 1.05">Samen zingen over het Koninkrijk dat komt</h2>
+<div style="flex: 2 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 16px; color: #3D4639">
+<p style="margin: 0">Op vrijdag 21 mei 2027 (D.V.) komen jongeren uit allerlei kerken samen in Katwijk om psalmen en liederen te zingen. Het thema van deze derde editie neemt ons mee naar het Koninkrijk van God: er al waar Christus regeert, en eens volkomen.</p>
+<p style="margin: 0">Een avond van samenzang en bezinning, begeleid door musici en geleid door hosts die je door de liederen heen nemen. Iedereen is welkom.</p>
+</div>
+</section>
+
+<section id="programma" style="display: flex; flex-wrap: wrap; gap: 32px 64px; padding: 96px 0">
+<div style="flex: 1 1 340px; display: flex; flex-direction: column; align-items: flex-start; gap: 24px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 48px; line-height: 1.05">Programma</h2>
+<a href="{{ticketLink}}" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-weight: 700; text-decoration: none">Bestel je ticket</a>
+</div>
+<ol style="flex: 2 1 480px; min-width: 0; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; background: #FFFFFF; border-radius: 24px; padding: 8px 32px">
+<li style="display: flex; gap: 32px; padding: 20px 0; border-bottom: 1px solid #E3ECDD"><span style="width: 80px; font-weight: 700; font-variant-numeric: tabular-nums; color: {{groenDonker}}">19:15</span><span>Inloop</span></li>
+<li style="display: flex; gap: 32px; padding: 20px 0; border-bottom: 1px solid #E3ECDD"><span style="width: 80px; font-weight: 700; font-variant-numeric: tabular-nums; color: {{groenDonker}}">19:45</span><span>Opening</span></li>
+<li style="display: flex; gap: 32px; padding: 20px 0; border-bottom: 1px solid #E3ECDD"><span style="width: 80px; font-weight: 700; font-variant-numeric: tabular-nums; color: {{groenDonker}}">20:00</span><span>Samenzang</span></li>
+<li style="display: flex; gap: 32px; padding: 20px 0"><span style="width: 80px; font-weight: 700; font-variant-numeric: tabular-nums; color: {{groenDonker}}">21:45</span><span>Sluiting</span></li>
+</ol>
+</section>
+</div>
+
+<div style="max-width: 1240px; margin: 0 auto; padding: 0 24px">
+<section id="hosts" style="display: flex; flex-wrap: wrap; gap: 32px 64px; padding: 96px 0">
+<h2 style="flex: 1 1 340px; margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 48px; line-height: 1.05">Hosts &amp; musici</h2>
+<div style="flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h3 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: {{groenDonker}}">Hosts</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<img src="assets/host-bart-bolier.jpg" alt="Portret van Bart Bolier" style="display: block; width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; border-radius: 16px">
+<div style="padding: 0 4px 4px"><h4 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Bart Bolier</h4><p style="margin: 0; color: #3D4639">Host</p></div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<div style="aspect-ratio: 1; border-radius: 16px; background: #1C1F1A; display: flex; align-items: center; justify-content: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 96px; color: {{oranje}}">?</div>
+<div style="padding: 0 4px 4px"><h4 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Nog geheim</h4><p style="margin: 0; color: #3D4639">Host · binnenkort bekend</p></div>
+</div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 16px">
+<h3 style="margin: 0; font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: {{groenDonker}}">Musici</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<img src="assets/musicus-jan-peter-teeuw.jpg" alt="Jan Peter Teeuw op de galerij, met het orgel op de achtergrond" style="display: block; width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; border-radius: 16px">
+<div style="padding: 0 4px 4px"><h4 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Jan Peter Teeuw</h4><p style="margin: 0; color: #3D4639">Orgel</p></div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 16px; display: flex; flex-direction: column; gap: 14px">
+<img src="assets/musicus-auke-kieviet.jpg" alt="Portret van Auke Kieviet" style="display: block; width: 100%; aspect-ratio: 1; height: auto; object-fit: cover; border-radius: 16px">
+<div style="padding: 0 4px 4px"><h4 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Auke Kieviet</h4><p style="margin: 0; color: #3D4639">Piano</p></div>
+</div>
+<div style="border-radius: 24px; border: 2px dashed #B9CFAE; padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; min-height: 200px">
+<span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 40px; color: {{groenDonker}}">+</span>
+<p style="margin: 0; font-weight: 600">Meer musici volgen</p>
+<a href="https://www.instagram.com/bonisa_youth_club/" style="font-size: 15px">Volg ons op Instagram</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="tickets" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; padding: 0 0 96px">
+<div style="background: {{groenDonker}}; color: #FFFFFF; border-radius: 28px; padding: 48px; display: flex; flex-direction: column; gap: 20px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05">Tickets</h2>
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-size: 32px; font-weight: 600">€ 4,50 <span style="font-family: 'DM Sans', sans-serif; font-size: 17px; font-weight: 400">per persoon</span></p>
+<p style="margin: 0">Meld je aan, dan is je plaats gereserveerd. Tijdens de avond is er een collecte voor het werk van Stichting Bonisa.</p>
+<a href="{{ticketLink}}" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 56px; padding: 0 32px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-size: 19px; font-weight: 700; text-decoration: none">Bestel je ticket</a>
+<p style="margin: 0; font-size: 15px">Met je bestelling ga je akkoord met de <a href="assets/algemene-voorwaarden.pdf" style="color: #FFFFFF">algemene voorwaarden</a> en de <a href="assets/privacyverklaring.pdf" style="color: #FFFFFF">privacyverklaring</a>.</p>
+</div>
+<div style="background: #FFFFFF; border-radius: 28px; padding: 48px; display: flex; flex-direction: column; gap: 16px">
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 44px; line-height: 1.05">Locatie</h2>
+<p style="margin: 0; font-weight: 600">Nieuwe Kerk Katwijk<br>Voorstraat 79, 2225 EM Katwijk aan Zee</p>
+<p style="margin: 0; color: #3D4639">Parkeren kan in de parkeergarage aan de Boulevard of aan de Tramstraat. Op het marktterrein is parkeren na 18:00 uur gratis.</p>
+<a href="mailto:jong@bonisa.nl" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 600">Vragen? Mail jong@bonisa.nl</a>
+</div>
+</section>
+</div>
+
+<section id="kingfisher" style="background: {{oranjeTint}}">
+<div style="max-width: 1240px; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; gap: 40px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px">
+<div style="flex: 1 1 400px; display: flex; align-items: center; gap: 24px">
+<img src="assets/kingfisher-logo.png" alt="Logo Kingfisher: een vogel met een kroon" style="flex: none; display: block; width: 128px; height: auto">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #8A4A00">Kleding van de BYC</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 56px; line-height: 1">Kingfisher</h2>
+</div>
+</div>
+<div style="flex: 1 1 420px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px">
+<p style="margin: 0; color: #3D4639">Shirts met een boodschap: <strong>Praise the Lord</strong> en <strong>Walk by faith, not by sight</strong>. Met elk shirt steun je het werk van Bonisa. Verkrijgbaar in XS t/m L. [Te koop tijdens de avond en online.]</p>
+<a href="[WINKELLINK]" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: #1C1F1A; color: #FFFFFF; font-weight: 600; text-decoration: none">Bekijk de collectie</a>
+</div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px">
+<div style="background: #FFFFFF; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/kingfisher-joas-wit-voor.jpg" alt="Joas in een wit shirt met het Kingfisher-vogeltje op de borst" style="display: block; width: 100%; aspect-ratio: 3 / 4; height: auto; object-fit: cover">
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 2px">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Wit · voorkant</h3>
+<div style="display: flex; justify-content: space-between; gap: 12px; color: #3D4639"><span>Kingfisher-vogel</span><strong style="color: {{groenDonker}}">€ 28,50</strong></div>
+</div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/kingfisher-joas-groen-kruis-rug.jpg" alt="Joas van achteren in een olijfgroen shirt met een kruis van de woorden Walk by faith, not by sight" style="display: block; width: 100%; aspect-ratio: 3 / 4; height: auto; object-fit: cover">
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 2px">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Kruis · groen</h3>
+<div style="display: flex; justify-content: space-between; gap: 12px; color: #3D4639"><span>Walk by faith</span><strong style="color: {{groenDonker}}">€ 28,50</strong></div>
+</div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/kingfisher-nora-blauw-voor.jpg" alt="Nora in een lichtblauw shirt met het Kingfisher-vogeltje op de borst" style="display: block; width: 100%; aspect-ratio: 3 / 4; height: auto; object-fit: cover">
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 2px">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Wereldbol · blauw</h3>
+<div style="display: flex; justify-content: space-between; gap: 12px; color: #3D4639"><span>Praise the Lord</span><strong style="color: {{groenDonker}}">€ 28,50</strong></div>
+</div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column">
+<img src="assets/kingfisher-nora-wit-wereld-rug.jpg" alt="Nora van achteren in een wit shirt met een wereldbol en de tekst Praise the Lord" style="display: block; width: 100%; aspect-ratio: 3 / 4; height: auto; object-fit: cover">
+<div style="padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 2px">
+<h3 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 22px">Wereldbol · wit</h3>
+<div style="display: flex; justify-content: space-between; gap: 12px; color: #3D4639"><span>Praise the Lord</span><strong style="color: {{groenDonker}}">€ 28,50</strong></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<section id="byc" style="background: {{groenTint}}">
+<div style="max-width: 1240px; margin: 0 auto; padding: 96px 24px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px 72px">
+<div style="flex: 1 1 360px; min-width: 0; background: #FFFFFF; border-radius: 28px; padding: 48px; display: flex; align-items: center; justify-content: center">
+<img src="assets/byc-logo.png" alt="Logo Bonisa Youthclub" style="display: block; width: 100%; max-width: 400px; height: auto">
+</div>
+<div style="flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+<span style="font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: {{groenDonker}}">Wie zijn wij</span>
+<h2 style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 52px; line-height: 1">Van jongeren, voor jongeren</h2>
+<p style="margin: 0; color: #3D4639">De Bonisa Youth Club is een groep jonge vrijwilligers van Stichting Bonisa. Wij jongeren organiseren voor andere jongeren: acties, ontmoetingen en avonden zoals deze jongerenzang.</p>
+<p style="margin: 0; color: #3D4639">Ons verlangen is dat jongeren in Nederland zien hoe groot de nood is, en hoe mooi de kansen zijn, in de zending in Azië. En dat ze daar zelf aan meedoen, met hun gebed, hun gaven en hun tijd.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px; padding-top: 8px">
+<a href="mailto:jong@bonisa.nl" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: {{groenDonker}}; color: #FFFFFF; font-weight: 600; text-decoration: none">Doe mee met de BYC</a>
+<a href="https://betaalverzoek.rabobank.nl/betaalverzoek/?id=-EYy0VLuQ3yKdvA2C2f0Kg" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: {{oranje}}; color: #1C1F1A; font-weight: 600; text-decoration: none">Doneer</a>
+<a href="https://www.instagram.com/bonisa_youth_club/" style="display: inline-flex; align-items: center; min-height: 52px; padding: 0 28px; border-radius: 999px; background: #FFFFFF; color: #1C1F1A; font-weight: 600; text-decoration: none">Instagram</a>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-label="Bestel je ticket" style="background: {{oranje}}">
+<div style="max-width: 1240px; margin: 0 auto; padding: 56px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<h2 style="flex: 1 1 520px; margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 44px; line-height: 1.05; color: #1C1F1A">Ben jij erbij op vrijdag 21 mei?</h2>
+<a href="{{ticketLink}}" style="display: inline-flex; align-items: center; min-height: 56px; padding: 0 32px; border-radius: 999px; background: {{groenDonker}}; color: #FFFFFF; font-size: 19px; font-weight: 700; text-decoration: none">Bestel je ticket</a>
+</div>
+</section>
+
+<footer style="background: #1C1F1A; color: #D8DED4">
+<div style="max-width: 1240px; margin: 0 auto; padding: 40px 24px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 24px; font-size: 15px">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<p style="margin: 0; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 20px; color: #FFFFFF">Stichting Bonisa</p>
+<p style="margin: 0">Grachtweg 20, 2161 HN Lisse · 0252 – 418269</p>
+<p style="margin: 0"><a href="mailto:info@bonisa.nl" style="color: #D8DED4">info@bonisa.nl</a> · <a href="https://www.bonisa.nl" style="color: #D8DED4">bonisa.nl</a></p>
+<p style="margin: 0">De jongerenzang is een initiatief van de Bonisa Youth Club, onderdeel van Stichting Bonisa.</p>
+</div>
+<nav aria-label="Juridisch" style="display: flex; flex-wrap: wrap; gap: 8px 24px">
+<a href="assets/algemene-voorwaarden.pdf" style="color: #D8DED4">Algemene voorwaarden</a>
+<a href="assets/privacyverklaring.pdf" style="color: #D8DED4">Privacyverklaring</a>
+<a href="assets/disclaimer.pdf" style="color: #D8DED4">Disclaimer</a>
+</nav>
+</div>
+</footer>
+
+<a href="{{ticketLink}}" aria-label="Bestel je ticket" style="position: fixed; right: 24px; bottom: 24px; z-index: 30; width: 136px; height: 136px; border-radius: 50%; background: {{oranje}}; color: #1C1F1A; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; text-align: center; text-decoration: none; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; font-size: 20px; line-height: 1.05; box-shadow: 0 8px 24px rgba(28,31,26,0.25); border: 4px solid #FFFFFF; transform: rotate(-8deg)">
+<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#1C1F1A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path><path d="M13 5v2M13 11v2M13 17v2"></path></svg>
+<span>Bestel je<br>ticket</span>
+</a>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"groen":{"editor":"color","default":"#4C8C40","section":"BYC-kleuren"},"oranje":{"editor":"color","default":"#F28C1E","section":"BYC-kleuren"},"ticketLink":{"editor":"text","default":"ticketformulier.html","section":"Tickets"},"$preview":{"width":1440,"height":7600}}'>
+class Component extends DCLogic {
+mix(hex, w, to) {
+var h = /^#[0-9a-fA-F]{6}$/.test(hex) ? hex : '#888888';
+var n = parseInt(h.slice(1), 16);
+var c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (v) { return Math.round(v + (to - v) * w); });
+return 'rgb(' + c.join(',') + ')';
+}
+renderVals() {
+var groen = this.props.groen ?? '#4C8C40';
+var oranje = this.props.oranje ?? '#F28C1E';
+return {
+ticketLink: this.props.ticketLink ?? 'ticketformulier.html',
+groen: groen,
+oranje: oranje,
+groenDonker: this.mix(groen, 0.24, 0),
+groenTint: this.mix(groen, 0.80, 255),
+groenTint2: this.mix(groen, 0.66, 255),
+oranjeTint: this.mix(oranje, 0.80, 255),
+oranjeTint2: this.mix(oranje, 0.62, 255)
+};
+}
+}
+</script>
+</body>
+</html>

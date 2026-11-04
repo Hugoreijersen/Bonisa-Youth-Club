@@ -1,0 +1,22 @@
+{
+  "name": "websites-bonisa",
+  "version": "1.0.0",
+  "description": "Websites van Stichting Bonisa: jongerenzang.nl (Eleventy)",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.8",
+    "@11ty/eleventy-img": "^7.1.1"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  }
+}

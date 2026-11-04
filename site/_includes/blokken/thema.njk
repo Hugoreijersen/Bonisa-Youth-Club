@@ -1,0 +1,20 @@
+{#- 2. Bijbeltekst en 3. drie themakaarten. Inhoud: _data/thema.json -#}
+{% from "iconen.njk" import icoon %}
+<section id="thema" class="bijbeltekst" aria-label="Bijbeltekst bij het thema">
+  <figure class="bijbeltekst__inhoud">
+    <figcaption class="pil">{{ thema.bijbeltekst.verwijzing }}</figcaption>
+    <blockquote><p>“{{ thema.bijbeltekst.tekst }}”</p></blockquote>
+  </figure>
+</section>
+
+<div class="container">
+  <section class="themakaarten" aria-label="Het thema">
+    {%- for kaart in thema.kaarten %}
+    <div class="kaart kaart--{{ loop.index }}">
+      {{ icoon(kaart.icoon) }}
+      <h2>{{ kaart.titel }}</h2>
+      <p class="tekst-gedempt">{{ kaart.tekst }}</p>
+    </div>
+    {%- endfor %}
+  </section>
+</div>

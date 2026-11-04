@@ -1,0 +1,21 @@
+# Geheimen: nooit in de repository
+.env
+.env.*
+!.env.example
+
+# Afhankelijkheden: npm zet ze terug met `npm install`
+node_modules/
+
+# Bouwresultaat: Eleventy maakt dit bij elke bouw opnieuw
+_site/
+# Tussenopslag van verkleinde foto's (Eleventy Image)
+.cache/
+
+# Supabase lokaal
+supabase/.temp/
+supabase/.branches/
+
+# Systeem en editors
+.DS_Store
+Thumbs.db
+.Rhistory

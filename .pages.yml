@@ -1,0 +1,280 @@
+# Instellingen van het bewerkscherm (Pages CMS).
+# Hier staat welke velden kantoor ziet. Elk onderdeel hoort bij één bestand in site/_data/.
+# Uitleg: docs/hoe-de-site-werkt.md
+
+media:
+  - name: fotos
+    label: Foto's
+    input: site/assets/img
+    output: /assets/img
+    extensions: [jpg, jpeg, png, webp]
+  - name: documenten
+    label: Documenten (pdf)
+    input: site/assets/docs
+    output: /assets/docs
+    extensions: [pdf]
+
+components:
+  foto:
+    type: image
+    options:
+      media: fotos
+  alt:
+    type: string
+    label: Beschrijving van de foto
+    description: Wat staat er op de foto? Voor blinden en slechtzienden. Bijvoorbeeld "Jongeren zingen in de volle kerk".
+    required: true
+  persoon:
+    type: object
+    fields:
+      - { name: naam, label: Naam, type: string, required: true }
+      - { name: rol, label: Rol, type: string, description: 'Bijvoorbeeld "Host" of "Orgel"' }
+      - { name: foto, label: Foto, component: foto, description: Vierkante foto werkt het best. }
+      - { name: alt, component: alt, required: false }
+      - { name: geheim, label: Nog geheim (toon een vraagteken), type: boolean, default: false }
+
+content:
+  - name: evenement
+    label: Evenement (datum, plaats, tickets)
+    type: file
+    path: site/_data/evenement.json
+    format: json
+    fields:
+      - { name: label, label: Label boven de titel, type: string, description: 'Bijvoorbeeld "Interkerkelijke jongerenzangavond · 3e editie"' }
+      - { name: titel, label: Thema (grote titel), type: string, required: true }
+      - name: ondertitelBegin
+        label: Eerste woord van de ondertitel
+        type: string
+        description: De gekleurde woorden erna komen uit de drie themakaarten (onderdeel Thema).
+      - name: datum
+        label: Datum
+        type: date
+        required: true
+        options: { format: yyyy-MM-dd }
+        description: Op de site komt er automatisch "D.V." en de dag van de week bij.
+      - { name: begintijd, label: Begintijd, type: string, pattern: { regex: '^\d{2}:\d{2}$', message: 'Schrijf als 19:45' } }
+      - { name: eindtijd, label: Eindtijd, type: string, pattern: { regex: '^\d{2}:\d{2}$', message: 'Schrijf als 21:45' } }
+      - name: locatie
+        label: Locatie
+        type: object
+        fields:
+          - { name: naam, label: Naam, type: string }
+          - { name: adres, label: Adres, type: string }
+          - { name: parkeren, label: Parkeren, type: text }
+      - name: hero
+        label: Grote foto bovenaan
+        type: object
+        fields:
+          - { name: foto, label: Foto, component: foto }
+          - { name: alt, component: alt }
+          - { name: label, label: Label op de foto, type: string, description: 'Bijvoorbeeld "Jongerenzang 2025". Leeg laten = geen label.' }
+      - name: tickets
+        label: Tickets
+        type: object
+        fields:
+          - name: prijs
+            label: Prijs per ticket (in euro)
+            type: number
+            options: { min: 0, step: 0.01 }
+            description: Alleen wat op de site staat. De prijs die mensen echt betalen, staat in de beheerpagina van het ticketsysteem; houd ze gelijk.
+          - { name: tekst, label: Tekst bij de prijs, type: text }
+          - name: verkoopOpen
+            label: Ticketverkoop is open
+            type: boolean
+            description: Aan = alle knoppen worden "Bestel je ticket" en de ronde knop rechtsonder verschijnt.
+          - { name: link, label: Link naar het bestelformulier, type: string }
+          - { name: tekstVoorVerkoop, label: Tekst zolang de verkoop nog dicht is, type: text }
+      - name: slotTitel
+        label: Tekst in de oranje balk onderaan
+        type: string
+        description: '{datum} wordt vervangen door de datum, bijvoorbeeld "vrijdag 21 mei".'
+
+  - name: thema
+    label: Thema (Bijbeltekst en drie kaarten)
+    type: file
+    path: site/_data/thema.json
+    format: json
+    fields:
+      - name: bijbeltekst
+        label: Bijbeltekst
+        type: object
+        fields:
+          - { name: verwijzing, label: Verwijzing, type: string, description: 'Bijvoorbeeld "Romeinen 14:17"' }
+          - { name: tekst, label: Tekst (zonder aanhalingstekens), type: text }
+      - name: kaarten
+        label: Themakaarten
+        type: object
+        list: { min: 1, max: 3 }
+        description: Drie kaarten werkt het best. De titels komen ook gekleurd in de ondertitel bovenaan.
+        fields:
+          - { name: titel, label: Titel, type: string, required: true }
+          - { name: tekst, label: Tekst, type: text }
+          - name: icoon
+            label: Icoon
+            type: select
+            options:
+              values:
+                - { name: weegschaal, label: Weegschaal }
+                - { name: olijftak, label: Olijftak }
+                - { name: muziek, label: Muzieknoot }
+                - { name: kroon, label: Kroon }
+                - { name: hart, label: Hart }
+                - { name: vuur, label: Vlam }
+
+  - name: terugblik
+    label: Terugblik (foto's en citaat)
+    type: file
+    path: site/_data/terugblik.json
+    format: json
+    fields:
+      - { name: titel, label: Titel, type: string }
+      - { name: intro, label: Inleiding, type: text }
+      - name: citaat
+        label: Citaat van een bezoeker
+        type: object
+        fields:
+          - { name: tekst, label: Citaat (leeg = geen citaat), type: text }
+          - { name: wie, label: Van wie, type: string, description: 'Alleen met toestemming. Bijvoorbeeld "Anna, 17 · bezoeker 2025"' }
+      - name: fotos
+        label: Foto's
+        type: object
+        list: true
+        description: 'Tip: zorg dat de vakjes optellen tot een veelvoud van 4 (normaal = 1, breed en hoog = 2, groot = 4; het citaat telt als 4). Dan blijven er geen gaten.'
+        fields:
+          - { name: foto, label: Foto, component: foto }
+          - { name: alt, component: alt }
+          - name: formaat
+            label: Formaat
+            type: select
+            options:
+              values:
+                - { name: normaal, label: Normaal (1 vakje) }
+                - { name: breed, label: Breed (2 vakjes naast elkaar) }
+                - { name: hoog, label: Hoog (2 vakjes onder elkaar) }
+                - { name: groot, label: Groot (4 vakjes) }
+
+  - name: bonisa
+    label: Stichting Bonisa en collecte
+    type: file
+    path: site/_data/bonisa.json
+    format: json
+    fields:
+      - { name: label, label: Label, type: string }
+      - { name: titel, label: Titel, type: string }
+      - { name: tekst, label: Tekst, type: rich-text, options: { format: markdown } }
+      - { name: collecteProject, label: Collecteproject van dit jaar, type: string, description: Leeg laten = de zin over het collecteproject verdwijnt. }
+      - { name: logo, label: Logo Bonisa, component: foto, description: Leeg laten = geen logovak. }
+      - { name: logoAlt, label: Beschrijving van het logo, type: string }
+      - { name: projectenTitel, label: Kop boven de projecten, type: string }
+      - name: projecten
+        label: Eerdere collecteprojecten
+        type: object
+        list: true
+        description: Geen herkenbare partners in Azië, geen precieze plaatsen.
+        fields:
+          - { name: foto, label: Foto, component: foto }
+          - { name: alt, component: alt }
+          - { name: kop, label: Jaar en project, type: string, description: 'Bijvoorbeeld "2026 · Bonisa-project 68A"' }
+          - { name: titel, label: Titel, type: string }
+          - { name: tekst, label: Tekst, type: text }
+
+  - name: avond
+    label: Over de avond en programma
+    type: file
+    path: site/_data/avond.json
+    format: json
+    fields:
+      - { name: titel, label: Titel, type: string }
+      - { name: tekst, label: Tekst, type: rich-text, options: { format: markdown } }
+      - name: programma
+        label: Programma
+        type: object
+        list: true
+        fields:
+          - { name: tijd, label: Tijd, type: string, pattern: { regex: '^\d{2}:\d{2}$', message: 'Schrijf als 19:45' } }
+          - { name: onderdeel, label: Onderdeel, type: string }
+
+  - name: mensen
+    label: Hosts en musici
+    type: file
+    path: site/_data/mensen.json
+    format: json
+    fields:
+      - { name: titel, label: Titel, type: string }
+      - { name: hosts, label: Hosts, component: persoon, list: true }
+      - { name: musici, label: Musici, component: persoon, list: true }
+      - { name: meerMusiciVolgen, label: Toon het vak "Meer musici volgen", type: boolean }
+
+  - name: kingfisher
+    label: Kingfisher-kleding
+    type: file
+    path: site/_data/kingfisher.json
+    format: json
+    fields:
+      - { name: zichtbaar, label: Toon dit onderdeel op de site, type: boolean }
+      - { name: label, label: Label, type: string }
+      - { name: titel, label: Titel, type: string }
+      - { name: logo, label: Logo, component: foto }
+      - { name: logoAlt, label: Beschrijving van het logo, type: string }
+      - { name: tekst, label: Tekst, type: rich-text, options: { format: markdown } }
+      - { name: winkellink, label: Link naar de webwinkel, type: string, description: 'Leeg laten = geen knop "Bekijk de collectie".' }
+      - name: shirts
+        label: Shirts
+        type: object
+        list: true
+        fields:
+          - { name: foto, label: Foto, component: foto, description: Staande foto (3 bij 4) werkt het best. }
+          - { name: alt, component: alt }
+          - { name: naam, label: Naam, type: string }
+          - { name: opdruk, label: Opdruk, type: string }
+          - { name: prijs, label: Prijs (in euro), type: number, options: { min: 0, step: 0.01 } }
+
+  - name: byc
+    label: Wie zijn wij (BYC)
+    type: file
+    path: site/_data/byc.json
+    format: json
+    fields:
+      - { name: label, label: Label, type: string }
+      - { name: titel, label: Titel, type: string }
+      - { name: logo, label: Logo, component: foto }
+      - { name: logoAlt, label: Beschrijving van het logo, type: string }
+      - { name: tekst, label: Tekst, type: rich-text, options: { format: markdown } }
+
+  - name: stichting
+    label: Contactgegevens en links
+    type: file
+    path: site/_data/stichting.json
+    format: json
+    fields:
+      - { name: naam, label: Naam, type: string }
+      - { name: adres, label: Adres, type: string }
+      - { name: telefoon, label: Telefoon, type: string }
+      - { name: email, label: E-mail stichting, type: string }
+      - { name: website, label: Website stichting, type: string }
+      - { name: donatieLink, label: Link voor doneren, type: string }
+      - { name: bycEmail, label: E-mail BYC, type: string }
+      - { name: instagram, label: Instagram, type: string }
+      - { name: voettekst, label: Zin onderaan de pagina, type: text }
+      - name: documenten
+        label: Juridische documenten
+        type: object
+        fields:
+          - { name: voorwaarden, label: Algemene voorwaarden, type: file, options: { media: documenten } }
+          - { name: privacy, label: Privacyverklaring, type: file, options: { media: documenten } }
+          - { name: disclaimer, label: Disclaimer, type: file, options: { media: documenten } }
+
+  - name: site
+    label: Instellingen site
+    type: file
+    path: site/_data/site.json
+    format: json
+    fields:
+      - { name: titel, label: Titel in het browsertabblad, type: string }
+      - { name: beschrijving, label: Beschrijving voor Google en WhatsApp, type: text }
+      - { name: url, label: Adres van de site, type: string, readonly: true }
+      - { name: deelfoto, label: Foto bij delen (WhatsApp, sociale media), component: foto }
+      - name: zichtbaarVoorZoekmachines
+        label: Zichtbaar in Google
+        type: boolean
+        description: Pas aanzetten bij livegang. Uit = zoekmachines slaan de site over.
