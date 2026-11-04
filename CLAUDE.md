@@ -21,7 +21,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 ## Techniek
 
 - Sitegenerator: **Eleventy 3** (besluit 23). Sjablonen in gewone HTML (Nunjucks), zo dicht mogelijk bij `design/`. Uitleg van de opbouw: `docs/hoe-de-site-werkt.md`.
-- Hosting: **Cloudflare Pages**, alleen statische pagina's.
+- Hosting: **Cloudflare Workers, alleen statische bestanden** (besluit 45). Instellingen in `wrangler.jsonc`; er draait geen Worker-code. Variabelen voor de bouw staan in Cloudflare onder Settings → Build → Build variables and secrets.
 - Bewerkscherm: **Pages CMS**, configuratie in `.pages.yml`. Alles wat kantoor moet kunnen aanpassen (teksten, foto's, datum, prijs, hosts, musici, shirts) staat als JSON in `site/_data/` (één bestand per onderdeel, besluit 26), niet in sjablonen. Nieuw veld in een datafile? Voeg het ook toe aan `.pages.yml`.
 - Database en functies: **Supabase, regio Frankfurt (`eu-central-1`)**. Functies altijd vastzetten op die regio. Code in `supabase/`; uitleg in `docs/ticketsysteem.md`. Functies zonder npm-pakketten (besluit 31).
 - Betalen: **Mollie** (iDEAL), betalen op de pagina van Mollie.

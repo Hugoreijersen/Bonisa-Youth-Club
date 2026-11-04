@@ -1,0 +1,16 @@
+// Cloudflare Workers: serves the built site (_site/) as static files.
+// No Worker code runs: there is no "main". Personal data never passes through
+// Cloudflare (besluit 17); the ticket system runs at Supabase in Frankfurt.
+// Explanation in Dutch: docs/hoe-de-site-werkt.md
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "bonisa-youth-club",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./_site",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "workers_dev": true,
+  "preview_urls": true
+}

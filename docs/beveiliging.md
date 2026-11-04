@@ -10,7 +10,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 
 | Dienst | Wat | Waar | Afspraak |
 | --- | --- | --- | --- |
-| Cloudflare Pages | Openbare pagina's | Wereldwijd, ook in Azië; niet in China zelf | Alleen openbare pagina's. **Geen** Cloudflare-functies (Workers) of formulieren voor iets met persoonsgegevens: die draaien bij Supabase in Frankfurt |
+| Cloudflare (Worker met alleen statische bestanden) | Openbare pagina's | Wereldwijd, ook in Azië; niet in China zelf | Alleen openbare pagina's. **Geen** Cloudflare-functies (Workers) of formulieren voor iets met persoonsgegevens: die draaien bij Supabase in Frankfurt |
 | Supabase | Bestellingen, tickets, aanmeldingen, functies | Frankfurt (`eu-central-1`) | Functies draaien standaard dicht bij de bezoeker. Altijd vastzetten op Frankfurt: `x-region: eu-central-1`, en voor Mollie-meldingen `?forceFunctionRegion=eu-central-1` |
 | Mollie | Betalingen | Nederland | Bank- en betaalgegevens komen nooit op onze eigen systemen (betalen gebeurt op de pagina van Mollie) |
 | MailerLite | Nieuwsbriefadressen | Datacenter in de EU | |

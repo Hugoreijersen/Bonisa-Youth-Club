@@ -26,7 +26,7 @@ De sites zijn eigen code, zonder WordPress. Alles met persoonsgegevens staat en 
 
 ## In het kort
 
-- **Website:** gebouwd met Eleventy, gehost bij Cloudflare Pages.
+- **Website:** gebouwd met Eleventy, gehost bij Cloudflare (een Worker die alleen de statische bestanden serveert).
 - **Aanpassen:** kantoor werkt in het bewerkscherm Pages CMS; grotere wijzigingen via Claude, altijd eerst op een testsite.
 - **Tickets:** eigen systeem met QR-tickets, betalen met iDEAL via Mollie.
 - **Gegevens:** database en functies bij Supabase in Frankfurt.

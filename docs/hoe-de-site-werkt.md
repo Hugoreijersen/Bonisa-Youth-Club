@@ -10,7 +10,7 @@ De site is een **statische site**: kant-en-klare HTML-bestanden, zonder database
 
 ```
 site/_data/*.json  (inhoud)    ─┐
-site/_includes/*.njk (opmaak)  ─┼──>  Eleventy  ──>  _site/  (HTML, CSS, foto's)  ──>  Cloudflare Pages
+site/_includes/*.njk (opmaak)  ─┼──>  Eleventy  ──>  _site/  (HTML, CSS, foto's)  ──>  Cloudflare
 site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard in git)        (online)
 ```
 
@@ -23,6 +23,7 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 ├── package-lock.json      de exacte versies van die pakketten (niet met de hand aanpassen)
 ├── .node-version          welke Node-versie Cloudflare gebruikt (22)
 ├── .pages.yml             welke velden kantoor ziet in het bewerkscherm
+├── wrangler.jsonc         instellingen voor Cloudflare: serveer de map _site (zie hieronder)
 ├── .gitignore             wat níet in git komt
 ├── site/                  alles waar de website uit gemaakt wordt
 │   ├── index.njk          de homepage: zet de blokken onder elkaar
@@ -49,6 +50,14 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 ```
 
 `_site/`, `node_modules/` en `.cache/` staan in `.gitignore`. Die maak je altijd opnieuw: `node_modules/` met `npm install`, `_site/` en `.cache/` met `npm run build`. Waarom de gebouwde site niet in git hoort: Cloudflare bouwt hem zelf uit de bronbestanden bij elke wijziging. Zou je `_site/` ook bewaren, dan heb je twee versies van dezelfde site die uit elkaar kunnen lopen, en elke foto drie keer in de geschiedenis.
+
+### Cloudflare
+
+Cloudflare bouwt de site bij elke push naar GitHub (`npm run build`) en zet de map `_site/` online (`npx wrangler deploy`). `wrangler.jsonc` vertelt Cloudflare welke map dat is, dat `/beheer` doorstuurt naar `/beheer/`, en dat onbekende adressen de 404-pagina krijgen. Er draait geen eigen code bij Cloudflare.
+
+Variabelen voor het bouwen (`FUNCTIES_URL`, `SUPABASE_PUBLIEKE_SLEUTEL`, eventueel `EVENEMENT`) staan in Cloudflare onder **Settings → Build → Build variables and secrets**. Na het wijzigen ervan: opnieuw bouwen.
+
+Zelf controleren hoe Cloudflare de site serveert, met de beveiligingsregels: `npm run build` en daarna `npx wrangler dev`.
 
 ## 3. Zelf draaien
 

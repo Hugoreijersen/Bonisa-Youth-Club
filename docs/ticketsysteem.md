@@ -152,7 +152,7 @@ Testen met de echte Mollie-testomgeving: haal in `.env.local` de regel `MOLLIE_A
    ```
    Alle volgende accounts maakt kantoor zelf aan op `/beheer/`.
 7. **Evenement** aanmaken op `/beheer/` → Evenement instellen (naam, korte naam `jongerenzang-2027`, datum, prijs, aantal tickets, start van de verkoop).
-8. **Cloudflare Pages**: zet de omgevingsvariabelen `FUNCTIES_URL` (`https://<project-ref>.supabase.co/functions/v1`) en `SUPABASE_PUBLIEKE_SLEUTEL` (de "publishable key" uit Project Settings → API Keys; die is openbaar bedoeld) en bouw opnieuw.
+8. **Cloudflare**: zet onder Settings → Build → **Build variables and secrets** de variabelen `FUNCTIES_URL` (`https://<project-ref>.supabase.co/functions/v1`) en `SUPABASE_PUBLIEKE_SLEUTEL` (de "publishable key" uit Project Settings → API Keys; die is openbaar bedoeld) en bouw opnieuw.
 9. Op de site: in het bewerkscherm "Ticketverkoop is open" aanzetten, met als link `/tickets/`.
 
 Live gaan met echte betalingen: alleen de `MOLLIE_API_KEY` vervangen door de `live_`-sleutel van het Mollie-account van de stichting. Eerst een paar echte bestellingen van € 4,50 doen en terugbetalen (fase 4).
@@ -162,5 +162,5 @@ Live gaan met echte betalingen: alleen de `MOLLIE_API_KEY` vervangen door de `li
 ## 6. Nieuw jaar
 
 1. Op `/beheer/`: **Nieuw evenement**, bijvoorbeeld korte naam `jongerenzang-2028`.
-2. In Cloudflare Pages de omgevingsvariabele `EVENEMENT` op die korte naam zetten en opnieuw bouwen. De bestel- en scanpagina gebruiken dan het nieuwe evenement.
+2. In Cloudflare (Settings → Build → Build variables and secrets) de variabele `EVENEMENT` op die korte naam zetten en opnieuw bouwen. De bestel- en scanpagina gebruiken dan het nieuwe evenement.
 3. Tickets van vorig jaar worden bij het scannen herkend als "ander evenement".
