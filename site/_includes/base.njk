@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ titel or site.titel }}</title>
   <meta name="description" content="{{ site.beschrijving }}">
-  {%- if not site.zichtbaarVoorZoekmachines %}
+  {%- if not site.zichtbaarVoorZoekmachines or verborgen %}
   <meta name="robots" content="noindex, nofollow">
   {%- endif %}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">

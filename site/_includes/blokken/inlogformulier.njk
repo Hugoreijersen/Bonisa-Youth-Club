@@ -1,0 +1,18 @@
+{#- Inlogformulier voor de scanpagina en de beheerpagina (zie assets/js/inloggen.js). -#}
+<form class="formulier inloggen" data-inlogformulier hidden>
+  <div class="formulier__kop">
+    <h1>{{ inlogKop }}</h1>
+    <p class="tekst-gedempt">Log in met het account dat je van kantoor hebt gekregen.</p>
+  </div>
+  <p class="melding" data-melding role="alert" hidden></p>
+  <div class="veld">
+    <label for="inlog-email">E-mailadres</label>
+    <input id="inlog-email" name="email" type="email" autocomplete="username" required>
+  </div>
+  <div class="veld">
+    <label for="inlog-wachtwoord">Wachtwoord</label>
+    <input id="inlog-wachtwoord" name="wachtwoord" type="password" autocomplete="current-password" required>
+  </div>
+  <button class="knop knop--groen knop--groot" type="submit">Inloggen</button>
+  <noscript><p class="melding">Deze pagina werkt alleen met JavaScript.</p></noscript>
+</form>

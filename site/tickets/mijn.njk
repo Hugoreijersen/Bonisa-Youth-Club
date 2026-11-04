@@ -1,0 +1,37 @@
+---
+layout: base.njk
+permalink: /tickets/mijn/
+titel: Je tickets · Katwijkse Jongerenzang
+eenvoudigeKop: true
+verborgen: true
+scripts: ["/assets/js/mijn-tickets.js"]
+---
+{#- Persoonlijke ticketpagina. De link staat in de ticketmail: /tickets/mijn/#<geheime sleutel>.
+    De sleutel staat achter het #-teken en gaat dus niet naar de server van de site. -#}
+<div class="container mijn-tickets" id="mijn-tickets" data-functies="{{ ticketsysteem.functiesUrl }}">
+  <div class="uitslag" data-toon="laden">
+    <h1>Je tickets</h1>
+    <p class="tekst-gedempt">Even geduld, we halen je tickets op.</p>
+    <noscript><p>Zet JavaScript aan om je tickets te zien. Ze staan ook in de mail die je hebt gekregen.</p></noscript>
+  </div>
+
+  <div class="uitslag" data-toon="onbekend" hidden>
+    <h1>We vinden deze tickets niet</h1>
+    <p class="tekst-gedempt">Gebruik de knop in je ticketmail. Geen mail gekregen? Mail <a href="mailto:{{ stichting.bycEmail }}">{{ stichting.bycEmail }}</a>.</p>
+  </div>
+
+  <div class="uitslag" data-toon="ongeldig" hidden>
+    <h1>Deze tickets zijn niet meer geldig</h1>
+    <p class="tekst-gedempt">De bestelling is terugbetaald of niet betaald. Vragen? Mail <a href="mailto:{{ stichting.bycEmail }}">{{ stichting.bycEmail }}</a>.</p>
+  </div>
+
+  <div data-toon="tickets" hidden>
+    <div class="mijn-tickets__kop">
+      <h1>Hoi <span data-veld="voornaam"></span>, je bent erbij!</h1>
+      <p><strong data-veld="evenement"></strong><br><span data-veld="wanneer"></span><br><span data-veld="locatie"></span></p>
+      <p class="tekst-gedempt">Laat bij de ingang per persoon één QR-code scannen. Elke code werkt maar één keer.</p>
+      <button class="knop knop--zwart knop--klein" type="button" data-actie="print">Tickets printen</button>
+    </div>
+    <ul class="ticketlijst" data-veld="tickets"></ul>
+  </div>
+</div>
