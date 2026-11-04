@@ -3,7 +3,7 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { execSync } from "node:child_process";
-import { start as startNepMollie } from "./mollie-nep.mjs";
+import { start as startNepDiensten } from "./nep-diensten.mjs";
 
 // Keys of the local Supabase (`npm run db:start`). Not secret: they only work locally.
 const lokaal = () => Object.fromEntries(
@@ -21,7 +21,13 @@ const SLUG = "jongerenzang-2027";
 if (!SERVICE || !ANON) throw new Error("Local Supabase not running: npm run db:start");
 
 let nep;
-before(async () => { nep = await startNepMollie(); });
+before(async () => {
+  nep = await startNepDiensten();
+  // Clean slate for the test event, so places and figures are predictable.
+  const [ev] = await db(`events?slug=eq.${SLUG}&select=id`);
+  await db(`orders?event_id=eq.${ev.id}`, { method: "DELETE" });
+  await db("events?slug=neq." + SLUG, { method: "DELETE" });
+});
 after(() => nep?.close());
 
 // --- helpers ---------------------------------------------------------------
@@ -214,4 +220,192 @@ test("CORS: alleen de eigen site mag vanuit de browser bestellen", async (t) => 
   assert.equal(goed.headers.get("access-control-allow-origin"), "http://localhost:8080");
   const vreemd = await fetch(`${F}/create-order`, { method: "OPTIONS", headers: { Origin: "https://kwaadaardig.example" } });
   assert.equal(vreemd.headers.get("access-control-allow-origin"), null);
+});
+
+// --- Phase 3: ticket mail, ticket page, scanning, management ---------------
+const mails = async () => (await fetch(`${NEP}/__mails`)).json();
+const aanmeldingen = async () => (await fetch(`${NEP}/__aanmeldingen`)).json();
+const mailsAan = async (email) => (await mails()).filter((m) => m.to[0].email === email);
+
+async function betaaldeBestelling(extra = {}) {
+  const g = gegevens(extra);
+  const { bestelling } = await (await fetch(`${F}/create-order`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(g),
+  })).json();
+  const pid = await paymentVan(bestelling);
+  await nepZet(pid, { status: "paid" });
+  const w = await webhook(pid);
+  return { id: bestelling, pid, email: g.email, webhook: w, order: await order(bestelling) };
+}
+
+const authHeaders = { apikey: ANON, "Content-Type": "application/json" };
+async function maakAccount(rol) {
+  const email = `${rol ?? "geen"}${Date.now()}${teller++}@voorbeeld.nl`;
+  const wachtwoord = "testwachtwoord-123";
+  const r = await fetch(`${API}/auth/v1/admin/users`, {
+    method: "POST", headers: { apikey: SERVICE, Authorization: `Bearer ${SERVICE}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password: wachtwoord, email_confirm: true }),
+  });
+  const user = await r.json();
+  if (rol) await db("beheerders", { method: "POST", body: JSON.stringify({ user_id: user.id, rol }) });
+  return { id: user.id, email, wachtwoord, token: await inloggen(email, wachtwoord) };
+}
+async function inloggen(email, wachtwoord) {
+  const r = await fetch(`${API}/auth/v1/token?grant_type=password`, {
+    method: "POST", headers: authHeaders, body: JSON.stringify({ email, password: wachtwoord }),
+  });
+  return (await r.json()).access_token;
+}
+const scan = (token, code, evenement = SLUG) => fetch(`${F}/scan`, {
+  method: "POST", headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+  body: JSON.stringify({ evenement, code }),
+});
+const beheer = (token, actie, extra = {}) => fetch(`${F}/beheer`, {
+  method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+  body: JSON.stringify({ actie, ...extra }),
+});
+
+test("ticketmail: één mail met een QR-code per ticket en een link naar de ticketpagina", async () => {
+  const b = await betaaldeBestelling({ aantal: "2", nieuwsbrief: "on" });
+  assert.equal(b.webhook.status, 200);
+  await webhook(b.pid); // Mollie calls again: no second mail
+  const m = await mailsAan(b.email);
+  assert.equal(m.length, 1);
+  assert.match(m[0].subject, /Je tickets voor Katwijkse Jongerenzang 2027/);
+  assert.deepEqual(m[0].attachments.map((a) => [a.id, a.disposition]), [["ticket1", "inline"], ["ticket2", "inline"]]);
+  assert.ok(m[0].html.includes(`/tickets/mijn/#${b.order.toegang}`));
+  assert.ok(m[0].html.includes("cid:ticket2"));
+  assert.ok(m[0].text.includes("Ticket 2 van 2"));
+  assert.ok((await order(b.id)).mail_verstuurd_op);
+  // newsletter: once, only with the checkbox
+  const a = (await aanmeldingen()).filter((x) => x.email === b.email);
+  assert.equal(a.length, 1);
+  assert.equal(a[0].fields.name, "Test");
+  const zonder = await betaaldeBestelling({ nieuwsbrief: "" });
+  assert.equal((await aanmeldingen()).filter((x) => x.email === zonder.email).length, 0);
+});
+
+test("ticketmail: als mailen mislukt, probeert Mollie het later opnieuw en komt de mail alsnog", async () => {
+  await fetch(`${NEP}/__mailstoring`, { method: "POST", body: JSON.stringify({ aan: true }) });
+  const b = await betaaldeBestelling();
+  await fetch(`${NEP}/__mailstoring`, { method: "POST", body: JSON.stringify({ aan: false }) });
+  assert.equal(b.webhook.status, 500);
+  assert.equal(b.order.status, "betaald");
+  assert.equal(b.order.mail_verstuurd_op, null);
+  assert.equal((await webhook(b.pid)).status, 200);
+  assert.equal((await mailsAan(b.email)).length, 1);
+});
+
+test("ticketpagina: alleen met de geheime sleutel uit de mail", async () => {
+  const b = await betaaldeBestelling({ aantal: "2" });
+  const post = (toegang) => fetch(`${F}/mijn-tickets`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ toegang }) });
+  const r = await (await post(b.order.toegang)).json();
+  assert.equal(r.status, "betaald");
+  assert.equal(r.voornaam, "Test");
+  assert.equal(r.tickets.length, 2);
+  assert.match(r.tickets[0].qr, /^data:image\/gif;base64,/);
+  assert.equal(r.achternaam, undefined);
+  assert.equal(r.email, undefined);
+  assert.equal((await post("0".repeat(32))).status, 404);
+  assert.equal((await post("geen-sleutel")).status, 404);
+});
+
+test("scannen: alleen met login en rol; elk ticket maar één keer", async () => {
+  const scanner = await maakAccount("scanner");
+  const zonderRol = await maakAccount(null);
+  const b = await betaaldeBestelling({ aantal: "2" });
+  const [t1, t2] = await tickets(b.id);
+
+  assert.equal((await scan(null, t1.code)).status, 401);
+  assert.equal((await scan("onzin", t1.code)).status, 401);
+  assert.equal((await scan(zonderRol.token, t1.code)).status, 403);
+
+  const eerste = await (await scan(scanner.token, t1.code.toUpperCase())).json();
+  assert.equal(eerste.resultaat, "geldig");
+  assert.equal(eerste.aantal, 2);
+  assert.equal(eerste.voornaam, "Test");
+  const tweede = await (await scan(scanner.token, t1.code)).json();
+  assert.equal(tweede.resultaat, "al_gescand");
+  assert.ok(tweede.gescand_op);
+  assert.equal((await (await scan(scanner.token, "f".repeat(32))).json()).resultaat, "onbekend");
+  assert.equal((await (await scan(scanner.token, "geen code")).json()).resultaat, "onbekend");
+
+  // two scanners at the same moment: only one lets the person in
+  const tegelijk = await Promise.all([scan(scanner.token, t2.code), scan(scanner.token, t2.code)].map((p) => p.then((r) => r.json())));
+  assert.deepEqual(tegelijk.map((x) => x.resultaat).sort(), ["al_gescand", "geldig"]);
+
+  // refunded: no longer valid
+  const c = await betaaldeBestelling({ aantal: "1" });
+  await nepZet(c.pid, { amountRefunded: { currency: "EUR", value: "4.50" } }); await webhook(c.pid);
+  const [tc] = await tickets(c.id);
+  assert.equal((await (await scan(scanner.token, tc.code)).json()).resultaat, "ongeldig");
+
+  // ticket for this event, scanned at another event
+  await db("events", { method: "POST", body: JSON.stringify({ slug: "ander-evenement", naam: "Ander", begint_op: new Date().toISOString(), locatie: "X", prijs_cent: 0, max_tickets: 10 }) });
+  const [t3] = await tickets((await betaaldeBestelling()).id);
+  assert.equal((await (await scan(scanner.token, t3.code, "ander-evenement")).json()).resultaat, "ander_evenement");
+  assert.equal((await (await scan(scanner.token, t3.code)).json()).resultaat, "geldig");
+});
+
+test("beheer: alleen kantoor; overzicht, bestellingen, export en mail opnieuw", async () => {
+  const kantoor = await maakAccount("kantoor");
+  const scanner = await maakAccount("scanner");
+  assert.deepEqual(await (await beheer(scanner.token, "ik")).json(), { email: scanner.email, rol: "scanner" });
+  assert.equal((await beheer(scanner.token, "overzicht", { evenement: SLUG })).status, 403);
+  assert.equal((await beheer("onzin", "ik")).status, 401);
+
+  const b = await betaaldeBestelling({ aantal: "3", nieuwsbrief: "on" });
+  const o = await (await beheer(kantoor.token, "overzicht", { evenement: SLUG })).json();
+  assert.ok(o.verkocht >= 3);
+  assert.equal(o.evenement.slug, SLUG);
+  assert.equal(o.opbrengst_cent % 450, 0);
+
+  const lijst = await (await beheer(kantoor.token, "bestellingen", { evenement: SLUG })).json();
+  const rij = lijst.find((x) => x.id === b.id);
+  assert.equal(rij.email, b.email);
+  assert.equal(rij.toegang, undefined);
+
+  const exp = await (await beheer(kantoor.token, "export", { evenement: SLUG })).json();
+  assert.ok(exp.orders.some((x) => x.id === b.id));
+  assert.equal(exp.tickets.filter((t) => t.order_id === b.id).length, 3);
+
+  assert.equal((await (await beheer(kantoor.token, "mail_opnieuw", { order_id: b.id })).json()).uitkomst, "verstuurd");
+  assert.equal((await mailsAan(b.email)).length, 2);
+  const open = await (await bestelJson({ aantal: "1" })).json();
+  assert.equal((await beheer(kantoor.token, "mail_opnieuw", { order_id: open.bestelling })).status, 409);
+});
+
+test("beheer: evenement instellen en accounts voor scanners", async () => {
+  const kantoor = await maakAccount("kantoor");
+  const [ev] = await db(`events?slug=eq.${SLUG}&select=*`);
+  const opslaan = (wijziging) => beheer(kantoor.token, "evenement_opslaan", { evenement: { ...ev, ...wijziging } });
+
+  assert.equal((await (await opslaan({ max_tickets: 1 })).json()).fout, "minder_dan_verkocht");
+  assert.equal((await (await opslaan({ prijs_cent: -1 })).json()).fout, "ongeldig_prijs_cent");
+  const [nu] = await (await opslaan({ max_per_bestelling: 8 })).json();
+  assert.equal(nu.max_per_bestelling, 8);
+  await opslaan({ max_per_bestelling: 10 });
+  const [nieuw] = await (await opslaan({ slug: "jongerenzang-2028", naam: "Katwijkse Jongerenzang 2028", verkoop_open_vanaf: "" })).json();
+  assert.equal(nieuw.slug, "jongerenzang-2028");
+  assert.equal(nieuw.verkoop_open_vanaf, null);
+  assert.ok((await (await beheer(kantoor.token, "evenementen")).json()).some((e) => e.slug === "jongerenzang-2028"));
+
+  const email = `deur${Date.now()}@voorbeeld.nl`;
+  assert.equal((await (await beheer(kantoor.token, "beheerder_toevoegen", { email, wachtwoord: "kort", rol: "scanner" })).json()).fout, "wachtwoord_te_kort");
+  const { user_id } = await (await beheer(kantoor.token, "beheerder_toevoegen", { email, wachtwoord: "lang-genoeg-wachtwoord", rol: "scanner" })).json();
+  const token = await inloggen(email, "lang-genoeg-wachtwoord");
+  assert.equal((await (await beheer(token, "ik")).json()).rol, "scanner");
+  const lijst = await (await beheer(kantoor.token, "beheerders")).json();
+  assert.ok(lijst.some((x) => x.email === email && x.rol === "scanner"));
+  assert.equal((await (await beheer(kantoor.token, "beheerder_verwijderen", { user_id: kantoor.id })).json()).fout, "niet_jezelf");
+  await beheer(kantoor.token, "beheerder_verwijderen", { user_id });
+  assert.equal(await inloggen(email, "lang-genoeg-wachtwoord"), undefined);
+});
+
+test("nieuwe functies: bezoekers kunnen de nieuwe SQL-functies niet aanroepen", async () => {
+  const h = { apikey: ANON, Authorization: `Bearer ${ANON}`, "Content-Type": "application/json" };
+  for (const f of ["mijn_tickets", "scan_ticket", "beheer_overzicht", "ticketmail_claim", "rol_van"]) {
+    const r = await fetch(`${API}/rest/v1/rpc/${f}`, { method: "POST", headers: h, body: "{}" });
+    assert.ok(r.status >= 400, f);
+  }
 });

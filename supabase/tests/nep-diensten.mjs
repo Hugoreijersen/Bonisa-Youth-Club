@@ -1,13 +1,16 @@
-// A fake Mollie API for automated tests and for trying the order page locally.
-// Never used in production.
-// Start: node supabase/tests/mollie-nep.mjs  (listens on port 54399)
-// The checkout page (http://localhost:54399/checkout/tr_...) lets you choose
-// what happens to the payment, like the Mollie test mode does.
+// Fake Mollie, MailerSend and MailerLite for automated tests and for trying
+// the site locally. Never used in production.
+// Start: npm run nep  (listens on port 54399)
+// - http://localhost:54399/checkout/tr_...  choose what happens to a payment,
+//   like the Mollie test mode does
+// - http://localhost:54399/mails            the mails that were "sent"
 import { createServer } from "node:http";
 import { randomBytes } from "node:crypto";
 
 const betalingen = new Map();
 export const verzoeken = [];
+export const mails = [];
+export const aanmeldingen = [];
 
 function lees(req) {
   return new Promise((ok) => { let b = ""; req.on("data", (d) => (b += d)); req.on("end", () => ok(b)); });
@@ -25,6 +28,24 @@ button[value=paid]{background:#4C8C40;color:#fff;border-color:#4C8C40}p small{co
 <h1>Nagebootste Mollie</h1>
 <p>Te betalen: <strong>€ ${b.amount?.value?.replace(".", ",")}</strong><br><small>Betaling ${b.id}. Dit is geen echte betaling.</small></p>
 <form method="post">${knoppen}</form></html>`;
+}
+
+const esc = (t) => String(t ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+
+// Shows the sent mails, with the inline images (cid:...) filled in.
+function mailpagina() {
+  const lijst = mails.slice().reverse().map((m, i) => {
+    let html = m.html ?? "";
+    for (const a of m.attachments ?? []) {
+      if (a.id) html = html.replaceAll(`cid:${a.id}`, `data:image/gif;base64,${a.content}`);
+    }
+    return `<section><h2>${esc(m.subject)}</h2><p>Aan: ${esc(m.to?.[0]?.email)} · Van: ${esc(m.from?.email)}</p>
+<iframe title="Mail ${i + 1}" srcdoc="${esc(html)}"></iframe></section>`;
+  }).join("") || "<p>Nog geen mails verstuurd.</p>";
+  return `<!doctype html><html lang="nl"><meta charset="utf-8"><title>Nagebootste mails</title>
+<style>body{font:16px/1.5 system-ui,sans-serif;max-width:44rem;margin:2rem auto;padding:0 1rem}
+iframe{width:100%;height:80vh;border:1px solid #ccc;border-radius:.5rem}section{margin-bottom:3rem}</style>
+<h1>Nagebootste mails</h1><p>Nieuwste bovenaan. Ververs de pagina na een betaling.</p>${lijst}</html>`;
 }
 
 function stuur(res, status, data) {
@@ -45,6 +66,29 @@ export function start(poort = 54399) {
     }
     if (url.pathname === "/__verzoeken") return stuur(res, 200, verzoeken);
     if (url.pathname === "/__storing") { server.storing = JSON.parse(body).aan; return stuur(res, 200, {}); }
+    if (url.pathname === "/__mailstoring") { server.mailstoring = JSON.parse(body).aan; return stuur(res, 200, {}); }
+    if (url.pathname === "/__mails") return stuur(res, 200, mails);
+    if (url.pathname === "/__aanmeldingen") return stuur(res, 200, aanmeldingen);
+    if (url.pathname === "/mails") {
+      res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+      return res.end(mailpagina());
+    }
+
+    // Fake MailerSend
+    if (req.method === "POST" && url.pathname === "/v1/email") {
+      if (!(req.headers.authorization ?? "").startsWith("Bearer ")) return stuur(res, 401, {});
+      if (server.mailstoring) return stuur(res, 503, { message: "Service unavailable" });
+      mails.push(JSON.parse(body));
+      res.writeHead(202, { "X-Message-Id": randomBytes(8).toString("hex") });
+      return res.end();
+    }
+    // Fake MailerLite
+    if (req.method === "POST" && url.pathname === "/api/subscribers") {
+      if (!(req.headers.authorization ?? "").startsWith("Bearer ")) return stuur(res, 401, {});
+      const data = JSON.parse(body);
+      aanmeldingen.push(data);
+      return stuur(res, 201, { data: { id: randomBytes(4).toString("hex"), email: data.email } });
+    }
 
     // Checkout page, opened in the browser by the visitor
     const k = url.pathname.match(/^\/checkout\/(tr_\w+)$/);
@@ -82,10 +126,15 @@ export function start(poort = 54399) {
     }
     stuur(res, 404, { title: "Not Found" });
   });
-  return new Promise((ok) => server.listen(poort, "0.0.0.0", () => ok(server)));
+  return new Promise((ok, fout) => {
+    server.once("error", (e) => fout(e.code === "EADDRINUSE"
+      ? new Error(`Port ${poort} is in use: stop "npm run nep" first (the tests start their own).`) : e));
+    server.listen(poort, "0.0.0.0", () => ok(server));
+  });
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   await start();
-  console.log("Nagebootste Mollie draait op http://localhost:54399 (stoppen: Ctrl+C)");
+  console.log("Nagebootste Mollie, MailerSend en MailerLite draaien op http://localhost:54399");
+  console.log("Verstuurde mails: http://localhost:54399/mails (stoppen: Ctrl+C)");
 }
