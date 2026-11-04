@@ -19,10 +19,10 @@
   <meta name="theme-color" content="#4C8C40">
   <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/dm-sans-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/assets/css/site.css">
-  <script src="/assets/js/menu.js"></script>
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | versie }}">
+  <script src="{{ '/assets/js/menu.js' | versie }}"></script>
   {%- for script in scripts %}
-  <script src="{{ script }}" defer></script>
+  <script src="{{ script | versie }}" defer></script>
   {%- endfor %}
 </head>
 {%- set zwevendeKnop = ticketknop.verkoopOpen and not eenvoudigeKop %}

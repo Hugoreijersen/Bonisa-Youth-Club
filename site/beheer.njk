@@ -15,26 +15,76 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
   {% include "blokken/inlogformulier.njk" %}
 
   <div class="beheer" data-app hidden>
-    <div class="beheer__kop">
-      <h1>Beheer tickets</h1>
-      <div class="beheer__kies">
-        <div class="veld">
-          <label for="evenement">Evenement</label>
-          <select id="evenement" data-evenementen></select>
-        </div>
+    <div class="beheer__balk">
+      <p class="bovenkop">Beheer tickets</p>
+      <div class="knoppen">
+        <button class="knop knop--klein" type="button" data-actie="nieuw-evenement">+ Nieuw evenement</button>
         <button class="knop knop--klein" type="button" data-uitloggen>Uitloggen</button>
       </div>
     </div>
 
+    {#- The selected event: everything below is about this event. -#}
+    <section class="evenementpaneel" aria-labelledby="kop-evenementpaneel" data-paneel>
+      <div class="evenementpaneel__kies">
+        <label class="visueel-verborgen" for="evenement">Kies een evenement</label>
+        <select id="evenement" class="evenementpaneel__select" data-evenementen></select>
+      </div>
+      <h1 id="kop-evenementpaneel" class="evenementpaneel__naam" data-veld="naam"></h1>
+      <p class="evenementpaneel__wanneer" data-veld="wanneer"></p>
+
+      <div class="evenementpaneel__bediening">
+        <div class="bediening">
+          <p class="bediening__label">Ticketverkoop</p>
+          <p class="bediening__status"><span class="statuspil" data-veld="verkoop"></span></p>
+          <p class="bediening__uitleg" data-veld="verkoop-uitleg"></p>
+          <button class="knop knop--klein" type="button" data-actie="verkoop"></button>
+        </div>
+        <form class="bediening" data-aantalformulier>
+          <label class="bediening__label" for="aantal-tickets">Aantal tickets</label>
+          <div class="bediening__invoer">
+            <input id="aantal-tickets" name="max_tickets" type="number" min="1" required inputmode="numeric">
+            <button class="knop knop--klein knop--oranje" type="submit">Opslaan</button>
+          </div>
+          <div class="voortgang" aria-hidden="true"><span data-veld="voortgang"></span></div>
+          <p class="bediening__uitleg" data-veld="verkocht"></p>
+        </form>
+      </div>
+    </section>
+
     <p class="melding" data-beheer-melding role="alert" hidden></p>
     <p class="bevestiging" data-beheer-bevestiging role="status" hidden></p>
 
-    <section class="beheer__blok" aria-labelledby="kop-cijfers">
+    {#- New event: a separate form, so editing the selected event stays possible. -#}
+    <section class="beheer__blok beheer__blok--nieuw" aria-labelledby="kop-nieuw" data-nieuwblok hidden>
+      <div class="beheer__blokkop">
+        <h2 id="kop-nieuw">Nieuw evenement</h2>
+        <button class="knop knop--klein" type="button" data-actie="annuleer-nieuw">Annuleren</button>
+      </div>
+      <form class="formulier" data-nieuwformulier>
+        <div class="velden">
+          <div class="veld"><label for="nw-naam">Naam</label><input id="nw-naam" name="naam" required maxlength="120"></div>
+          <div class="veld">
+            <label for="nw-slug">Vaste naam</label>
+            <input id="nw-slug" name="slug" required pattern="[a-z0-9\-]+" maxlength="60" aria-describedby="nw-slug-uitleg">
+            <p class="veld__uitleg" id="nw-slug-uitleg">Kleine letters, cijfers en streepjes, bijvoorbeeld jongerenzang-2028. De site zoekt het evenement hiermee op; je kunt hem later niet meer veranderen.</p>
+          </div>
+          <div class="veld"><label for="nw-begint">Begint op</label><input id="nw-begint" name="begint_op" type="datetime-local" required></div>
+          <div class="veld"><label for="nw-locatie">Locatie</label><input id="nw-locatie" name="locatie" required maxlength="120"></div>
+          <div class="veld"><label for="nw-prijs">Prijs per ticket (€)</label><input id="nw-prijs" name="prijs" inputmode="decimal" required pattern="\d+([,.]\d{1,2})?"></div>
+          <div class="veld"><label for="nw-max">Aantal tickets</label><input id="nw-max" name="max_tickets" type="number" min="1" required></div>
+          <div class="veld"><label for="nw-per">Maximaal per bestelling</label><input id="nw-per" name="max_per_bestelling" type="number" min="1" max="50" value="10" required></div>
+        </div>
+        <p class="tekst-gedempt">De ticketverkoop staat na het aanmaken dicht. Je zet hem open met de knop bovenaan.</p>
+        <div><button class="knop knop--groen" type="submit">Evenement aanmaken</button></div>
+      </form>
+    </section>
+
+    <section class="beheer__blok" aria-labelledby="kop-cijfers" data-heeft-evenement>
       <h2 id="kop-cijfers">Cijfers</h2>
       <dl class="cijfers" data-cijfers></dl>
     </section>
 
-    <section class="beheer__blok" aria-labelledby="kop-bestellingen">
+    <section class="beheer__blok" aria-labelledby="kop-bestellingen" data-heeft-evenement>
       <div class="beheer__blokkop">
         <h2 id="kop-bestellingen">Bestellingen</h2>
         <button class="knop knop--zwart knop--klein" type="button" data-actie="export">Exporteer (CSV)</button>
@@ -65,25 +115,32 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
       </div>
     </section>
 
-    <section class="beheer__blok" aria-labelledby="kop-evenement">
+    <section class="beheer__blok" aria-labelledby="kop-evenement" data-heeft-evenement>
       <div class="beheer__blokkop">
-        <h2 id="kop-evenement">Evenement instellen</h2>
-        <button class="knop knop--klein" type="button" data-actie="nieuw-evenement">Nieuw evenement</button>
+        <h2 id="kop-evenement">Gegevens van dit evenement</h2>
+        <p class="tekst-gedempt">Vaste naam: <code data-veld="slug"></code></p>
       </div>
-      <p class="tekst-gedempt">De prijs hier is wat mensen echt betalen. Zet dezelfde prijs ook in het bewerkscherm van de site.</p>
       <form class="formulier" data-evenementformulier>
         <div class="velden">
           <div class="veld"><label for="ev-naam">Naam</label><input id="ev-naam" name="naam" required maxlength="120"></div>
-          <div class="veld"><label for="ev-slug">Korte naam (in de code, niet te wijzigen)</label><input id="ev-slug" name="slug" required pattern="[a-z0-9\-]+" maxlength="60"></div>
           <div class="veld"><label for="ev-begint">Begint op</label><input id="ev-begint" name="begint_op" type="datetime-local" required></div>
           <div class="veld"><label for="ev-locatie">Locatie</label><input id="ev-locatie" name="locatie" required maxlength="120"></div>
-          <div class="veld"><label for="ev-prijs">Prijs per ticket (€)</label><input id="ev-prijs" name="prijs" inputmode="decimal" required pattern="\d+([,.]\d{1,2})?"></div>
-          <div class="veld"><label for="ev-max">Aantal tickets in totaal</label><input id="ev-max" name="max_tickets" type="number" min="1" required></div>
+          <div class="veld">
+            <label for="ev-prijs">Prijs per ticket (€)</label>
+            <input id="ev-prijs" name="prijs" inputmode="decimal" required pattern="\d+([,.]\d{1,2})?" aria-describedby="ev-prijs-uitleg">
+            <p class="veld__uitleg" id="ev-prijs-uitleg">Dit bedrag betalen mensen echt. Zet dezelfde prijs ook in het bewerkscherm van de site.</p>
+          </div>
           <div class="veld"><label for="ev-per">Maximaal per bestelling</label><input id="ev-per" name="max_per_bestelling" type="number" min="1" max="50" required></div>
-          <div class="veld"><label for="ev-open">Verkoop open vanaf (leeg = dicht)</label><input id="ev-open" name="verkoop_open_vanaf" type="datetime-local"></div>
-          <div class="veld"><label for="ev-dicht">Verkoop dicht op (leeg = bij het begin)</label><input id="ev-dicht" name="verkoop_dicht_op" type="datetime-local"></div>
         </div>
-        <button class="knop knop--groen knop--klein" type="submit">Opslaan</button>
+        <details class="uitklap">
+          <summary>Verkoop automatisch openen of sluiten</summary>
+          <p class="tekst-gedempt">Laat leeg als je de verkoop met de knop bovenaan bedient. Zonder sluitmoment sluit de verkoop bij het begin van het evenement.</p>
+          <div class="velden">
+            <div class="veld"><label for="ev-open">Opent op</label><input id="ev-open" name="verkoop_open_vanaf" type="datetime-local"></div>
+            <div class="veld"><label for="ev-dicht">Sluit op</label><input id="ev-dicht" name="verkoop_dicht_op" type="datetime-local"></div>
+          </div>
+        </details>
+        <div><button class="knop knop--groen" type="submit">Wijzigingen opslaan</button></div>
       </form>
     </section>
 
@@ -106,7 +163,7 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
             <select id="ac-rol" name="rol"><option value="scanner">Scanner</option><option value="kantoor">Kantoor</option></select>
           </div>
         </div>
-        <button class="knop knop--groen knop--klein" type="submit">Toevoegen</button>
+        <div><button class="knop knop--groen" type="submit">Account toevoegen</button></div>
       </form>
     </section>
   </div>

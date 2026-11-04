@@ -6,15 +6,20 @@ Technische uitleg staat in [ticketsysteem.md](ticketsysteem.md).
 
 ## De beheerpagina: jongerenzang.nl/beheer/
 
-Log in met je eigen account. Je ziet:
+Log in met je eigen account. Bovenaan staat een groen blok met het evenement waar je mee bezig bent. Heb je meer evenementen (bijvoorbeeld vorig jaar), kies dan bovenin dat blok een ander evenement. Alles op de pagina gaat over het gekozen evenement.
 
 | Onderdeel | Wat je er doet |
 | --- | --- |
-| **Cijfers** | Hoeveel tickets verkocht zijn, hoeveel er nog zijn, de opbrengst, en op de avond zelf hoeveel mensen binnen zijn |
+| **Ticketverkoop** (groene blok) | Eén knop: **Verkoop openen** of **Verkoop sluiten**. Daarboven staat of de verkoop nu open of dicht is |
+| **Aantal tickets** (groene blok) | Pas het getal aan en klik **Opslaan**. Lager dan wat al verkocht is kan niet |
+| **Cijfers** | Verkocht, opbrengst, bestellingen, en op de avond zelf hoeveel mensen binnen zijn |
 | **Bestellingen** | Zoeken op naam, e-mail of woonplaats. Kreeg iemand geen mail? Klik bij die bestelling op **Opnieuw** |
 | **Exporteer (CSV)** | Twee bestanden voor de wekelijkse back-up (zie [back-up.md](back-up.md)). Opent in Excel |
-| **Evenement instellen** | Prijs, aantal tickets, maximum per bestelling, en wanneer de verkoop opent en sluit. Dit is wat mensen echt betalen: zet dezelfde prijs ook in het bewerkscherm van de site |
+| **Gegevens van dit evenement** | Naam, datum, locatie, prijs en maximum per bestelling. De prijs is wat mensen echt betalen: zet dezelfde prijs ook in het bewerkscherm van de site. Onder **Verkoop automatisch openen of sluiten** kun je de verkoop op een vast moment laten openen of sluiten |
+| **+ Nieuw evenement** (bovenaan) | Opent een apart formulier. De **vaste naam** (bijvoorbeeld `jongerenzang-2028`) kies je één keer: de site zoekt het evenement daarmee op. Een nieuw evenement begint met de verkoop dicht |
 | **Accounts** | Accounts toevoegen voor scanners (alleen de scanpagina) en voor kantoor (alles). Geef het wachtwoord persoonlijk door, niet per mail. Verwijder accounts na het evenement |
+
+**Let op:** de knop **Ticketverkoop** hier regelt of bestellen kan. De knop "Bestel je ticket" op de homepage zet je apart aan of uit in het bewerkscherm van de site ("Ticketverkoop is open"). Zet ze samen open en dicht.
 
 Terugbetalen gaat in het dashboard van **Mollie** (Betalingen → de betaling → Terugbetalen). De bestelling staat daarna vanzelf op "Terugbetaald" en de tickets werken niet meer bij de deur.
 

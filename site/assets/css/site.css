@@ -876,25 +876,114 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 .scan__handmatig .veld { flex: 1 1 240px; }
 
 .beheer { display: flex; flex-direction: column; gap: 24px; }
-.beheer__kop { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
-.beheer__kop h1 { font-weight: 800; font-size: clamp(34px, 5vw, 52px); }
-.beheer__kies { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
-.beheer__kies .veld { min-width: min(280px, 100%); }
-.beheer__blok { background: var(--wit); border-radius: var(--rond-groot); padding: clamp(20px, 4vw, 32px); display: flex; flex-direction: column; gap: 16px; min-width: 0; }
-.beheer__blok h2 { font-weight: 800; font-size: clamp(26px, 3vw, 32px); }
-.beheer__blok h3 { font-weight: 800; font-size: 22px; }
+.beheer__balk { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+
+/* The selected event, in the style of the green block on /tickets/ */
+.evenementpaneel {
+  background: var(--groen-donker);
+  color: var(--wit);
+  border-radius: var(--rond-groot);
+  padding: clamp(24px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+.evenementpaneel[hidden] { display: none; }
+.evenementpaneel__select {
+  min-height: 44px;
+  max-width: 100%;
+  padding: 0 40px 0 18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 999px;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 18px;
+  color: var(--wit);
+  font: inherit;
+  font-size: 16px;
+  font-weight: 700;
+  appearance: none;
+  cursor: pointer;
+}
+.evenementpaneel__select option { color: var(--tekst); background: var(--wit); }
+.evenementpaneel__select:focus-visible { outline: 3px solid var(--oranje); outline-offset: 2px; }
+.evenementpaneel__naam { font-weight: 800; font-size: clamp(34px, 5vw, 56px); line-height: 1; margin-top: 8px; }
+.evenementpaneel__wanneer { font-size: 18px; }
+.evenementpaneel__wanneer::first-letter { text-transform: uppercase; }
+.evenementpaneel__bediening {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.bediening {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.bediening__label { font-size: 15px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.bediening__uitleg { font-size: 16px; }
+.bediening__invoer { display: flex; flex-wrap: wrap; gap: 10px; }
+.bediening__invoer input {
+  width: 140px;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 14px;
+  font-family: var(--font-kop);
+  font-weight: 800;
+  font-size: 26px;
+  color: var(--tekst);
+}
+.bediening__invoer input:focus-visible { outline: 3px solid var(--oranje); outline-offset: 2px; }
+.bediening__invoer .knop { min-height: 52px; }
+.statuspil {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 4px 12px;
+  border-radius: 999px;
+  font-family: var(--font-kop);
+  font-weight: 800;
+  font-size: 28px;
+  line-height: 1.2;
+}
+.statuspil::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: currentColor; }
+.statuspil[data-soort="open"] { background: var(--groen-tint); color: var(--groen-donker); }
+.statuspil[data-soort="dicht"] { background: var(--oranje-tint); color: var(--oranje-tekst); }
+.voortgang { width: 100%; height: 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.25); overflow: hidden; }
+.voortgang span { display: block; height: 100%; width: 0; background: var(--oranje); border-radius: 999px; }
+
+.beheer__blok { background: var(--wit); border-radius: var(--rond-groot); padding: clamp(20px, 4vw, 40px); display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.beheer__blok h2 { font-weight: 800; font-size: clamp(28px, 3.5vw, 40px); }
+.beheer__blok h3 { font-family: var(--font-kop); font-weight: 800; font-size: 24px; line-height: 1.1; }
+.beheer__blok--nieuw { border: 3px solid var(--oranje); }
 .beheer__blokkop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+.beheer code { font-family: inherit; font-weight: 700; font-size: 15px; padding: 2px 10px; border-radius: 999px; background: var(--groen-tint); color: var(--tekst); }
 .beheer__filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px; }
-.cijfers { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr)); gap: 12px; margin: 0; }
-.cijfers div { background: var(--groen-tint); border-radius: 16px; padding: 14px 16px; }
-.cijfers dt { font-size: 15px; color: var(--tekst-gedempt); }
-.cijfers dd { margin: 0; font-family: var(--font-kop); font-weight: 800; font-size: 26px; }
+.beheer .formulier > div:last-child, .beheer .formulier > .knop { align-self: flex-start; }
+.veld__uitleg { font-size: 15px; line-height: 1.45; color: var(--tekst-gedempt); }
+.uitklap { border-top: 1px solid var(--lijn); padding-top: 8px; display: flex; flex-direction: column; gap: 12px; }
+.uitklap summary { display: flex; align-items: center; min-height: 44px; font-weight: 700; cursor: pointer; color: var(--groen-donker); }
+.uitklap[open] summary { margin-bottom: 4px; }
+
+/* Figures: big numbers in the heading font, like the prices on the site */
+.cijfers { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 16px 0; margin: 0; }
+.cijfers div { min-width: 0; padding: 4px 16px; border-left: 3px solid var(--groen-tint-2); }
+.cijfers dt { font-size: 15px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--groen-donker); }
+.cijfers dd { margin: 0; font-family: var(--font-kop); font-weight: 800; font-size: clamp(26px, 3vw, 36px); line-height: 1.2; overflow-wrap: anywhere; }
+@media (max-width: 520px) {
+  .cijfers { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 .tabel-scroll { overflow-x: auto; max-width: 100%; position: relative; }
 .tabel-scroll:focus-visible { outline: 3px solid var(--oranje); outline-offset: 2px; }
 .tabel { width: 100%; border-collapse: collapse; font-size: 15px; }
 .tabel th, .tabel td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #DDE3DA; white-space: nowrap; }
-.tabel th { font-weight: 700; }
+.tabel th { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--groen-donker); border-bottom: 2px solid var(--groen-tint-2); }
 .tabel__knop {
   min-height: 36px;
   padding: 0 12px;
@@ -909,4 +998,4 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 }
 .tabel__knop:hover { background: var(--groen-tint); }
 /* display:flex would otherwise win over the hidden attribute */
-.formulier[hidden], .scan[hidden], .beheer[hidden], .melding[hidden], .bevestiging[hidden] { display: none; }
+.formulier[hidden], .scan[hidden], .beheer[hidden], .beheer__blok[hidden], .melding[hidden], .bevestiging[hidden], .knop[hidden] { display: none; }

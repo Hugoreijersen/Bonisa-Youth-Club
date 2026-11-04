@@ -121,6 +121,8 @@ Eén afgeleide waarde staat in een JavaScript-datafile: `site/_data/ticketknop.j
 
 Alle opmaak staat in `site/assets/css/site.css`. Het ontwerp gebruikte inline `style="..."` op elk element; dat is omgezet naar klassen met Nederlandse namen (`.knop`, `.kaart`, `.mozaiek`). Twee redenen: één plek om iets te veranderen, en de beveiligingsregel (CSP) staat geen inline stijlen toe.
 
+Browsers bewaren alles onder `/assets/` een jaar lang (zie `site/_headers.njk`), zodat de site snel laadt. Daarom krijgen het stijlblad en de scripts in `base.njk` een versie achter hun adres, bijvoorbeeld `site.css?v=26891d83f9` (filter `versie` in `eleventy.config.js`). Die versie is een vingerafdruk van het bestand: verandert het bestand, dan verandert het adres, en haalt elke browser de nieuwe versie op. Nieuwe scripts dus altijd via `scripts:` bovenaan een pagina toevoegen, dan gebeurt dit vanzelf.
+
 Bovenaan staan de **ontwerpwaarden** als variabelen. Alleen groen en oranje zijn echte kleuren; de tinten worden daaruit berekend met `color-mix()`, net als in het ontwerp. Wordt het BYC-oranje straks officieel een andere kleur, dan pas je alleen `--oranje` aan en volgen alle tinten.
 
 Maten die op een telefoon te groot zijn (de titel van 88 px bijvoorbeeld) gebruiken `clamp(min, voorkeur, max)`: ze schalen mee met de schermbreedte en blijven tussen een minimum en het ontwerpmaximum.
