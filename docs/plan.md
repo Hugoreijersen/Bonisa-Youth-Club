@@ -143,7 +143,7 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 | Nieuws, activiteiten, magazine, presentaties | Overzichten in Pages CMS | Middel |
 | Formulieren (magazine, nodig ons uit, contact, vrijwilligers) | Opslag in Supabase + mail naar kantoor | Klein |
 | Zoeken, ANBI, Schenken of nalaten, Sponsors | Zoeken zonder server; gewone pagina's | Klein |
-| Overstap | Inhoud uit WordPress halen; oude links doorverwijzen; jongerenzang.nl en chinaindeles.nl mee | Middel |
+| Overstap | Inhoud uit WordPress halen; oude links doorverwijzen; jongerenzang.nl en de andere oude domeinen van Bonisa mee | Middel |
 | Huisstijl | Logo (.svg), kleuren, lettertypen in één stijlgids | Klein |
 
 ## 10. Bronnen
@@ -156,7 +156,6 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 - [MailerLite: waar staan de gegevens](https://www.mailerlite.com/help/is-my-data-safe-with-mailerlite)
 - [Pages CMS](https://pagescms.org)
 - [Cloudflare-netwerk](https://www.cloudflare.com/network/)
-- [Cloudflare China Network FAQ](https://developers.cloudflare.com/china-network/faq/)
 - [Neon-prijzen](https://neon.com/pricing)
 - [Cloudflare D1-prijzen](https://developers.cloudflare.com/d1/platform/pricing/)
 - [Claude for Nonprofits](https://www.anthropic.com/news/claude-for-nonprofits)
