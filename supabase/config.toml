@@ -174,7 +174,8 @@ enable_refresh_token_rotation = true
 # Requires enable_refresh_token_rotation = true.
 refresh_token_reuse_interval = 10
 # Allow/disallow new user signups to your project. Existing users can still sign in.
-enable_signup = true
+# Accounts are only created by office on the management page (docs/ticketsysteem.md).
+enable_signup = false
 # Allow/disallow anonymous sign-ins to your project.
 enable_anonymous_sign_ins = false
 # Allow/disallow testing manual linking of accounts
@@ -431,4 +432,13 @@ verify_jwt = false
 verify_jwt = false
 
 [functions.ticketinfo]
+verify_jwt = false
+
+[functions.mijn-tickets]
+verify_jwt = false
+
+[functions.scan]
+verify_jwt = false
+
+[functions.beheer]
 verify_jwt = false

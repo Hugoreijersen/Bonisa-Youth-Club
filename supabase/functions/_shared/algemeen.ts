@@ -43,6 +43,42 @@ export async function leesBestelling(id: string, kolommen: string) {
   return (data as Record<string, unknown>[])[0] ?? null;
 }
 
+// Direct table access for the management page (service role, bypasses RLS).
+export async function tabel(pad: string, init: RequestInit = {}) {
+  const { ok, data } = await rest(pad, init);
+  if (!ok) throw new DatabaseFout(String(data?.message ?? "database"));
+  return data;
+}
+
+// --- Logged-in users (scan page, management page) --------------------------
+// Checks the login token with Supabase Auth and looks up the role in the
+// table beheerders. Returns null when the token is missing or not valid.
+export type Gebruiker = { id: string; email: string; rol: "kantoor" | "scanner" | null };
+
+export async function gebruikerVan(req: Request): Promise<Gebruiker | null> {
+  const token = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+  if (!token) return null;
+  const antwoord = await fetch(`${env("SUPABASE_URL")}/auth/v1/user`, {
+    headers: { apikey: env("SUPABASE_SERVICE_ROLE_KEY"), Authorization: `Bearer ${token}` },
+  });
+  if (!antwoord.ok) return null;
+  const user = await antwoord.json();
+  if (!user?.id) return null;
+  const rol = await rpc<string | null>("rol_van", { p_user_id: user.id });
+  return { id: user.id, email: user.email ?? "", rol: (rol as Gebruiker["rol"]) ?? null };
+}
+
+// Supabase Auth admin API (create and remove accounts for scanners and office).
+export async function authAdmin(pad: string, init: RequestInit = {}) {
+  const sleutel = env("SUPABASE_SERVICE_ROLE_KEY");
+  const antwoord = await fetch(`${env("SUPABASE_URL")}/auth/v1/admin/${pad}`, {
+    ...init,
+    headers: { apikey: sleutel, Authorization: `Bearer ${sleutel}`, "Content-Type": "application/json", ...(init.headers ?? {}) },
+  });
+  const tekst = await antwoord.text();
+  return { ok: antwoord.ok, status: antwoord.status, data: tekst ? JSON.parse(tekst) : null };
+}
+
 // --- CORS: only our own websites may call the functions from a browser. ---
 function toegestaneHerkomsten(): string[] {
   return env("SITE_ORIGINS", false).split(",").map((s) => s.trim()).filter(Boolean);
@@ -52,7 +88,7 @@ export function corsHeaders(req: Request): Record<string, string> {
   const herkomst = req.headers.get("origin") ?? "";
   const headers: Record<string, string> = {
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "content-type, x-region",
+    "Access-Control-Allow-Headers": "authorization, content-type, x-region",
     "Access-Control-Max-Age": "86400",
     "Vary": "Origin",
   };
