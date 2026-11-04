@@ -2,7 +2,7 @@
 
 Laatst bijgewerkt: 4 november 2026.
 
-**Uitgangspunt:** alles met persoonsgegevens staat en draait in de EU. Alleen kopieën van de openbare pagina's (tekst en foto's, geen persoonsgegevens) staan wereldwijd via Cloudflare, ook in Azië. Dat is een bewuste keuze voor gemak (besluit 15).
+**Uitgangspunt:** persoonsgegevens (bestellingen, tickets, aanmeldingen) staan en draaien bij voorkeur in de EU; dat is nu zo. Voor diensten zonder persoonsgegevens weegt gemak zwaarder dan de plek (besluit 48). Alleen kopieën van de openbare pagina's (tekst en foto's, geen persoonsgegevens) staan wereldwijd via Cloudflare, ook in Azië. Dat is een bewuste keuze voor gemak (besluit 15).
 
 Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard worden. Wees dus extra zorgvuldig met wat je publiceert (zie *Bescherming van partners in Azië*).
 
@@ -16,10 +16,10 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 | MailerLite | Nieuwsbriefadressen | Datacenter in de EU | |
 | MailerSend | Ticketmails | Verzending vanuit Duitsland en België | Navragen waar de mailgegevens worden bewaard. Krijgt naam, e-mailadres en de ticketcodes |
 | GitHub | Code en teksten | Verenigde Staten | Geen persoonsgegevens, geen wachtwoorden of sleutels. Europees alternatief: Codeberg (Berlijn) |
-| Pages CMS | Bewerkscherm | Zelf hosten in de EU | Niet de online versie gebruiken |
+| Pages CMS (online versie, app.pagescms.org) | Bewerkscherm voor de teksten en foto's | Niet bekendgemaakt | Krijgt toegang tot deze ene repository (code en teksten, geen persoonsgegevens) en bewaart de inloggegevens van wie het bewerkscherm gebruikt. Alleen de repository van de site koppelen (besluit 48) |
 | Claude | Hulp bij code en teksten | Verenigde Staten | Geen persoonsgegevens delen |
 
-**Nieuwe dienst toevoegen?** Eerst nagaan waar die gegevens opslaat en code uitvoert, en dat in deze tabel zetten. Persoonsgegevens: alleen EU.
+**Nieuwe dienst toevoegen?** Eerst nagaan waar die gegevens opslaat en code uitvoert, en dat in deze tabel zetten. Persoonsgegevens: bij voorkeur in de EU.
 
 ## Maatregelen
 

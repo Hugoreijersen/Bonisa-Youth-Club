@@ -22,7 +22,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 
 - Sitegenerator: **Eleventy 3** (besluit 23). Sjablonen in gewone HTML (Nunjucks), zo dicht mogelijk bij `design/`. Uitleg van de opbouw: `docs/hoe-de-site-werkt.md`.
 - Hosting: **Cloudflare Workers, alleen statische bestanden** (besluit 45). Instellingen in `wrangler.jsonc`; er draait geen Worker-code. Variabelen voor de bouw staan in Cloudflare onder Settings → Build → Build variables and secrets.
-- Bewerkscherm: **Pages CMS**, configuratie in `.pages.yml`. Alles wat kantoor moet kunnen aanpassen (teksten, foto's, datum, prijs, hosts, musici, shirts) staat als JSON in `site/_data/` (één bestand per onderdeel, besluit 26), niet in sjablonen. Nieuw veld in een datafile? Voeg het ook toe aan `.pages.yml`.
+- Bewerkscherm: **Pages CMS**, de online versie op app.pagescms.org (besluit 48), configuratie in `.pages.yml`. Alles wat kantoor moet kunnen aanpassen (teksten, foto's, datum, prijs, hosts, musici, shirts) staat als JSON in `site/_data/` (één bestand per onderdeel, besluit 26), niet in sjablonen. Nieuw veld in een datafile? Voeg het ook toe aan `.pages.yml`.
 - Database en functies: **Supabase, regio Frankfurt (`eu-central-1`)**. Functies altijd vastzetten op die regio. Code in `supabase/`; uitleg in `docs/ticketsysteem.md`. Functies zonder npm-pakketten (besluit 31).
 - Betalen: **Mollie** (iDEAL), betalen op de pagina van Mollie.
 - Mail: MailerSend (ticketmail), MailerLite (nieuwsbrief, alleen met vinkje). Beide via `fetch` in `supabase/functions/_shared/`.
@@ -39,7 +39,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 
 ## Harde regels
 
-- **Persoonsgegevens alleen in de EU.** Geen Cloudflare Workers/Functions voor iets met persoonsgegevens. Geen nieuwe dienst zonder eerst de locatie in `docs/beveiliging.md` te zetten.
+- **Persoonsgegevens bij voorkeur in de EU** (besluit 48); nu staan ze allemaal bij Supabase in Frankfurt. Geen Cloudflare Workers/Functions voor iets met persoonsgegevens. Geen nieuwe dienst zonder eerst de locatie in `docs/beveiliging.md` te zetten.
 - **Geen geheimen in de repository.** Sleutels alleen in de instellingen van Supabase. `.env` staat in `.gitignore`.
 - **Mollie-meldingen altijd nacontroleren** bij de Mollie API; bedragen altijd op de server berekenen.
 - **Foto's:** EXIF/GPS-gegevens altijd verwijderen bij het bouwen (gebeurt automatisch voor elke `<img>` via Eleventy Image; nooit originele foto's los meekopiëren naar `_site`). Geen herkenbare partners in Azië publiceren.

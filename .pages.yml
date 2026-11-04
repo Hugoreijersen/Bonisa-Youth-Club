@@ -278,3 +278,13 @@ content:
         label: Zichtbaar in Google
         type: boolean
         description: Pas aanzetten bij livegang. Uit = zoekmachines slaan de site over.
+
+# Commitberichten volgens Conventional Commits (CLAUDE.md). Inhoud gaat direct
+# naar main; Cloudflare zet de wijziging daarna vanzelf online.
+settings:
+  commit:
+    templates:
+      create: "chore(inhoud): {filename} toegevoegd via Pages CMS"
+      update: "chore(inhoud): {filename} aangepast via Pages CMS"
+      delete: "chore(inhoud): {filename} verwijderd via Pages CMS"
+      rename: "chore(inhoud): {oldFilename} hernoemd naar {newFilename} via Pages CMS"
