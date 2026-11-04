@@ -1,0 +1,152 @@
+// Shared helpers for the edge functions. Explanation: docs/ticketsysteem.md
+// No external packages: everything uses the standard fetch API.
+
+// Secrets come from the Supabase project settings, never from the repository.
+export function env(naam: string, verplicht = true): string {
+  const waarde = Deno.env.get(naam) ?? "";
+  if (verplicht && !waarde) throw new Error(`Missing environment variable ${naam}`);
+  return waarde;
+}
+
+// --- Database: calls the SQL functions through the Supabase REST API with the
+// service role key. That key only exists inside the functions.
+async function rest(pad: string, init: RequestInit = {}) {
+  const sleutel = env("SUPABASE_SERVICE_ROLE_KEY");
+  const antwoord = await fetch(`${env("SUPABASE_URL")}/rest/v1/${pad}`, {
+    ...init,
+    headers: {
+      apikey: sleutel,
+      Authorization: `Bearer ${sleutel}`,
+      "Content-Type": "application/json",
+      ...(init.headers ?? {}),
+    },
+  });
+  const tekst = await antwoord.text();
+  const data = tekst ? JSON.parse(tekst) : null;
+  return { ok: antwoord.ok, data };
+}
+
+export class DatabaseFout extends Error {}
+
+// Calls a SQL function. Errors raised in SQL (e.g. 'verkoop_gesloten') come
+// back as DatabaseFout with that code in the message.
+export async function rpc<T>(functie: string, parameters: Record<string, unknown>): Promise<T> {
+  const { ok, data } = await rest(`rpc/${functie}`, { method: "POST", body: JSON.stringify(parameters) });
+  if (!ok) throw new DatabaseFout(String(data?.message ?? "database"));
+  return data as T;
+}
+
+// Reads one order (only the columns that are asked for).
+export async function leesBestelling(id: string, kolommen: string) {
+  const { ok, data } = await rest(`orders?id=eq.${encodeURIComponent(id)}&select=${kolommen}`);
+  if (!ok) throw new DatabaseFout(String(data?.message ?? "database"));
+  return (data as Record<string, unknown>[])[0] ?? null;
+}
+
+// --- CORS: only our own websites may call the functions from a browser. ---
+function toegestaneHerkomsten(): string[] {
+  return env("SITE_ORIGINS", false).split(",").map((s) => s.trim()).filter(Boolean);
+}
+
+export function corsHeaders(req: Request): Record<string, string> {
+  const herkomst = req.headers.get("origin") ?? "";
+  const headers: Record<string, string> = {
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "content-type, x-region",
+    "Access-Control-Max-Age": "86400",
+    "Vary": "Origin",
+  };
+  if (toegestaneHerkomsten().includes(herkomst)) {
+    headers["Access-Control-Allow-Origin"] = herkomst;
+  }
+  return headers;
+}
+
+export function json(req: Request, data: unknown, status = 200): Response {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: {
+      ...corsHeaders(req),
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
+    },
+  });
+}
+
+export function doorsturen(url: string): Response {
+  return new Response(null, { status: 303, headers: { Location: url, "Cache-Control": "no-store" } });
+}
+
+// Logs never contain personal data (docs/beveiliging.md): only codes and ids.
+export function log(gebeurtenis: string, gegevens: Record<string, unknown> = {}) {
+  console.log(JSON.stringify({ gebeurtenis, ...gegevens }));
+}
+
+// --- Mollie ---------------------------------------------------------------
+// MOLLIE_API_URL can point to a fake Mollie during automated tests.
+const mollieUrl = () => env("MOLLIE_API_URL", false) || "https://api.mollie.com/v2";
+
+export type MollieBetaling = {
+  id: string;
+  status: string;
+  amount: { value: string; currency: string };
+  amountRefunded?: { value: string; currency: string };
+  metadata?: { order_id?: string } | null;
+  _links?: { checkout?: { href: string } };
+};
+
+export class MollieFout extends Error {
+  constructor(public status: number, bericht: string) { super(bericht); }
+}
+
+async function mollie(pad: string, init: RequestInit = {}): Promise<MollieBetaling> {
+  const antwoord = await fetch(`${mollieUrl()}${pad}`, {
+    ...init,
+    headers: {
+      Authorization: `Bearer ${env("MOLLIE_API_KEY")}`,
+      "Content-Type": "application/json",
+      ...(init.headers ?? {}),
+    },
+  });
+  if (!antwoord.ok) {
+    throw new MollieFout(antwoord.status, `Mollie ${init.method ?? "GET"} ${pad.split("?")[0]} gave ${antwoord.status}`);
+  }
+  return await antwoord.json();
+}
+
+export function maakBetaling(gegevens: {
+  bedragCent: number;
+  omschrijving: string;
+  orderId: string;
+  redirectUrl: string;
+  webhookUrl: string;
+}): Promise<MollieBetaling> {
+  return mollie("/payments", {
+    method: "POST",
+    headers: { "Idempotency-Key": gegevens.orderId },
+    body: JSON.stringify({
+      amount: { currency: "EUR", value: centNaarEuro(gegevens.bedragCent) },
+      description: gegevens.omschrijving,
+      redirectUrl: gegevens.redirectUrl,
+      ...(gegevens.webhookUrl ? { webhookUrl: gegevens.webhookUrl } : {}),
+      locale: "nl_NL",
+      metadata: { order_id: gegevens.orderId },
+    }),
+  });
+}
+
+export function haalBetaling(id: string): Promise<MollieBetaling> {
+  return mollie(`/payments/${encodeURIComponent(id)}`);
+}
+
+// 450 -> "4.50" (Mollie wants a string with exactly two decimals)
+export function centNaarEuro(cent: number): string {
+  return (cent / 100).toFixed(2);
+}
+
+// "4.50" -> 450, without floating point surprises
+export function euroNaarCent(waarde: string | undefined): number {
+  if (!waarde || !/^\d+\.\d{2}$/.test(waarde)) return 0;
+  const [heel, deel] = waarde.split(".");
+  return Number(heel) * 100 + Number(deel);
+}
