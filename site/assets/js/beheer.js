@@ -15,7 +15,7 @@
     wachtwoord_te_kort: "Kies een wachtwoord van minstens 10 tekens.",
     ongeldig_email: "Vul een geldig e-mailadres in.",
     niet_jezelf: "Je kunt je eigen account niet verwijderen.",
-    ongeldig_slug: "De korte naam mag alleen kleine letters, cijfers en streepjes bevatten.",
+    ongeldig_slug: "De vaste naam mag alleen kleine letters, cijfers en streepjes bevatten.",
     geen_toegang: "Dit account heeft geen toegang.",
   };
 
@@ -42,18 +42,56 @@
 
   const cel = (tekst) => { const td = document.createElement("td"); td.textContent = tekst; return td; };
 
-  // --- Figures -------------------------------------------------------------
+  // --- The selected event: panel at the top and figures ----------------------
+  const datumLang = (iso) => new Intl.DateTimeFormat("nl-NL", { weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit" }).format(new Date(iso));
+  const veld = (naam) => root.querySelector(`[data-veld="${naam}"]`);
+  let huidig = null; // the event as stored (all fields), from "overzicht"
+
+  function toonPaneel(c) {
+    const e = c.evenement;
+    veld("naam").textContent = e.naam;
+    veld("wanneer").textContent = `${datumLang(e.begint_op)} · ${e.locatie}`;
+    veld("slug").textContent = e.slug;
+
+    // Sales: one button that opens or closes, plus a plain explanation.
+    const knop = $('[data-actie="verkoop"]');
+    const pil = veld("verkoop");
+    const uitleg = veld("verkoop-uitleg");
+    const gepland = e.verkoop_open_vanaf && new Date(e.verkoop_open_vanaf) > new Date();
+    const voorbij = new Date(e.begint_op) <= new Date();
+    const status = {
+      open: ["Open", "open", e.verkoop_dicht_op ? `Sluit automatisch op ${datumTijd(e.verkoop_dicht_op)}.` : "Sluit automatisch bij het begin."],
+      uitverkocht: ["Uitverkocht", "open", "Alle tickets zijn verkocht. Verhoog het aantal tickets om weer te verkopen."],
+      nog_niet_open: gepland ? ["Dicht", "dicht", `Opent automatisch op ${datumTijd(e.verkoop_open_vanaf)}.`] : ["Dicht", "dicht", "Bezoekers kunnen nu geen tickets bestellen."],
+      gesloten: ["Dicht", "dicht", voorbij ? "Het evenement is begonnen of voorbij." : `Gesloten sinds ${datumTijd(e.verkoop_dicht_op)}.`],
+    }[c.verkoop] ?? [c.verkoop, "dicht", ""];
+    pil.textContent = status[0];
+    pil.dataset.soort = status[1];
+    uitleg.textContent = status[2];
+    const isOpen = status[1] === "open";
+    knop.textContent = isOpen ? "Verkoop sluiten" : "Verkoop openen";
+    knop.className = isOpen ? "knop knop--klein" : "knop knop--klein knop--oranje";
+    knop.hidden = voorbij;
+    knop.dataset.open = isOpen ? "ja" : "nee";
+
+    // Number of tickets
+    const aantal = $("[data-aantalformulier]").elements.max_tickets;
+    aantal.value = e.max_tickets;
+    aantal.min = Math.max(1, c.verkocht);
+    veld("verkocht").textContent = `${c.verkocht} verkocht, ${c.plaatsen_vrij} nog beschikbaar${c.gereserveerd ? `, ${c.gereserveerd} in betaling` : ""}.`;
+    veld("voortgang").style.width = `${Math.min(100, Math.round((c.verkocht / e.max_tickets) * 100))}%`;
+  }
+
   async function laadCijfers() {
     const c = await vraag("overzicht", { evenement: slug });
+    huidig = c.evenement;
+    toonPaneel(c);
     const rijen = [
-      ["Verkocht", `${c.verkocht} van ${c.evenement.max_tickets}`],
-      ["Nog beschikbaar", c.plaatsen_vrij],
-      ["Bezig met betalen", c.gereserveerd],
+      ["Verkocht", c.verkocht],
       ["Opbrengst", euro(c.opbrengst_cent)],
       ["Bestellingen", c.bestellingen],
-      ["Gescand (binnen)", c.gescand],
-      ["Aangemeld voor nieuwsbrief", c.nieuwsbrief],
-      ["Ticketverkoop", VERKOOP[c.verkoop] ?? c.verkoop],
+      ["Binnen (gescand)", c.gescand],
+      ["Nieuwsbrief", c.nieuwsbrief],
     ];
     const dl = $("[data-cijfers]");
     dl.replaceChildren(...rijen.map(([k, w]) => {
@@ -142,41 +180,102 @@
     const p = (n) => String(n).padStart(2, "0");
     return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
   };
+  const isoVan = (w) => (w ? new Date(w).toISOString() : "");
+  const centen = (tekst) => {
+    const [heel, deel = ""] = tekst.replace(",", ".").split(".");
+    return Number(heel) * 100 + Number(deel.padEnd(2, "0"));
+  };
+  // The server always wants the whole event; start from what is stored.
+  async function bewaar(wijzigingen, bericht) {
+    const e = { ...huidig, ...wijzigingen };
+    const [opgeslagen] = await vraag("evenement_opslaan", { evenement: {
+      naam: e.naam, slug: e.slug, locatie: e.locatie, begint_op: e.begint_op,
+      prijs_cent: e.prijs_cent, max_tickets: e.max_tickets, max_per_bestelling: e.max_per_bestelling,
+      verkoop_open_vanaf: e.verkoop_open_vanaf ?? "", verkoop_dicht_op: e.verkoop_dicht_op ?? "",
+    } });
+    slug = opgeslagen.slug;
+    await laadEvenementen();
+    await laadCijfers();
+    melding(bericht(opgeslagen), true);
+  }
+
   const formulier = $("[data-evenementformulier]");
   function vulEvenementformulier(e) {
     const f = formulier.elements;
-    f.naam.value = e?.naam ?? "";
-    f.slug.value = e?.slug ?? "";
-    f.slug.readOnly = Boolean(e);
-    f.begint_op.value = lokaal(e?.begint_op);
-    f.locatie.value = e?.locatie ?? "";
-    f.prijs.value = e ? (e.prijs_cent / 100).toFixed(2).replace(".", ",") : "";
-    f.max_tickets.value = e?.max_tickets ?? "";
-    f.max_per_bestelling.value = e?.max_per_bestelling ?? 10;
-    f.verkoop_open_vanaf.value = lokaal(e?.verkoop_open_vanaf);
-    f.verkoop_dicht_op.value = lokaal(e?.verkoop_dicht_op);
+    f.naam.value = e.naam;
+    f.begint_op.value = lokaal(e.begint_op);
+    f.locatie.value = e.locatie;
+    f.prijs.value = (e.prijs_cent / 100).toFixed(2).replace(".", ",");
+    f.max_per_bestelling.value = e.max_per_bestelling;
+    f.verkoop_open_vanaf.value = lokaal(e.verkoop_open_vanaf);
+    f.verkoop_dicht_op.value = lokaal(e.verkoop_dicht_op);
   }
-  $('[data-actie="nieuw-evenement"]').addEventListener("click", () => {
-    vulEvenementformulier(null);
-    formulier.elements.naam.focus();
-  });
   formulier.addEventListener("submit", async (ev) => {
     ev.preventDefault();
     const f = formulier.elements;
-    const iso = (w) => (w ? new Date(w).toISOString() : "");
-    const [heel, deel = ""] = f.prijs.value.replace(",", ".").split(".");
     try {
-      const [opgeslagen] = await vraag("evenement_opslaan", { evenement: {
-        naam: f.naam.value, slug: f.slug.value, locatie: f.locatie.value,
-        begint_op: iso(f.begint_op.value),
-        prijs_cent: Number(heel) * 100 + Number(deel.padEnd(2, "0")),
-        max_tickets: Number(f.max_tickets.value), max_per_bestelling: Number(f.max_per_bestelling.value),
-        verkoop_open_vanaf: iso(f.verkoop_open_vanaf.value), verkoop_dicht_op: iso(f.verkoop_dicht_op.value),
+      await bewaar({
+        naam: f.naam.value, locatie: f.locatie.value, begint_op: isoVan(f.begint_op.value),
+        prijs_cent: centen(f.prijs.value), max_per_bestelling: Number(f.max_per_bestelling.value),
+        verkoop_open_vanaf: isoVan(f.verkoop_open_vanaf.value) || null, verkoop_dicht_op: isoVan(f.verkoop_dicht_op.value) || null,
+      }, (e) => `De gegevens van "${e.naam}" zijn opgeslagen.`);
+    } catch (e) { melding(e.message); }
+  });
+
+  // Open or close the sales with one button.
+  $('[data-actie="verkoop"]').addEventListener("click", async (ev) => {
+    const knop = ev.currentTarget;
+    const openen = knop.dataset.open !== "ja";
+    const nu = Date.now();
+    knop.disabled = true;
+    try {
+      await bewaar(openen
+        ? {
+          // A minute back, so a slightly fast computer clock cannot keep it closed.
+          verkoop_open_vanaf: new Date(nu - 60_000).toISOString(),
+          verkoop_dicht_op: huidig.verkoop_dicht_op && new Date(huidig.verkoop_dicht_op) <= new Date(nu) ? null : huidig.verkoop_dicht_op,
+        }
+        : { verkoop_open_vanaf: null },
+      () => (openen ? "De ticketverkoop is open." : "De ticketverkoop is dicht."));
+    } catch (e) { melding(e.message); } finally { knop.disabled = false; }
+  });
+
+  // Change the number of tickets.
+  const aantalformulier = $("[data-aantalformulier]");
+  aantalformulier.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const max = Number(aantalformulier.elements.max_tickets.value);
+    try { await bewaar({ max_tickets: max }, () => `Er zijn nu ${max} tickets.`); } catch (e) { melding(e.message); }
+  });
+
+  // New event: separate form, the selected event stays editable.
+  const nieuwblok = $("[data-nieuwblok]");
+  const nieuwformulier = $("[data-nieuwformulier]");
+  $('[data-actie="nieuw-evenement"]').addEventListener("click", () => {
+    nieuwblok.hidden = false;
+    nieuwformulier.elements.naam.focus();
+  });
+  $('[data-actie="annuleer-nieuw"]').addEventListener("click", () => {
+    nieuwformulier.reset();
+    nieuwblok.hidden = true;
+  });
+  nieuwformulier.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const f = nieuwformulier.elements;
+    if (evenementen.some((e) => e.slug === f.slug.value)) return melding("Er is al een evenement met deze vaste naam. Kies een andere.");
+    try {
+      const [nieuw] = await vraag("evenement_opslaan", { evenement: {
+        naam: f.naam.value, slug: f.slug.value, locatie: f.locatie.value, begint_op: isoVan(f.begint_op.value),
+        prijs_cent: centen(f.prijs.value), max_tickets: Number(f.max_tickets.value),
+        max_per_bestelling: Number(f.max_per_bestelling.value), verkoop_open_vanaf: "", verkoop_dicht_op: "",
       } });
-      slug = opgeslagen.slug;
+      slug = nieuw.slug;
+      nieuwformulier.reset();
+      nieuwblok.hidden = true;
+      root.querySelectorAll("[data-paneel], [data-heeft-evenement], [data-actie='annuleer-nieuw']").forEach((el) => { el.hidden = false; });
       await laadEvenementen();
-      await Promise.all([laadCijfers(), laadBestellingen()]);
-      melding(`"${opgeslagen.naam}" is opgeslagen.`, true);
+      await toonEvenement();
+      melding(`"${nieuw.naam}" is aangemaakt. De verkoop staat nog dicht.`, true);
     } catch (e) { melding(e.message); }
   });
 
@@ -188,8 +287,12 @@
   $("[data-evenementen]").addEventListener("change", async (e) => {
     slug = e.target.value;
     melding("");
-    try { await Promise.all([laadCijfers(), laadBestellingen()]); } catch (err) { melding(err.message); }
+    try { await toonEvenement(); } catch (err) { melding(err.message); }
   });
+  async function toonEvenement() {
+    $("[data-zoek]").value = "";
+    await Promise.all([laadCijfers(), laadBestellingen()]);
+  }
 
   // --- Accounts --------------------------------------------------------------
   async function laadAccounts() {
@@ -238,9 +341,12 @@
       try {
         await laadEvenementen();
         if (!evenementen.length) {
-          vulEvenementformulier(null);
+          // Nothing to show yet: only the form for a new event and the accounts.
+          root.querySelectorAll("[data-paneel], [data-heeft-evenement]").forEach((el) => { el.hidden = true; });
+          nieuwblok.hidden = false;
+          $('[data-actie="annuleer-nieuw"]').hidden = true;
           await laadAccounts();
-          return melding("Er is nog geen evenement. Vul hieronder het evenement in.", true);
+          return melding("Er is nog geen evenement. Maak hieronder het eerste evenement aan.", true);
         }
         if (!evenementen.some((e) => e.slug === slug)) slug = evenementen[0].slug;
         await Promise.all([laadCijfers(), laadBestellingen(), laadAccounts()]);
