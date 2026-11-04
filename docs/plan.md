@@ -15,7 +15,7 @@ Laatst bijgewerkt: 4 november 2026. Het overleg-exemplaar van dit plan staat als
 | Onderdeel | Keuze | Waarom |
 | --- | --- | --- |
 | Website | Sitegenerator Eleventy, gehost bij Cloudflare (Worker met alleen statische bestanden, besluit 45) | Gratis, snel, automatische testversie per wijziging, sterke bescherming tegen aanvallen |
-| Aanpassen | Pages CMS (zelf gehost in de EU), gekoppeld aan deze repository | Kantoor wijzigt tekst en foto's in velden; de opmaak staat vast |
+| Aanpassen | Pages CMS (online versie, besluit 48), gekoppeld aan deze repository | Kantoor wijzigt tekst en foto's in velden; de opmaak staat vast |
 | Grotere wijzigingen | Claude (Team-abonnement, non-profitkorting), via de testsite | Geen bouwer nodig voor nieuwe blokken of pagina's |
 | Tickets | Eigen systeem met QR-tickets, voor meerdere evenementen | Geen kosten per ticket aan een ticketplatform |
 | Betalen | Mollie (iDEAL) | Nederlands, €0,32 per iDEAL-betaling, geen kosten per ticket |
@@ -117,7 +117,7 @@ Toegangsregels (Row Level Security) op alle tabellen: bezoekers kunnen niets lez
 | --- | --- | --- |
 | Cloudflare Workers (statische bestanden) | Gratis | Inclusief testversie per branch |
 | GitHub | Gratis | Organisatie op naam van de stichting |
-| Pages CMS | Gratis, open source | Zelf hosten in de EU |
+| Pages CMS | Gratis, open source | Online versie, niets zelf te hosten |
 | Mollie | €0,32 per iDEAL-betaling | Per bestelling, niet per ticket |
 | Supabase | Gratis; Pro $25 per maand | Gratis pauzeert na een week weinig activiteit en maakt geen back-ups. Voorstel (besluit 20): Pro alleen in de verkoopmaanden (ca. $75 per jaar), jaarrond zodra bonisa.nl giften verwerkt. Eén project voor alle sites |
 | MailerSend | Gratis tot 500 mails/maand, max. 100 per dag | Voor de verkoopmaand mogelijk betaald plan |

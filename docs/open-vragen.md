@@ -48,6 +48,5 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 
 ## Na de bouw van fase 1 (website)
 
-- [ ] Pages CMS zelf hosten in de EU (bijvoorbeeld op een kleine server of bij een Europese hostingdienst). Tot die tijd kan het bewerkscherm niet gebruikt worden: de online versie op pagescms.org draait niet aantoonbaar in de EU.
 - [ ] Bonisa-logo aanleveren (vak op de site blijft weg zolang het leeg is).
 - [ ] Bij livegang: in het bewerkscherm "Zichtbaar in Google" aanzetten.

@@ -158,7 +158,18 @@ Een fotobeschrijving (`alt`) is verplicht: zonder kan kantoor niet opslaan. Tijd
 
 **Regel:** voeg je een veld toe aan een datafile, voeg het dan ook toe aan `.pages.yml`. Anders ziet kantoor het niet. Andersom: een veld in `.pages.yml` dat niet in het sjabloon gebruikt wordt, doet niets.
 
-**Let op:** de online versie van Pages CMS (app.pagescms.org) draait niet aantoonbaar in de EU. Volgens `beveiliging.md` hosten we Pages CMS zelf in de EU. Dat moet nog geregeld worden (zie `open-vragen.md`). Tot die tijd kun je de datafiles ook gewoon in een teksteditor aanpassen.
+We gebruiken de online versie op [app.pagescms.org](https://app.pagescms.org) (besluit 48). Daar draait niets van onszelf, dus er is geen server om bij te houden.
+
+**Eenmalig instellen** (door de beheerder van de GitHub-repository):
+
+1. Ga naar app.pagescms.org en kies **Sign in with GitHub**.
+2. Installeer de GitHub-app van Pages CMS en geef hem **alleen** toegang tot de repository `Bonisa-Youth-Club` ("Only select repositories").
+3. Open de repository en kies de branch `main`. Links staan nu de onderdelen uit `.pages.yml`.
+4. Collega's van kantoor nodig je uit onder **Settings → Collaborators**, met hun e-mailadres. Zij hebben geen GitHub-account nodig.
+
+**Hoe een wijziging online komt:** kantoor klikt op **Save**. Pages CMS maakt dan een commit op `main` met een bericht als `chore(inhoud): evenement.json aangepast via Pages CMS` (`settings.commit` in `.pages.yml`). Cloudflare bouwt de site opnieuw; na ongeveer een minuut staat de wijziging online. Inhoud gaat dus wel rechtstreeks naar `main`; code gaat altijd via een pull request.
+
+**Let op bij nieuwe velden:** Pages CMS schrijft bij het opslaan alleen de velden die in `.pages.yml` staan. Een veld dat wel in een datafile staat maar niet in `.pages.yml`, verdwijnt bij de eerste keer opslaan. Zet een nieuw veld dus altijd in allebei.
 
 ## 8. Beveiliging en privacy van de site zelf
 
