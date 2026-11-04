@@ -1,0 +1,15 @@
+{#- Groen blok met de gegevens van de avond, links op de bestel- en bedankpagina. -#}
+<aside class="samenvatting" aria-label="Over de avond">
+  <img src="{{ evenement.hero.foto }}" alt="{{ evenement.hero.alt }}" sizes="(min-width: 900px) 400px, 100vw">
+  <div class="samenvatting__tekst">
+    <h1>{{ evenement.titel }}</h1>
+    <p class="samenvatting__thema">{{ evenement.ondertitelBegin }}
+      {%- for kaart in thema.kaarten %}{% if loop.last and not loop.first %} en{% elif not loop.first %},{% endif %} {{ kaart.titel | klein }}{% endfor %}</p>
+    <ul>
+      <li><strong>D.V. {{ evenement.datum | datumLang }}</strong></li>
+      <li>Aanvang {{ evenement.begintijd }}</li>
+      <li>{{ evenement.locatie.naam }}</li>
+    </ul>
+    <p class="samenvatting__prijs"><span>{{ evenement.tickets.prijs | euro }}</span> per persoon</p>
+  </div>
+</aside>

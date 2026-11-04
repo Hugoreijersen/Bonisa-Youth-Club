@@ -1,0 +1,82 @@
+---
+layout: base.njk
+permalink: /tickets/
+titel: Ticket bestellen · Katwijkse Jongerenzang
+eenvoudigeKop: true
+scripts: ["/assets/js/bestellen.js"]
+---
+{#- Bestelpagina. Werkt ook zonder JavaScript: het formulier gaat dan direct naar create-order. -#}
+{%- set maxPerBestelling = 10 %}
+<div class="container bestellen">
+  {% include "blokken/ticket-samenvatting.njk" %}
+
+  <div class="bestellen__formulier">
+    <form id="bestelformulier" class="formulier" method="post" action="{{ ticketsysteem.functiesUrl }}/create-order"
+      data-functies="{{ ticketsysteem.functiesUrl }}" data-evenement="{{ ticketsysteem.evenement }}"
+      data-prijs-cent="{{ (evenement.tickets.prijs * 100) | round }}" data-max="{{ maxPerBestelling }}" novalidate>
+      <div class="formulier__kop">
+        <h2>Bestel je ticket</h2>
+        <p class="tekst-gedempt">Vul je gegevens in. Velden met * zijn verplicht.</p>
+      </div>
+
+      <div class="melding" id="melding" role="alert" hidden></div>
+
+      <input type="hidden" name="evenement" value="{{ ticketsysteem.evenement }}">
+      {#- Spamval: mensen zien dit veld niet, robots vullen het in. #}
+      <div class="visueel-verborgen" aria-hidden="true">
+        <label for="website">Laat dit veld leeg</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="velden">
+        <div class="veld">
+          <label for="voornaam">Voornaam *</label>
+          <input id="voornaam" name="voornaam" type="text" required maxlength="100" autocomplete="given-name">
+        </div>
+        <div class="veld">
+          <label for="achternaam">Achternaam *</label>
+          <input id="achternaam" name="achternaam" type="text" required maxlength="100" autocomplete="family-name">
+        </div>
+        <div class="veld">
+          <label for="email">E-mailadres *</label>
+          <input id="email" name="email" type="email" required maxlength="254" autocomplete="email">
+        </div>
+        <div class="veld">
+          <label for="telefoon">Telefoonnummer</label>
+          <input id="telefoon" name="telefoon" type="tel" maxlength="30" autocomplete="tel">
+        </div>
+        <div class="veld">
+          <label for="woonplaats">Woonplaats *</label>
+          <input id="woonplaats" name="woonplaats" type="text" required maxlength="100" autocomplete="address-level2">
+        </div>
+        <div class="veld">
+          <label for="aantal">Aantal tickets *</label>
+          <div class="teller">
+            <button type="button" class="teller__knop" data-stap="-1" aria-label="Eén ticket minder" hidden>−</button>
+            <input id="aantal" name="aantal" type="number" inputmode="numeric" min="1" max="{{ maxPerBestelling }}" value="1" required>
+            <button type="button" class="teller__knop" data-stap="1" aria-label="Eén ticket meer" hidden>+</button>
+          </div>
+        </div>
+      </div>
+
+      <label class="vinkje" for="akkoord">
+        <input id="akkoord" name="akkoord" type="checkbox" required>
+        <span>Ik ga akkoord met de <a href="{{ stichting.documenten.voorwaarden }}">algemene voorwaarden</a> en de <a href="{{ stichting.documenten.privacy }}">privacyverklaring</a>. *</span>
+      </label>
+
+      <label class="vinkje" for="nieuwsbrief">
+        <input id="nieuwsbrief" name="nieuwsbrief" type="checkbox">
+        <span>Ja, houd me op de hoogte van nieuws en activiteiten van Bonisa en de Bonisa Youth Club. Afmelden kan altijd.</span>
+      </label>
+
+      <div class="totaal">
+        <div class="totaal__bedrag">
+          <span class="tekst-gedempt" id="totaal-regel">1 × {{ evenement.tickets.prijs | euro }}</span>
+          <strong id="totaal" aria-live="polite">{{ evenement.tickets.prijs | euro }}</strong>
+        </div>
+        <button type="submit" class="knop knop--oranje knop--groot" id="bestelknop">Bestel je ticket</button>
+      </div>
+      <p class="klein tekst-gedempt">Je betaalt met iDEAL op de beveiligde pagina van Mollie. Daarna krijg je je tickets per e-mail.</p>
+    </form>
+  </div>
+</div>

@@ -686,3 +686,116 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 /* ---------- Eenvoudige pagina (404) ---------- */
 .eenvoudig { padding: var(--sectie) 0; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
 .eenvoudig h1 { font-size: clamp(40px, 6vw, 64px); font-weight: 800; }
+
+/* ---------- Bestelpagina en bedankpagina (/tickets/) ---------- */
+.terug { display: inline-flex; align-items: center; min-height: 44px; color: var(--tekst); font-weight: 600; }
+
+.bestellen {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px;
+  padding-top: clamp(24px, 5vw, 56px);
+  padding-bottom: var(--sectie);
+}
+.samenvatting {
+  flex: 1 1 340px;
+  min-width: 0;
+  background: var(--groen-donker);
+  color: var(--wit);
+  border-radius: var(--rond-groot);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.samenvatting img { width: 100%; height: 220px; object-fit: cover; }
+.samenvatting__tekst { padding: clamp(24px, 4vw, 32px); display: flex; flex-direction: column; gap: 16px; }
+.samenvatting h1 { font-weight: 800; font-size: clamp(32px, 4vw, 40px); line-height: 1; }
+.samenvatting__thema { font-family: var(--font-kop); font-size: 22px; }
+.samenvatting ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.samenvatting__prijs { display: flex; align-items: baseline; gap: 8px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.3); }
+.samenvatting__prijs span { font-family: var(--font-kop); font-weight: 800; font-size: 36px; }
+
+.bestellen__formulier {
+  flex: 2 1 520px;
+  min-width: 0;
+  background: var(--wit);
+  border-radius: var(--rond-groot);
+  padding: clamp(24px, 5vw, 40px);
+}
+.formulier { display: flex; flex-direction: column; gap: 24px; }
+.formulier__kop { display: flex; flex-direction: column; gap: 4px; }
+.formulier h2, .uitslag h2 { font-weight: 800; font-size: clamp(34px, 4vw, 44px); }
+
+.velden { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 16px 20px; }
+.veld { display: flex; flex-direction: column; gap: 6px; }
+.veld label { font-weight: 600; font-size: 16px; }
+.veld input {
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1.5px solid #8FA394; /* 3:1 tegen wit: zichtbare rand */
+  border-radius: 14px;
+  font: inherit;
+  color: var(--tekst);
+  background: var(--wit);
+  width: 100%;
+}
+.veld input:focus-visible { outline: 3px solid var(--oranje); outline-offset: 2px; }
+
+.teller { display: flex; align-items: center; gap: 8px; }
+.teller input { width: 80px; text-align: center; font-family: var(--font-kop); font-weight: 800; font-size: 24px; -moz-appearance: textfield; }
+.teller input::-webkit-outer-spin-button, .teller input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.teller__knop {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1.5px solid #8FA394;
+  background: var(--wit);
+  font: inherit;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--tekst);
+  cursor: pointer;
+}
+.teller__knop:hover { background: var(--groen-tint); }
+
+.vinkje { display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: var(--tekst-gedempt); cursor: pointer; }
+.vinkje input { width: 22px; height: 22px; margin: 2px 0 0; accent-color: var(--groen-donker); flex: none; }
+
+.totaal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: 20px;
+  background: var(--oranje-tint);
+}
+.totaal__bedrag { display: flex; flex-direction: column; line-height: 1.3; }
+.totaal__bedrag span { font-size: 15px; }
+.totaal__bedrag strong { font-family: var(--font-kop); font-weight: 800; font-size: 32px; }
+.totaal .knop { border: 0; font: inherit; font-size: 19px; font-weight: 700; cursor: pointer; }
+.totaal .knop:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.melding {
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: #FDECEA;
+  color: #8A1C12;
+  border: 1.5px solid #E5A39B;
+  font-weight: 600;
+}
+
+.uitslag { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px 0; }
+.uitslag[hidden] { display: none; }
+.uitslag__teken {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--groen-tint-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.uitslag__teken svg { width: 36px; height: 36px; }
