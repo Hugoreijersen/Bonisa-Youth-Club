@@ -2,6 +2,8 @@
 // Explanation in Dutch: docs/hoe-de-site-werkt.md
 import { EleventyRenderPlugin } from "@11ty/eleventy";
 import Image, { eleventyImageTransformPlugin } from "@11ty/eleventy-img";
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 const TIMEZONE = "Europe/Amsterdam";
 
@@ -57,6 +59,12 @@ export default function (eleventyConfig) {
       .format(Number(bedrag)));
 
   // "Recht" -> "recht" (for the theme words in the hero)
+  // Adds ?v=<hash of the file> to /assets/ links. Those files are cached for a
+  // year (site/_headers.njk), so a changed file needs a new address.
+  eleventyConfig.addFilter("versie", (pad) => {
+    const inhoud = readFileSync(`site${pad}`);
+    return `${pad}?v=${createHash("sha256").update(inhoud).digest("hex").slice(0, 10)}`;
+  });
   eleventyConfig.addFilter("klein", (s) => String(s ?? "").toLocaleLowerCase("nl-NL"));
 
   return {

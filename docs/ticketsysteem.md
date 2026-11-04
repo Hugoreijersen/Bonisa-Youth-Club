@@ -152,16 +152,16 @@ Testen met de echte Mollie-testomgeving: haal in `.env.local` de regel `MOLLIE_A
    select id, 'kantoor' from auth.users where email = '<e-mailadres>';
    ```
    Alle volgende accounts maakt kantoor zelf aan op `/beheer/`.
-7. **Evenement** aanmaken op `/beheer/` → Evenement instellen (naam, korte naam `jongerenzang-2027`, datum, prijs, aantal tickets, start van de verkoop).
+7. **Evenement** aanmaken op `/beheer/` → **+ Nieuw evenement** (naam, vaste naam `jongerenzang-2027`, datum, prijs, aantal tickets). Daarna de verkoop openen met de knop in het groene blok.
 8. **Cloudflare**: zet onder Settings → Build → **Build variables and secrets** de variabelen `FUNCTIES_URL` (`https://<project-ref>.supabase.co/functions/v1`) en `SUPABASE_PUBLIEKE_SLEUTEL` (de "publishable key" uit Project Settings → API Keys; die is openbaar bedoeld) en bouw opnieuw.
 9. Op de site: in het bewerkscherm "Ticketverkoop is open" aanzetten, met als link `/tickets/`.
 
 Live gaan met echte betalingen: alleen de `MOLLIE_API_KEY` vervangen door de `live_`-sleutel van het Mollie-account van de stichting. Eerst een paar echte bestellingen van € 4,50 doen en terugbetalen (fase 4).
 
-**Let op:** de prijs op de site (bewerkscherm) is alleen om te tonen. Het bedrag dat mensen betalen staat in `events.prijs_cent` (op `/beheer/` bij Evenement instellen). De bestelpagina haalt de echte prijs op en toont die, maar houd ze gelijk.
+**Let op:** de prijs op de site (bewerkscherm) is alleen om te tonen. Het bedrag dat mensen betalen staat in `events.prijs_cent` (op `/beheer/` bij Gegevens van dit evenement). De bestelpagina haalt de echte prijs op en toont die, maar houd ze gelijk.
 
 ## 6. Nieuw jaar
 
-1. Op `/beheer/`: **Nieuw evenement**, bijvoorbeeld korte naam `jongerenzang-2028`.
-2. In Cloudflare (Settings → Build → Build variables and secrets) de variabele `EVENEMENT` op die korte naam zetten en opnieuw bouwen. De bestel- en scanpagina gebruiken dan het nieuwe evenement.
+1. Op `/beheer/`: **+ Nieuw evenement**, bijvoorbeeld vaste naam `jongerenzang-2028`.
+2. In Cloudflare (Settings → Build → Build variables and secrets) de variabele `EVENEMENT` op die vaste naam zetten en opnieuw bouwen. De bestel- en scanpagina gebruiken dan het nieuwe evenement.
 3. Tickets van vorig jaar worden bij het scannen herkend als "ander evenement".
