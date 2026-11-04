@@ -82,7 +82,16 @@ npm run test:tickets      # in een tweede venster: alle tests
 
 De tests gebruiken een nagebootste Mollie (`supabase/tests/mollie-nep.mjs`). Ze controleren onder andere: het bedrag komt uit de database, de webhook vertrouwt de melding niet, dubbele meldingen maken geen dubbele tickets, uitverkocht en gelijktijdig bestellen, verkoop dicht, Mollie onbereikbaar, het maximum per e-mailadres, en dat bezoekers niets kunnen lezen. Stand op 4 november 2026: 15 geslaagd, 1 overgeslagen (CORS kan alleen online getest worden, omdat de lokale Supabase daar altijd `*` geeft).
 
-Wil je de bestelpagina zelf proberen: `npm start` in een derde venster, en ga naar http://localhost:8080/tickets/. Met de nagebootste Mollie kom je na "Bestel je ticket" op een adres dat niet bestaat; dat is goed.
+Wil je de bestelpagina zelf doorklikken, zet dan naast `npm run functies` nog twee vensters aan:
+
+```
+npm start                          # de site
+node supabase/tests/mollie-nep.mjs # de nagebootste Mollie
+```
+
+Ga naar http://localhost:8080/tickets/ en bestel. Je komt op de betaalpagina van de nagebootste Mollie. Kies daar Betaald, Mislukt, Geannuleerd of Verlopen; je gaat terug naar de bedankpagina, die de uitkomst laat zien. (Lokaal kan Mollie de webhook niet bereiken; de bedankpagina vraagt de status daarom zelf na via `ticketinfo`, net als online wanneer de webhook laat is.)
+
+Wat er in de lokale database staat, zie je in Supabase Studio op http://localhost:54323 (Table Editor). Het adres http://127.0.0.1:54321 is geen pagina maar het adres waarmee de site en de functies met de database praten.
 
 Testen met de echte Mollie-testomgeving: haal in `.env.local` de regel `MOLLIE_API_URL` weg en zet je `test_`-sleutel bij `MOLLIE_API_KEY`.
 

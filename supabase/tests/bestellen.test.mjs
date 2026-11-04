@@ -66,7 +66,7 @@ test("bestellen: bedrag komt uit de database, niet uit het formulier", async () 
   const r = await bestelJson({ aantal: "2", bedrag: "0.01", prijs_cent: "1" });
   assert.equal(r.status, 200);
   const { checkoutUrl, bestelling } = await r.json();
-  assert.match(checkoutUrl, /^https:\/\/nep-mollie\.test\/checkout\/tr_/);
+  assert.match(checkoutUrl, /^http:\/\/localhost:54399\/checkout\/tr_/);
   const o = await order(bestelling);
   assert.equal(o.status, "open");
   assert.equal(o.bedrag_cent, 900);
@@ -137,7 +137,7 @@ test("bedankpagina controleert zelf bij Mollie als de webhook te laat is", async
 test("zonder JavaScript: gewoon formulier stuurt door naar Mollie of terug met foutcode", async () => {
   const goed = await bestelFormulier();
   assert.equal(goed.status, 303);
-  assert.match(goed.headers.get("location"), /^https:\/\/nep-mollie\.test\/checkout\//);
+  assert.match(goed.headers.get("location"), /^http:\/\/localhost:54399\/checkout\//);
   const fout = await bestelFormulier({ akkoord: "" });
   assert.equal(fout.status, 303);
   assert.equal(fout.headers.get("location"), "http://localhost:8080/tickets/?fout=geen_akkoord");
