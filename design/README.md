@@ -1,6 +1,10 @@
 # Ontwerp
 
-Hier staat het goedgekeurde ontwerp, **alleen als referentie**. Deze bestanden zijn niet de website zelf: de echte site wordt gebouwd in `site/` met Eleventy.
+Hier staan de huisstijl en het ontwerp, **alleen als referentie**. Deze bestanden zijn niet de website zelf: de echte site wordt gebouwd in `site/` met Eleventy.
+
+## bonisa-huisstijl/
+
+De huisstijl van Bonisa (5 november 2026): de gids als PDF, de logo's als `.svg` en een uitleg hoe de site hem toepast. **De huisstijl gaat voor**: kleuren, lettertypen en vormen op de site komen hieruit. Zie [bonisa-huisstijl/README.md](bonisa-huisstijl/README.md).
 
 ## jongerenzang-2027/
 
@@ -15,7 +19,9 @@ Gemaakt in Claude (ontwerpcanvas), geëxporteerd op 4 november 2026.
 
 **Let op bij het lezen:** de HTML gebruikt het formaat van het ontwerpcanvas. `<x-dc>`, `<helmet>`, `<sc-if>`, `{{groenDonker}}` en het script onderaan zijn geen gewone HTML. Ze openen niet goed in een browser. Lees ze als specificatie: de inline `style`-attributen geven de exacte maten, kleuren en lettertypen.
 
-## Ontwerpregels
+## Ontwerpregels (vervangen)
+
+**Vervangen door de huisstijl van Bonisa** (besluit 57). Hieronder de oorspronkelijke regels van het ontwerp, ter referentie. De opbouw van de pagina klopt nog wel.
 
 | | Waarde |
 | --- | --- |

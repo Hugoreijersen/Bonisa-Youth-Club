@@ -16,9 +16,8 @@
   <meta property="og:description" content="{{ site.beschrijving }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ site.url }}{% deelfoto site.deelfoto %}">
-  <meta name="theme-color" content="#4C8C40">
-  <link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/dm-sans-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <meta name="theme-color" content="#457d28">
+  <link rel="preload" href="/assets/fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | versie }}">
   <script src="{{ '/assets/js/menu.js' | versie }}"></script>
   {%- for script in scripts %}
@@ -70,6 +69,7 @@
 <footer class="footer">
   <div class="container footer__inhoud">
     <div class="footer__adres">
+      <img class="footer__logo" src="/assets/img/bonisa-logo-wit.svg" alt="" width="211" height="53">
       <p class="footer__naam">{{ stichting.naam }}</p>
       <p>{{ stichting.adres }} · <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a></p>
       <p><a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> · <a href="{{ stichting.website }}">{{ stichting.website | replace('https://', '') | replace('www.', '') }}</a></p>
