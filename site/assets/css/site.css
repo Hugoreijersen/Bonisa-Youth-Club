@@ -671,6 +671,30 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .shirt h3 { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 700; font-size: 22px; line-height: 1.2; }
 .shirt__regel { display: flex; justify-content: space-between; gap: 12px; color: var(--tekst-gedempt); }
 .shirt__regel strong { color: var(--groen-donker); }
+
+/* ---------- Notitieboekjes: één rij die opzij scrolt ---------- */
+.notitieboekjes { background: var(--zand-licht); }
+.notitieboekjes .sectie-inhoud { gap: 32px; }
+.notitieboekjes__kop { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 48px; }
+.notitieboekjes__kop .bovenkop { color: var(--rood); }
+.notitieboekjes__kop h2 { font-weight: 900; font-size: clamp(36px, 4.5vw, 48px); line-height: 1; }
+.notitieboekjes__tekst { flex: 1 1 420px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; color: var(--tekst-gedempt); }
+.boekjes {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 12px;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+.boekjes:focus-visible { outline: 3px solid var(--groen-donker); outline-offset: 4px; }
+.boekje { flex: 0 0 240px; scroll-snap-align: start; background: var(--wit); clip-path: var(--rafel-rondom); display: flex; flex-direction: column; }
+.boekje img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.boekje__tekst { padding: 14px 18px 18px; display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.boekje h3 { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 700; font-size: 19px; line-height: 1.2; }
+.boekje strong { flex: none; color: var(--groen-donker); }
 @media (max-width: 560px) {
   .shirts { grid-template-columns: 1fr 1fr; }
   .shirt__regel { flex-direction: column; gap: 0; }

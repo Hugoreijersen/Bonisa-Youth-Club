@@ -1,0 +1,13 @@
+{
+  "zichtbaar": true,
+  "label": "Van Bonisa",
+  "titel": "Notitieboekjes",
+  "tekst": "Notitieboekjes met een Bijbeltekst op de kaft, voor jong en oud. [Te koop tijdens de avond en/of in de webwinkel van Bonisa.]",
+  "winkellink": "",
+  "boekjes": [
+    { "foto": "/assets/img/notitieboekje-a5-volwassenen-aquarel.jpg", "alt": "Notitieboekje met een aquarel van een landschap en een Bijbeltekst op de kaft", "naam": "A5 volwassenen · aquarel", "prijs": 7 },
+    { "foto": "/assets/img/notitieboekje-a5-jongeren-engels.jpg", "alt": "Bruin notitieboekje met de Engelse tekst So whether you eat or drink, do all to the glory of God", "naam": "A5 jongeren · Engels", "prijs": 7 },
+    { "foto": "/assets/img/notitieboekje-a6-kinderen-panda.jpg", "alt": "Notitieboekje met een getekende panda in een bamboestengel", "naam": "A6 kinderen · panda", "prijs": 4 },
+    { "foto": "/assets/img/notitieboekje-a6-volwassenen-bladeren.jpg", "alt": "Notitieboekje met bladeren en een Bijbeltekst op de kaft", "naam": "A6 volwassenen · bladeren", "prijs": 4 }
+  ]
+}

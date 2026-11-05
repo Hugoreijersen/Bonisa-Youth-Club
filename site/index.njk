@@ -13,5 +13,8 @@ scripts: ["/assets/js/naar-welkom.js"]
 {%- if kingfisher.zichtbaar %}
 {% include "blokken/kingfisher.njk" %}
 {%- endif %}
+{%- if notitieboekjes.zichtbaar %}
+{% include "blokken/notitieboekjes.njk" %}
+{%- endif %}
 {% include "blokken/byc.njk" %}
 {% include "blokken/slotbalk.njk" %}

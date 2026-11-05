@@ -38,6 +38,7 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 - [ ] Citaat bezoeker: naam en leeftijd, met toestemming.
 - [ ] Collecteproject 2027 en gegevens van Project 9 (2025).
 - [ ] Kingfisher: winkellink, en of de shirts tijdens de avond te koop zijn.
+- [ ] Notitieboekjes: waar te koop (tijdens de avond, webwinkel?), winkellink, en grotere foto's (nu 300 bij 200 pixels, wat onscherp is op telefoons).
 
 ## Fase 2 (bonisa.nl)
 
