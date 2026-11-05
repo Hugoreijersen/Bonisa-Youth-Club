@@ -42,7 +42,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 
 ### Database
 - Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven. Ook de SQL-functies zijn alleen voor de functies te gebruiken (getest, zie [ticketsysteem.md](ticketsysteem.md)).
-- De beheer- en scanpagina werken alleen na inloggen (Supabase Auth, wachtwoord), met rollen `kantoor` en `scanner` in de tabel `beheerders`. Zelf een account aanmaken kan niet; kantoor maakt accounts aan of nodigt iemand uit via Supabase. Een uitgenodigd account heeft geen rol en kan dus niets, tot kantoor een rol kiest. De uitnodigingsmail verstuurt Supabase zelf (alleen naam van de site en het e-mailadres). Op `/welkom/` haalt de pagina de inlogcode meteen uit de adresbalk. Het inloggen blijft alleen bewaard in het geopende tabblad.
+- De beheer- en scanpagina werken alleen na inloggen (Supabase Auth, wachtwoord), met rollen `kantoor` en `scanner` in de tabel `beheerders`. Zelf een account aanmaken kan niet; kantoor nodigt mensen uit per mail vanaf de beheerpagina (of via het Supabase-dashboard). Een uitgenodigd account heeft geen rol en kan dus niets, tot kantoor een rol kiest. De uitnodigingsmail verstuurt Supabase zelf; stel daar eigen SMTP van MailerSend in (zie ticketsysteem.md), zodat ook deze mail via MailerSend gaat. Alleen het e-mailadres gaat mee. Op `/welkom/` haalt de pagina de inlogcode meteen uit de adresbalk. Het inloggen blijft alleen bewaard in het geopende tabblad.
 - De scanpagina toont alleen voornaam en "ticket x van y". Alle andere gegevens alleen op de beheerpagina.
 
 ### Betalingen en tickets

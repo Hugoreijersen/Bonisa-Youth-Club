@@ -16,6 +16,9 @@
     ongeldig_email: "Vul een geldig e-mailadres in.",
     niet_jezelf: "Je eigen account kun je niet verwijderen of een andere rol geven.",
     ongeldige_rol: "Kies een geldige rol.",
+    te_veel_mails: "Er zijn net te veel mails verstuurd. Probeer het over een uur opnieuw.",
+    uitnodigen_mislukt: "De uitnodiging kon niet worden verstuurd. Controleer het e-mailadres en probeer het opnieuw.",
+    al_aangemeld: "Dit account heeft al een wachtwoord gekozen.",
     ongeldig_slug: "De vaste naam mag alleen kleine letters, cijfers en streepjes bevatten.",
     ongeldige_periode: "Kies een geldige periode: de begindatum vóór de einddatum.",
     geen_toegang: "Dit account heeft geen toegang.",
@@ -303,6 +306,20 @@
       const tr = document.createElement("tr");
       tr.append(cel(a.email), rolCel(a), cel(a.uitnodiging_open ? "Uitgenodigd, nog niet aangemeld" : datumTijd(a.laatst_ingelogd)));
       const actie = document.createElement("td");
+      if (a.uitnodiging_open) {
+        const opnieuw = document.createElement("button");
+        opnieuw.type = "button";
+        opnieuw.className = "tabel__knop";
+        opnieuw.textContent = "Opnieuw uitnodigen";
+        opnieuw.setAttribute("aria-label", `${a.email} opnieuw uitnodigen`);
+        opnieuw.addEventListener("click", async () => {
+          opnieuw.disabled = true;
+          try { await vraag("uitnodiging_opnieuw", { user_id: a.user_id }); melding(`De uitnodiging is opnieuw verstuurd naar ${a.email}.`, true); }
+          catch (e) { melding(e.message); }
+          finally { opnieuw.disabled = false; }
+        });
+        actie.append(opnieuw, " ");
+      }
       if (!a.ikzelf) {
         const knop = document.createElement("button");
         knop.type = "button";
@@ -353,8 +370,12 @@
     ev.preventDefault();
     const f = accountformulier.elements;
     try {
-      await vraag("beheerder_toevoegen", { email: f.email.value, wachtwoord: f.wachtwoord.value, rol: f.rol.value });
-      melding(`${f.email.value} kan nu inloggen. Geef het wachtwoord persoonlijk door, niet per mail.`, true);
+      const knop = accountformulier.querySelector("button");
+      knop.disabled = true;
+      const uit = await vraag("beheerder_toevoegen", { email: f.email.value, rol: f.rol.value }).finally(() => { knop.disabled = false; });
+      melding(uit.uitgenodigd
+        ? `Uitnodiging verstuurd naar ${f.email.value}. Diegene kiest via de link in de mail zelf een wachtwoord.`
+        : `${f.email.value} had al een account en heeft nu de rol ${ROLNAAM[f.rol.value]}.`, true);
       accountformulier.reset();
       laadAccounts();
     } catch (e) { melding(e.message); }

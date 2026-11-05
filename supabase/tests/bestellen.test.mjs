@@ -449,6 +449,38 @@ test("beheer: uitgenodigd account krijgt een wachtwoord en daarna de rol kantoor
   await beheer(kantoor.token, "beheerder_verwijderen", { user_id: nieuw.user_id });
 });
 
+test("beheer: iemand uitnodigen zonder wachtwoord, en opnieuw uitnodigen", async () => {
+  const kantoor = await maakAccount("kantoor");
+  const email = `uitnodiging${Date.now()}@voorbeeld.nl`;
+
+  const uit = await (await beheer(kantoor.token, "beheerder_toevoegen", { email, rol: "kantoor" })).json();
+  assert.equal(uit.uitgenodigd, true);
+  assert.equal(uit.rol, "kantoor");
+  let rij = (await (await beheer(kantoor.token, "beheerders")).json()).find((x) => x.email === email);
+  assert.equal(rij.rol, "kantoor");
+  assert.equal(rij.uitnodiging_open, true);
+
+  // Supabase sent the invitation (locally no mail goes out: local_smtp is off).
+  const g = await (await fetch(`${API}/auth/v1/admin/users/${rij.user_id}`, {
+    headers: { apikey: SERVICE, Authorization: `Bearer ${SERVICE}` },
+  })).json();
+  assert.ok(g.invited_at);
+  assert.equal(g.email_confirmed_at ?? null, null);
+
+  // Again, for a lost or expired link.
+  assert.equal((await (await beheer(kantoor.token, "uitnodiging_opnieuw", { user_id: rij.user_id })).json()).verstuurd, email);
+
+  // An existing account is not invited again, it only gets the role.
+  const bestaand = await maakAccount(null);
+  const rol = await (await beheer(kantoor.token, "beheerder_toevoegen", { email: bestaand.email, rol: "scanner" })).json();
+  assert.equal(rol.uitgenodigd, false);
+  assert.equal((await (await beheer(bestaand.token, "ik")).json()).rol, "scanner");
+  assert.equal((await (await beheer(kantoor.token, "uitnodiging_opnieuw", { user_id: bestaand.id })).json()).fout, "al_aangemeld");
+
+  await beheer(kantoor.token, "beheerder_verwijderen", { user_id: rij.user_id });
+  await beheer(kantoor.token, "beheerder_verwijderen", { user_id: bestaand.id });
+});
+
 test("nieuwe functies: bezoekers kunnen de nieuwe SQL-functies niet aanroepen", async () => {
   const h = { apikey: ANON, Authorization: `Bearer ${ANON}`, "Content-Type": "application/json" };
   for (const f of ["mijn_tickets", "scan_ticket", "beheer_overzicht", "ticketmail_claim", "rol_van"]) {
