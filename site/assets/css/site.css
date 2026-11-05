@@ -373,7 +373,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .hero__beeld { position: relative; }
 .hero__beeld .pil { position: absolute; left: 20px; bottom: 20px; }
 /* Logo's van de BYC en Bonisa 50 onder de foto, zodat meteen duidelijk is dat de avond van Bonisa is. */
-.hero__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 36px; margin-top: 20px; }
+.hero__logos { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 48px; margin-top: 20px; }
 .hero__logos a { display: inline-flex; }
 .hero__logos .logo-byc { width: 120px; height: auto; }
 .hero__logos .logo-bonisa50 { width: 150px; height: auto; }
