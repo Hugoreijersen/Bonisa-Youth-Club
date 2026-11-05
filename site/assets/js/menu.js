@@ -3,6 +3,14 @@
 document.documentElement.classList.replace("geen-js", "js");
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Hide the round ticket button while the big ticket button at the top is on screen.
+  const groteKnop = document.querySelector(".hero .knop--oranje");
+  if (groteKnop && document.querySelector(".zwevend") && "IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => {
+      document.body.classList.toggle("ticketknop-in-beeld", e.isIntersecting);
+    }).observe(groteKnop);
+  }
+
   const knop = document.querySelector(".menu-knop");
   const menu = document.getElementById("hoofdmenu");
   if (!knop || !menu) return;

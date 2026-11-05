@@ -370,6 +370,21 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 .hero__foto .pil { position: absolute; left: 20px; bottom: 20px; }
 
+/* Telefoon: compacte bovenkant, foto direct onder de titel, knoppen over de hele breedte. */
+@media (max-width: 720px) {
+  .hero__inhoud { flex-direction: column; align-items: stretch; gap: 20px; padding-top: 24px; padding-bottom: 48px; }
+  .hero__tekst { display: contents; }
+  .hero__tekst > .pil { order: 1; align-self: flex-start; }
+  .hero__titel { order: 2; }
+  .hero__ondertitel { order: 3; line-height: 1.6; }
+  .hero__foto { order: 4; flex: none; margin: 4px 0; }
+  .hero__foto img { height: auto; aspect-ratio: 4 / 3; }
+  .hero__feiten { order: 5; flex-direction: column; gap: 0; }
+  .hero__organisatie { order: 6; }
+  .hero .knoppen { order: 7; flex-direction: column; }
+  .hero .knoppen .knop { width: 100%; }
+}
+
 /* ---------- Bijbeltekst ---------- */
 .bijbeltekst { background: var(--groen); color: var(--wit); } /* wit op groen: 4,2:1, genoeg voor grote tekst (≥ 3:1) */
 .bijbeltekst__inhoud {
@@ -752,6 +767,14 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
   transform: rotate(-8deg);
 }
 .zwevend:hover { color: var(--tekst); }
+/* Verborgen zolang de grote ticketknop bovenaan in beeld is (menu.js); zonder JavaScript altijd zichtbaar. */
+.zwevend { transition: opacity 0.2s, visibility 0.2s; }
+.ticketknop-in-beeld .zwevend { opacity: 0; visibility: hidden; }
+@media (prefers-reduced-motion: reduce) { .zwevend { transition: none; } }
+@media (max-width: 560px) {
+  .zwevend { width: 92px; height: 92px; font-size: 15px; }
+  .zwevend svg { width: 20px; height: 20px; }
+}
 .zwevend svg { width: 22px; height: 22px; }
 @media (min-width: 900px) {
   .zwevend { right: 24px; bottom: 24px; width: 136px; height: 136px; font-size: 20px; }
