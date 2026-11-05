@@ -37,7 +37,7 @@ De huisstijl gebruikt betaalde lettertypen. Op de site staan voorlopig gratis lo
 
 De gids gebruikt vlakken met **gescheurde randen**. Op de site gebruiken we die spaarzaam, zodat het strak blijft (keuze van Hugo, 5 november):
 
-- `--rafel-rondom` op **foto's** (hero, collecteprojecten, bestelpagina, geefpagina's), op de drie **themakaarten** (Recht, Vrede, Blijdschap), op de hele **shirtkaartjes** en op het **BYC-logo**. `--rafel-onder` op de logokaart in de menubalk.
+- `--rafel-rondom` op **foto's** (hero, collecteprojecten, bestelpagina, geefpagina's), op de drie **themakaarten** (Recht, Vrede, Blijdschap), op de hele **shirtkaartjes** en op het **BYC-logo**.
 - Rond **programma, hosts en musici en tickets/locatie** blijven de kaarten afgerond zoals in het eerste ontwerp (`--rond-kaart`, `--rond-groot`), ook de foto's van hosts en musici.
 - **Niet** op de foto's van de terugblik, en niet op banden, blokken, menubalk of footer: die hebben rechte randen.
 - Overige hoeken zijn bijna recht (`--rond: 4px`).
@@ -55,7 +55,7 @@ Op de site (`site/assets/img/`):
 - `byc-logo-wit.svg`: in de footer, naast het Bonisa 50-logo.
 - `bonisa-logo-wit.svg`: de gewone witte versie, beschikbaar in het bewerkscherm.
 - `byc-logo.svg`: "Wie zijn wij", op een wit vlak.
-- `bonisa-50-logo.png`: het jubileumlogo (Bonisa 50), samen met `byc-logo.svg` in de witte kaart linksboven in de menubalk. Die kaart hangt met een gescheurde onderrand over de balk, zoals op de site van 2026, zodat meteen duidelijk is dat de site van Bonisa is. Alleen als PNG aangeleverd (300 bij 136 pixels); een SVG-versie zou scherper zijn.
+- `bonisa-50-logo.png`: het jubileumlogo (Bonisa 50), samen met `byc-logo.svg` op de homepage onder de grote foto. Alleen als PNG aangeleverd (300 bij 136 pixels); een SVG-versie zou scherper zijn.
 - `bonisa-logo.svg`: zwarte versie, beschikbaar in het bewerkscherm.
 
 Het BBC-logo (Bonisa Business Club) staat wel in de gids, maar wordt op de site nog niet gebruikt.

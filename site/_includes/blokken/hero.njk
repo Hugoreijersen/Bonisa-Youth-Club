@@ -20,10 +20,16 @@
       </div>
     </div>
     <div class="hero__foto">
-      <img src="{{ evenement.hero.foto }}" alt="{{ evenement.hero.alt }}" loading="eager" fetchpriority="high" sizes="(min-width: 1080px) 580px, 100vw">
-      {%- if evenement.hero.label %}
-      <span class="pil pil--oranje">{{ evenement.hero.label }}</span>
-      {%- endif %}
+      <div class="hero__beeld">
+        <img src="{{ evenement.hero.foto }}" alt="{{ evenement.hero.alt }}" loading="eager" fetchpriority="high" sizes="(min-width: 1080px) 580px, 100vw">
+        {%- if evenement.hero.label %}
+        <span class="pil pil--oranje">{{ evenement.hero.label }}</span>
+        {%- endif %}
+      </div>
+      <div class="hero__logos">
+        <a href="#byc"><img class="logo-byc" src="/assets/img/byc-logo.svg" alt="Bonisa Youth Club" width="144" height="86"></a>
+        <a href="{{ stichting.website }}"><img class="logo-bonisa50" src="/assets/img/bonisa-50-logo.png" alt="Stichting Bonisa, 50 jaar" width="300" height="136" sizes="150px" eleventy:widths="150,300"></a>
+      </div>
     </div>
   </div>
 </section>
