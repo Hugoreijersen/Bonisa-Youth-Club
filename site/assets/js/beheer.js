@@ -24,6 +24,19 @@
     geen_toegang: "Dit account heeft geen toegang.",
   };
 
+  // On phones the tables are shown as stacked cards; each cell gets its column name
+  // as data-label so the CSS can show it next to the value.
+  root.querySelectorAll(".tabel").forEach((tabel) => {
+    const koppen = [...tabel.querySelectorAll("thead th")].map((th) => th.textContent.trim());
+    const tbody = tabel.querySelector("tbody");
+    if (!tbody) return;
+    new MutationObserver(() => {
+      tbody.querySelectorAll("tr").forEach((tr) => {
+        [...tr.children].forEach((td, i) => { if (!td.hasAttribute("colspan")) td.dataset.label = koppen[i] ?? ""; });
+      });
+    }).observe(tbody, { childList: true });
+  });
+
   let slug = root.dataset.evenement;
   let bestellingen = [];
   let evenementen = [];
@@ -391,7 +404,7 @@
       return tr;
     }) : [Object.assign(document.createElement("tr"), { innerHTML: '<td colspan="4">Nog geen giften.</td>' })]));
 
-    $("[data-maandgiften]").replaceChildren(...maand.map((m) => {
+    $("[data-maandgiften]").replaceChildren(...(maand.length ? [] : [Object.assign(document.createElement("tr"), { innerHTML: '<td colspan="7">Nog geen maandelijkse giften.</td>' })]), ...maand.map((m) => {
       const tr = document.createElement("tr");
       const status = m.status === "gestopt" && m.gestopt_op
         ? `Gestopt ${datumTijd(m.gestopt_op)} (${m.gestopt_door === "gever" ? "door gever" : "door kantoor"})`

@@ -295,6 +295,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 .menu__lijst a:hover { color: var(--wit); text-decoration: underline; }
 .menubalk .terug, .menubalk .terug:hover { color: var(--wit); }
+@media (max-width: 560px) { .menubalk .terug { font-size: 15px; white-space: nowrap; } }
 
 .menu-knop {
   display: none;
@@ -852,6 +853,11 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
   width: 100%;
 }
 .veld input:focus-visible { outline: 3px solid var(--oranje); outline-offset: 2px; }
+/* iOS geeft datumvelden een eigen minimale breedte; zo blijven ze binnen het vak. */
+.veld { min-width: 0; }
+.veld input { min-width: 0; max-width: 100%; }
+.veld input[type="date"], .veld input[type="datetime-local"] { -webkit-appearance: none; appearance: none; text-align: left; }
+.veld input::-webkit-date-and-time-value { text-align: left; }
 
 .teller { display: flex; align-items: center; gap: 8px; }
 .teller input { width: 80px; text-align: center; font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 900; font-size: 24px; -moz-appearance: textfield; }
@@ -1094,6 +1100,19 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 .tabel { width: 100%; border-collapse: collapse; font-size: 15px; }
 .tabel th, .tabel td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--lijn-licht); white-space: nowrap; }
 .tabel th { font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--groen-donker); border-bottom: 2px solid var(--salie); }
+/* Op de telefoon: elke rij als een kaartje, met de kolomnaam voor elke waarde (data-label uit beheer.js). */
+@media (max-width: 640px) {
+  .beheer .tabel-scroll { overflow-x: visible; }
+  .beheer .tabel, .beheer .tabel tbody, .beheer .tabel tr, .beheer .tabel td { display: block; }
+  .beheer .tabel thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .beheer .tabel tr { padding: 12px 0; border-bottom: 1px solid var(--lijn-licht); }
+  .beheer .tabel td { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 4px 0; border: 0; white-space: normal; overflow-wrap: anywhere; text-align: right; }
+  .beheer .tabel td::before { content: attr(data-label); flex: none; max-width: 45%; text-align: left; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--groen-donker); }
+  .beheer .tabel td[colspan] { text-align: left; }
+  .beheer .tabel td[colspan]::before { content: none; }
+  .beheer .tabel td:empty { display: none; }
+  .beheer .tabel .tabel__knop { flex: none; white-space: nowrap; overflow-wrap: normal; }
+}
 .tabel__knop {
   min-height: 36px;
   padding: 0 12px;
