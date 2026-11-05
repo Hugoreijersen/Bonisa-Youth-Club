@@ -24,6 +24,8 @@ export default function (eleventyConfig) {
     urlPath: "/assets/img/",
     outputDir: "_site/assets/img/",
     failOnError: true,
+    // Logos stay vector files (no webp copies).
+    svgShortCircuit: true,
     htmlOptions: {
       imgAttributes: { loading: "lazy", decoding: "async", sizes: "100vw" },
     },

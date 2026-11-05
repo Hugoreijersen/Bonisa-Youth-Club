@@ -43,5 +43,5 @@ De sites zijn eigen code, zonder WordPress. Alles met persoonsgegevens staat en 
 ## Ontwerp
 
 Het ontwerp van de jongerenzang-site (2027, thema "Gods Koninkrijk komt!") staat in [design/](design/).
-Kleuren: BYC-groen `#4C8C40` (uit het BYC-logo) en BYC-oranje `#F28C1E` (voorlopig, nog bevestigen).
-Lettertypen: Bricolage Grotesque (koppen) en DM Sans (tekst).
+De site volgt de huisstijl van Bonisa: [design/bonisa-huisstijl/](design/bonisa-huisstijl/) (kleuren, lettertypen, logo's en gescheurde randen).
+Lettertypen: voorlopig gratis lookalikes (Archivo, Gelasio, Patrick Hand SC), zie besluit 56.

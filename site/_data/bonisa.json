@@ -3,7 +3,8 @@
   "titel": "Zingen in Katwijk, helpen in Azië",
   "tekst": "Deze avond is er dankzij Stichting Bonisa, een christelijke zendingsorganisatie uit Lisse. Samen met lokale christenen in Azië helpt Bonisa mensen in fysieke én geestelijke nood: met voedsel, hulp en een Bijbel in hun eigen taal.",
   "collecteProject": "[PROJECT 2027]",
-  "logoAlt": "Logo van Stichting Bonisa",
+  "logo": "/assets/img/bonisa-logo-wit.svg",
+  "logoAlt": "Bonisa",
   "projectenTitel": "Waar jullie collecte naartoe ging",
   "projecten": [
     {
