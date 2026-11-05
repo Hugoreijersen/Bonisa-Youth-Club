@@ -265,21 +265,24 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   gap: 12px 16px;
   padding: 14px 0;
 }
-/* Witte kaart met het BYC- en Bonisa 50-logo, die over de onderrand van de balk hangt (zoals in 2026). */
-.kop-logo {
-  position: relative;
-  z-index: 1;
-  flex: none;
+.logo-tekst {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: -16px 0 -30px;
-  padding: 14px 18px 26px;
-  background: var(--wit);
-  clip-path: var(--rafel-onder);
+  flex-direction: column;
+  min-height: 44px;
+  justify-content: center;
+  color: var(--wit);
+  line-height: 1;
+  text-decoration: none;
 }
-.kop-logo__byc { width: 112px; height: auto; }
-.kop-logo__bonisa { width: 132px; height: auto; }
+.logo-tekst:hover { color: var(--wit); }
+.logo-tekst__klein { font-family: var(--font-streamer); font-size: 19px; }
+.logo-tekst__groot {
+  font-family: var(--font-kop);
+  font-stretch: var(--kop-breedte);
+  font-weight: 900;
+  font-size: 30px;
+  letter-spacing: 0.01em;
+}
 
 .menu { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; font-size: 16px; font-weight: 500; }
 .menu__lijst { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; list-style: none; }
@@ -314,9 +317,8 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 @media (max-width: 560px) {
   .menubalk__inhoud { padding: 8px 0; }
   .js .menubalk__inhoud { flex-wrap: nowrap; }
-  .kop-logo { gap: 10px; margin: -10px 0 -18px; padding: 10px 12px 18px; }
-  .kop-logo__byc { width: 70px; }
-  .kop-logo__bonisa { width: 84px; }
+  .logo-tekst__klein { font-size: 16px; }
+  .logo-tekst__groot { font-size: clamp(21px, 6.4vw, 28px); }
   .menu-knop { flex: none; padding: 0 14px; }
   .js .menubalk__inhoud:has(.menu.is-open) { flex-wrap: wrap; }
   .hero__tekst > .pil { font-size: 17px; }
@@ -362,13 +364,19 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .hero__organisatie { font-size: 16px; color: var(--tekst-gedempt); }
 .hero__organisatie a { font-weight: 700; }
 .hero__foto { flex: 1 1 480px; min-width: 0; position: relative; }
-.hero__foto img {
+.hero__beeld img {
   width: 100%;
   height: clamp(300px, 45vw, 520px);
   object-fit: cover;
   clip-path: var(--rafel-rondom);
 }
-.hero__foto .pil { position: absolute; left: 20px; bottom: 20px; }
+.hero__beeld { position: relative; }
+.hero__beeld .pil { position: absolute; left: 20px; bottom: 20px; }
+/* Logo's van de BYC en Bonisa 50 onder de foto, zodat meteen duidelijk is dat de avond van Bonisa is. */
+.hero__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 36px; margin-top: 20px; }
+.hero__logos a { display: inline-flex; }
+.hero__logos .logo-byc { width: 120px; height: auto; }
+.hero__logos .logo-bonisa50 { width: 150px; height: auto; }
 
 /* Telefoon: compacte bovenkant, foto direct onder de titel, knoppen over de hele breedte. */
 @media (max-width: 720px) {
@@ -378,7 +386,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   .hero__titel { order: 2; }
   .hero__ondertitel { order: 3; line-height: 1.6; }
   .hero__foto { order: 4; flex: none; margin: 4px 0; }
-  .hero__foto img { height: auto; aspect-ratio: 4 / 3; }
+  .hero__beeld img { height: auto; aspect-ratio: 4 / 3; }
   .hero__feiten { order: 5; flex-direction: column; gap: 0; }
   .hero__organisatie { order: 6; }
   .hero .knoppen { order: 7; flex-direction: column; }
@@ -765,7 +773,9 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   gap: 24px;
 }
 .footer__adres { display: flex; flex-direction: column; gap: 4px; }
-.footer__logo { width: 168px; margin-bottom: 12px; }
+.footer__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin-bottom: 12px; }
+.footer__logo--bonisa { width: 160px; }
+.footer__logo--byc { width: 112px; }
 .footer__naam { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 700; font-size: 20px; color: var(--wit); }
 .footer__links { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 0 24px; margin: 0; padding: 0; list-style: none; }
 .footer__links a { display: inline-flex; align-items: center; min-height: 44px; }

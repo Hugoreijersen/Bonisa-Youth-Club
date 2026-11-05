@@ -32,10 +32,9 @@
 <div class="menubalk">
   <div class="container">
     <header class="menubalk__inhoud">
-      {#- Logo card hanging over the bar, like 2026: makes clear at once that this is a Bonisa site. -#}
-      <a class="kop-logo" href="/#top" aria-label="Katwijkse Jongerenzang van de Bonisa Youth Club en Stichting Bonisa, naar boven">
-        <img class="kop-logo__byc" src="/assets/img/byc-logo.svg" alt="" width="144" height="86">
-        <img class="kop-logo__bonisa" src="/assets/img/bonisa-50-logo.png" alt="" width="300" height="136" sizes="140px" eleventy:widths="150,300">
+      <a class="logo-tekst" href="/#top" aria-label="Katwijkse Jongerenzang, naar boven">
+        <span class="logo-tekst__klein">Katwijkse</span>
+        <span class="logo-tekst__groot">JONGERENZANG</span>
       </a>
       {%- if eenvoudigeKop %}
       <a class="terug" href="/">← Terug naar de site</a>
@@ -71,7 +70,10 @@
 <footer class="footer">
   <div class="container footer__inhoud">
     <div class="footer__adres">
-      <img class="footer__logo" src="/assets/img/bonisa-logo-wit.svg" alt="" width="211" height="53">
+      <div class="footer__logos">
+        <img class="footer__logo footer__logo--bonisa" src="/assets/img/bonisa-50-logo-wit.png" alt="Bonisa" width="300" height="136" sizes="160px" eleventy:widths="160,300">
+        <img class="footer__logo footer__logo--byc" src="/assets/img/byc-logo-wit.svg" alt="Bonisa Youth Club" width="144" height="86">
+      </div>
       <p class="footer__naam">{{ stichting.naam }}</p>
       <p>{{ stichting.adres }} · <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a></p>
       <p><a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> · <a href="{{ stichting.website }}">{{ stichting.website | replace('https://', '') | replace('www.', '') }}</a></p>
