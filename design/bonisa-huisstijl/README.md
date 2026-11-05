@@ -13,9 +13,9 @@ Aangeleverd door Hugo op 5 november 2026. De gids zelf: [BONISA_Huisstijl.pdf](B
 | `--rood` | `#982a29` | Foutmeldingen, "Dicht" in beheer, labels op zand |
 | `--oranje` | `#d76b38` | Belangrijkste knop ("Tickets", "Doneer"), slotbalk. Altijd met donkere tekst, nooit wit |
 | `--salie` | `#bbcca4` | Vlak "Wie zijn wij", themakaart Vrede |
-| `--blauw` | `#a3c0cb` | Terugblik, themakaart Recht |
+| `--blauw` | `#a3c0cb` | Themakaart Recht |
 | `--roze` | `#e7a9a9` | Themakaart Blijdschap |
-| `--zand` | `#e7c8a8` | Kingfisher, totaalbedrag bij bestellen |
+| `--zand` | `#e7c8a8` | Kingfisher, totaalbedrag bij bestellen. Lichter (`--zand-licht`) als achtergrond van de terugblik |
 | `--achtergrond` | `#E4EADB` | Achtergrond van de pagina (van de omslag van de gids) |
 
 Contrast is gecontroleerd: alle tekst haalt minimaal 4,5:1.
@@ -37,7 +37,8 @@ De huisstijl gebruikt betaalde lettertypen. Op de site staan voorlopig gratis lo
 
 De gids gebruikt vlakken met **gescheurde randen**. Op de site gebruiken we die spaarzaam, zodat het strak blijft (keuze van Hugo, 5 november):
 
-- `--rafel-rondom` alleen op **foto's** (hero, collecteprojecten, hosts en musici, shirts, bestelpagina, geefpagina's) en op de drie **themakaarten** (Recht, Vrede, Blijdschap).
+- `--rafel-rondom` op **foto's** (hero, collecteprojecten, bestelpagina, geefpagina's), op de drie **themakaarten** (Recht, Vrede, Blijdschap), op de hele **shirtkaartjes** en op het **BYC-logo**.
+- Rond **programma, hosts en musici en tickets/locatie** blijven de kaarten afgerond zoals in het eerste ontwerp (`--rond-kaart`, `--rond-groot`), ook de foto's van hosts en musici.
 - **Niet** op de foto's van de terugblik, en niet op banden, blokken, menubalk of footer: die hebben rechte randen.
 - Overige hoeken zijn bijna recht (`--rond: 4px`).
 - `--rafel-boven`, `--rafel-onder` en `--rafel-beide` staan klaar voor banden, maar worden nu niet gebruikt.

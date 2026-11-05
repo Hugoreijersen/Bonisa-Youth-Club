@@ -80,6 +80,7 @@
   /* Lichte tinten voor achtergronden van meldingen en knoppen bij aanwijzen. */
   --salie-licht: color-mix(in srgb, var(--salie) 45%, #fff);
   --roze-licht: color-mix(in srgb, var(--roze) 40%, #fff);
+  --zand-licht: color-mix(in srgb, var(--zand) 55%, #fff); /* achtergrond terugblik */
 
   --tekst: #1C1F1A;
   --tekst-gedempt: #3D4639;
@@ -99,6 +100,8 @@
   --rand: 24px;
   --sectie: clamp(56px, 9vw, 96px);
   --rond: 4px;             /* de huisstijl heeft hoekige, gescheurde vormen */
+  --rond-kaart: 24px;      /* afgeronde kaarten rond programma, hosts en tickets */
+  --rond-groot: 28px;
 
   /* Gescheurde randen ("Vormen" in de huisstijlgids), voor clip-path. */
   --rafel-boven: polygon(0% 0px, 7.1% 3px, 10.7% 9px, 15.8% 4px, 22.1% 9px, 27.3% 8px, 33% 10px, 36.7% 4px, 42.7% 8px, 45.5% 8px, 50.3% 11px, 56.9% 1px, 61.9% 11px, 67.9% 8px, 73.3% 11px, 80.3% 4px, 84.5% 10px, 88.6% 2px, 92.6% 5px, 96.6% 11px, 100% 9px, 100% 100%, 0 100%);
@@ -330,7 +333,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .hero__tekst { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
 .hero__titel {
   font-weight: 900;
-  font-size: clamp(44px, 6.5vw, 76px);
+  font-size: clamp(48px, 7.5vw, 96px);
   line-height: 0.9;
 }
 .hero__ondertitel {
@@ -400,7 +403,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .kaart h2 { font-size: 44px; }
 
 /* ---------- Terugblik ---------- */
-.terugblik { background: var(--blauw); }
+.terugblik { background: var(--zand-licht); }
 .sectie-inhoud {
   padding-top: var(--sectie);
   padding-bottom: var(--sectie);
@@ -526,7 +529,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   padding: 8px 32px;
   list-style: none;
   background: var(--wit);
-  border-radius: var(--rond);
+  border-radius: var(--rond-kaart);
 }
 .programma li { display: flex; gap: 32px; padding: 20px 0; border-bottom: 1px solid var(--lijn-licht); }
 .programma li:last-child { border-bottom: 0; }
@@ -544,16 +547,16 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 .persoon {
   background: var(--wit);
-  border-radius: var(--rond);
+  border-radius: var(--rond-kaart);
   padding: 16px;
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
-.persoon img { width: 100%; aspect-ratio: 1; object-fit: cover; clip-path: var(--rafel-rondom); }
+.persoon img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; }
 .persoon__geheim {
   aspect-ratio: 1;
-  border-radius: var(--rond);
+  border-radius: 16px;
   background: var(--tekst);
   display: flex;
   align-items: center;
@@ -572,6 +575,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .persoon p { color: var(--tekst-gedempt); }
 .persoon--meer {
   background: transparent;
+  border-radius: var(--rond-kaart);
   border: 2px dashed var(--groen);
   align-items: center;
   justify-content: center;
@@ -591,7 +595,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   padding: 0 0 var(--sectie);
 }
 .blok {
-  border-radius: var(--rond);
+  border-radius: var(--rond-groot);
   padding: clamp(28px, 5vw, 48px);
   display: flex;
   flex-direction: column;
@@ -626,8 +630,8 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   padding: 0;
   list-style: none;
 }
-.shirt { background: var(--wit); border-radius: var(--rond); overflow: hidden; display: flex; flex-direction: column; }
-.shirt img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; clip-path: var(--rafel-rondom); }
+.shirt { background: var(--wit); clip-path: var(--rafel-rondom); display: flex; flex-direction: column; }
+.shirt img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
 .shirt__tekst { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 2px; }
 .shirt h3 { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 700; font-size: 22px; line-height: 1.2; }
 .shirt__regel { display: flex; justify-content: space-between; gap: 12px; color: var(--tekst-gedempt); }
@@ -651,6 +655,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   flex: 1 1 360px;
   min-width: 0;
   background: var(--wit); /* zwart logo op wit, volgens de huisstijl */
+  clip-path: var(--rafel-rondom);
   padding: clamp(28px, 5vw, 48px);
   display: flex;
   align-items: center;
