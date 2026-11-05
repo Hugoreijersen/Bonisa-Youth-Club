@@ -530,6 +530,20 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   .bonisa__tekst > .pil, .bonisa__tekst > h2 { grid-row: auto; }
 }
 .bonisa .bovenkop { color: var(--wit); }
+.collectedoel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 720px;
+  padding: 24px 28px;
+  border-radius: var(--rond-kaart);
+  background: var(--wit);
+  color: var(--tekst);
+}
+.bonisa .collectedoel .bovenkop { color: var(--groen-donker); }
+.collectedoel h3 { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 900; font-size: clamp(28px, 4vw, 40px); line-height: 1.05; text-transform: uppercase; }
+.collectedoel p { font-size: 18px; line-height: 1.5; }
+.collectedoel__bedrag strong { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 900; font-size: 28px; color: var(--rood); }
 
 .projecten {
   display: grid;

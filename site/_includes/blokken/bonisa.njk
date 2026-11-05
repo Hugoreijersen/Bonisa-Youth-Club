@@ -6,8 +6,13 @@
         <span class="pil pil--oranje">{{ bonisa.label }}</span>
         <h2 id="bonisa-titel">{{ bonisa.titel }}</h2>
         {{ bonisa.tekst | renderContent("md") | safe }}
-        {%- if bonisa.collecteProject %}
-        <p>De collecte van de jongerenzang gaat elk jaar naar een project van Bonisa. Dit jaar: <strong>{{ bonisa.collecteProject }}</strong>.</p>
+        {%- if bonisa.collecte and bonisa.collecte.titel %}
+        <div class="collectedoel">
+          {%- if bonisa.collecte.kop %}<span class="bovenkop">{{ bonisa.collecte.kop }}</span>{% endif %}
+          <h3>{{ bonisa.collecte.titel }}</h3>
+          {%- if bonisa.collecte.tekst %}<p>{{ bonisa.collecte.tekst }}</p>{% endif %}
+          {%- if bonisa.collecte.bedrag %}<p class="collectedoel__bedrag">Nodig: <strong>{{ bonisa.collecte.bedrag }}</strong></p>{% endif %}
+        </div>
         {%- endif %}
         <div class="knoppen">
           <a class="knop" href="{{ stichting.website }}">Meer over Bonisa</a>
