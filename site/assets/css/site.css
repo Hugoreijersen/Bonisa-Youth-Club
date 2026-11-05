@@ -550,7 +550,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .bonisa .collectedoel .bovenkop { color: var(--groen-donker); }
 .collectedoel h3 { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 900; font-size: clamp(28px, 4vw, 40px); line-height: 1.05; text-transform: uppercase; }
 .collectedoel p { font-size: 18px; line-height: 1.5; }
-.collectedoel__bedrag strong { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 900; font-size: 28px; color: var(--rood); }
+.collectedoel__bedrag strong { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 900; font-size: 28px; color: var(--groen-vlak); }
 
 .projecten {
   display: grid;
