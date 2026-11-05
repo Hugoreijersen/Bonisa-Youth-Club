@@ -402,6 +402,53 @@ test("beheer: evenement instellen en accounts voor scanners", async () => {
   assert.equal(await inloggen(email, "lang-genoeg-wachtwoord"), undefined);
 });
 
+test("beheer: uitgenodigd account krijgt een wachtwoord en daarna de rol kantoor", async () => {
+  const kantoor = await maakAccount("kantoor");
+  const email = `uitgenodigd${Date.now()}@voorbeeld.nl`;
+  const adminH = { apikey: SERVICE, Authorization: `Bearer ${SERVICE}`, "Content-Type": "application/json" };
+
+  // What the Supabase dashboard does: an invitation link (type=invite).
+  const link = await (await fetch(`${API}/auth/v1/admin/generate_link`, {
+    method: "POST", headers: adminH, body: JSON.stringify({ type: "invite", email }),
+  })).json();
+  let lijst = await (await beheer(kantoor.token, "beheerders")).json();
+  assert.ok(lijst.some((x) => x.email === email && x.rol === null && x.uitnodiging_open));
+
+  // Following the link gives a login in the fragment, as /welkom/ receives it.
+  const r = await fetch(`${API}/auth/v1/verify?token=${link.hashed_token}&type=invite&redirect_to=http://localhost:8080/welkom/`,
+    { redirect: "manual" });
+  const fragment = new URLSearchParams(new URL(r.headers.get("location")).hash.slice(1));
+  assert.equal(fragment.get("type"), "invite");
+  const token = fragment.get("access_token");
+
+  // /welkom/: choose a password.
+  const gezet = await fetch(`${API}/auth/v1/user`, {
+    method: "PUT", headers: { ...authHeaders, Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ password: "mijn-eigen-wachtwoord" }),
+  });
+  assert.equal(gezet.status, 200);
+  const eigenToken = await inloggen(email, "mijn-eigen-wachtwoord");
+  assert.ok(eigenToken);
+  assert.equal((await (await beheer(eigenToken, "ik")).json()).rol, null);
+  assert.equal((await beheer(eigenToken, "overzicht", { evenement: SLUG })).status, 403);
+
+  // Office gives the account the role kantoor on /beheer/.
+  lijst = await (await beheer(kantoor.token, "beheerders")).json();
+  const nieuw = lijst.find((x) => x.email === email);
+  assert.equal(nieuw.uitnodiging_open, false);
+  assert.equal((await (await beheer(eigenToken, "rol_wijzigen", { user_id: nieuw.user_id, rol: "kantoor" })).json()).fout, "geen_toegang");
+  assert.equal((await (await beheer(kantoor.token, "rol_wijzigen", { user_id: nieuw.user_id, rol: "baas" })).json()).fout, "ongeldige_rol");
+  assert.equal((await (await beheer(kantoor.token, "rol_wijzigen", { user_id: kantoor.id, rol: "scanner" })).json()).fout, "niet_jezelf");
+  assert.equal((await (await beheer(kantoor.token, "rol_wijzigen", { user_id: nieuw.user_id, rol: "kantoor" })).json()).rol, "kantoor");
+  assert.equal((await (await beheer(eigenToken, "ik")).json()).rol, "kantoor");
+  assert.equal((await beheer(eigenToken, "overzicht", { evenement: SLUG })).status, 200);
+
+  // And back to no role: the account stays, the access goes.
+  await beheer(kantoor.token, "rol_wijzigen", { user_id: nieuw.user_id, rol: "geen" });
+  assert.equal((await (await beheer(eigenToken, "ik")).json()).rol, null);
+  await beheer(kantoor.token, "beheerder_verwijderen", { user_id: nieuw.user_id });
+});
+
 test("nieuwe functies: bezoekers kunnen de nieuwe SQL-functies niet aanroepen", async () => {
   const h = { apikey: ANON, Authorization: `Bearer ${ANON}`, "Content-Type": "application/json" };
   for (const f of ["mijn_tickets", "scan_ticket", "beheer_overzicht", "ticketmail_claim", "rol_van"]) {

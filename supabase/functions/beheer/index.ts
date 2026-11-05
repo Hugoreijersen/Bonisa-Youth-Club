@@ -3,7 +3,7 @@
 //   POST {"actie": "...", ...}   (Authorization: Bearer <login token>)
 //
 // Actions: ik, evenementen, overzicht, bestellingen, export, mail_opnieuw,
-// evenement_opslaan, beheerders, beheerder_toevoegen, beheerder_verwijderen,
+// evenement_opslaan, beheerders, beheerder_toevoegen, rol_wijzigen, beheerder_verwijderen,
 // and for gifts (docs/giften.md): giften_overzicht, giften_export,
 // periodieke_giften, periodiek_stoppen.
 // Everything except "ik" is only for the role kantoor.
@@ -69,7 +69,9 @@ function evenementVelden(e: Record<string, unknown>) {
   };
 }
 
-async function alleGebruikers(): Promise<{ id: string; email: string; last_sign_in_at?: string }[]> {
+async function alleGebruikers(): Promise<
+  { id: string; email: string; last_sign_in_at?: string; invited_at?: string; email_confirmed_at?: string }[]
+> {
   const { ok, data } = await authAdmin("users?per_page=1000");
   if (!ok) throw new Fout("fout", 500);
   return data.users ?? [];
@@ -144,13 +146,44 @@ Deno.serve(async (req) => {
       }
 
       case "beheerders": {
-        const rollen = await tabel("beheerders?select=user_id,rol,aangemaakt_op&order=aangemaakt_op") as
+        // Every account, also the ones without a role yet (for example someone
+        // who accepted an invitation from Supabase). Visitors have no accounts.
+        const rollen = await tabel("beheerders?select=user_id,rol,aangemaakt_op") as
           { user_id: string; rol: string }[];
         const gebruikers = await alleGebruikers();
-        antwoord = rollen.map((r) => {
-          const g = gebruikers.find((u) => u.id === r.user_id);
-          return { ...r, email: g?.email ?? "", laatst_ingelogd: g?.last_sign_in_at ?? null, ikzelf: r.user_id === gebruiker.id };
-        });
+        antwoord = gebruikers
+          .map((g) => ({
+            user_id: g.id,
+            email: g.email ?? "",
+            rol: rollen.find((r) => r.user_id === g.id)?.rol ?? null,
+            laatst_ingelogd: g.last_sign_in_at ?? null,
+            // Invited, but the link has not been used yet.
+            uitnodiging_open: Boolean(g.invited_at && !g.email_confirmed_at),
+            ikzelf: g.id === gebruiker.id,
+          }))
+          .sort((a, b) => (a.rol ? 1 : 0) - (b.rol ? 1 : 0) || a.email.localeCompare(b.email));
+        break;
+      }
+
+      case "rol_wijzigen": {
+        // Give an existing account a role, change it, or take it away ("geen").
+        const id = String(v.user_id ?? "");
+        const rol = String(v.rol ?? "");
+        if (!UUID.test(id)) throw new Fout("onbekend", 404);
+        if (!["kantoor", "scanner", "geen"].includes(rol)) throw new Fout("ongeldige_rol");
+        if (id === gebruiker.id) throw new Fout("niet_jezelf");
+        const bestaat = await authAdmin(`users/${id}`);
+        if (!bestaat.ok) throw new Fout("onbekend", 404);
+        if (rol === "geen") {
+          await tabel(`beheerders?user_id=eq.${id}`, { method: "DELETE" });
+        } else {
+          await tabel("beheerders?on_conflict=user_id", {
+            method: "POST",
+            headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
+            body: JSON.stringify({ user_id: id, rol }),
+          });
+        }
+        antwoord = { user_id: id, rol: rol === "geen" ? null : rol };
         break;
       }
 
