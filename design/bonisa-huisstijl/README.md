@@ -35,11 +35,12 @@ De huisstijl gebruikt betaalde lettertypen. Op de site staan voorlopig gratis lo
 
 ## Vormen
 
-De gids gebruikt vlakken met **gescheurde randen** in plaats van ronde hoeken. Op de site:
+De gids gebruikt vlakken met **gescheurde randen**. Op de site gebruiken we die spaarzaam, zodat het strak blijft (keuze van Hugo, 5 november):
 
-- `--rafel-boven`, `--rafel-onder`, `--rafel-beide`: gekleurde banden over de hele breedte (menubalk, Bijbeltekst, Terugblik, Bonisa, footer).
-- `--rafel-rondom`: kaarten en blokken (themakaarten, projecten, ticketblok, beheerpaneel).
+- `--rafel-rondom` alleen op **foto's** (hero, collecteprojecten, hosts en musici, shirts, bestelpagina, geefpagina's) en op de drie **themakaarten** (Recht, Vrede, Blijdschap).
+- **Niet** op de foto's van de terugblik, en niet op banden, blokken, menubalk of footer: die hebben rechte randen.
 - Overige hoeken zijn bijna recht (`--rond: 4px`).
+- `--rafel-boven`, `--rafel-onder` en `--rafel-beide` staan klaar voor banden, maar worden nu niet gebruikt.
 
 De randen zijn een `clip-path`. Wil je een andere scheurlijn, dan kun je de punten in die variabelen aanpassen.
 

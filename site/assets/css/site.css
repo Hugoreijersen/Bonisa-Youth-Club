@@ -209,7 +209,6 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   font-size: 20px;
   line-height: 1.2;
   color: var(--groen-donker);
-  clip-path: var(--rafel-rondom);
 }
 .pil--oranje { background: var(--oranje); color: var(--tekst); }
 
@@ -251,10 +250,8 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   position: sticky;
   top: 0;
   z-index: 20;
-  padding-bottom: 10px; /* ruimte voor de gescheurde onderrand */
   background: var(--groen-vlak);
   color: var(--wit);
-  clip-path: var(--rafel-onder);
 }
 .menubalk__inhoud {
   display: flex;
@@ -333,7 +330,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .hero__tekst { flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 28px; }
 .hero__titel {
   font-weight: 900;
-  font-size: clamp(56px, 10vw, 116px);
+  font-size: clamp(44px, 6.5vw, 76px);
   line-height: 0.9;
 }
 .hero__ondertitel {
@@ -360,7 +357,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .hero__foto .pil { position: absolute; left: 20px; bottom: 20px; }
 
 /* ---------- Bijbeltekst ---------- */
-.bijbeltekst { background: var(--groen); color: var(--wit); clip-path: var(--rafel-beide); } /* wit op groen: 4,2:1, genoeg voor grote tekst (≥ 3:1) */
+.bijbeltekst { background: var(--groen); color: var(--wit); } /* wit op groen: 4,2:1, genoeg voor grote tekst (≥ 3:1) */
 .bijbeltekst__inhoud {
   max-width: 960px;
   margin: 0 auto;
@@ -403,7 +400,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .kaart h2 { font-size: 44px; }
 
 /* ---------- Terugblik ---------- */
-.terugblik { background: var(--blauw); clip-path: var(--rafel-beide); }
+.terugblik { background: var(--blauw); }
 .sectie-inhoud {
   padding-top: var(--sectie);
   padding-bottom: var(--sectie);
@@ -478,7 +475,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 
 /* ---------- Stichting Bonisa ---------- */
-.bonisa { background: var(--groen-vlak); color: var(--wit); clip-path: var(--rafel-beide); }
+.bonisa { background: var(--groen-vlak); color: var(--wit); }
 .bonisa .sectie-inhoud { gap: 48px; }
 .bonisa__intro { display: flex; flex-wrap: wrap; align-items: center; gap: 40px 64px; }
 .bonisa__tekst { flex: 2 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px; font-size: 20px; }
@@ -503,11 +500,10 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .project {
   background: var(--wit);
   color: var(--tekst);
-  clip-path: var(--rafel-rondom);
   display: flex;
   flex-direction: column;
 }
-.project img { width: 100%; height: 300px; object-fit: cover; }
+.project img { width: 100%; height: 300px; object-fit: cover; clip-path: var(--rafel-rondom); }
 .project__tekst { padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 8px; }
 .project h4 { font-size: 28px; line-height: 1.15; }
 .project .bovenkop { color: var(--groen-donker); }
@@ -554,7 +550,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   flex-direction: column;
   gap: 14px;
 }
-.persoon img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--rond); }
+.persoon img { width: 100%; aspect-ratio: 1; object-fit: cover; clip-path: var(--rafel-rondom); }
 .persoon__geheim {
   aspect-ratio: 1;
   border-radius: var(--rond);
@@ -601,7 +597,6 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   flex-direction: column;
   gap: 16px;
   background: var(--wit);
-  clip-path: var(--rafel-rondom);
 }
 .blok h2 { font-size: clamp(36px, 4vw, 44px); }
 .blok .knop { align-self: flex-start; }
@@ -614,7 +609,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .blok .maillink { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
 
 /* ---------- Kingfisher ---------- */
-.kingfisher { background: var(--zand); clip-path: var(--rafel-beide); }
+.kingfisher { background: var(--zand); }
 .kingfisher__kop { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px; }
 .kingfisher__merk { flex: 1 1 400px; display: flex; align-items: center; gap: 24px; }
 .kingfisher__merk img { flex: none; width: clamp(88px, 10vw, 128px); }
@@ -632,7 +627,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   list-style: none;
 }
 .shirt { background: var(--wit); border-radius: var(--rond); overflow: hidden; display: flex; flex-direction: column; }
-.shirt img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.shirt img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; clip-path: var(--rafel-rondom); }
 .shirt__tekst { padding: 18px 20px 22px; display: flex; flex-direction: column; gap: 2px; }
 .shirt h3 { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 700; font-size: 22px; line-height: 1.2; }
 .shirt__regel { display: flex; justify-content: space-between; gap: 12px; color: var(--tekst-gedempt); }
@@ -643,7 +638,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 
 /* ---------- Wie zijn wij ---------- */
-.byc { background: var(--salie); clip-path: var(--rafel-beide); }
+.byc { background: var(--salie); }
 .byc__inhoud {
   padding-top: var(--sectie);
   padding-bottom: var(--sectie);
@@ -656,7 +651,6 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   flex: 1 1 360px;
   min-width: 0;
   background: var(--wit); /* zwart logo op wit, volgens de huisstijl */
-  clip-path: var(--rafel-rondom);
   padding: clamp(28px, 5vw, 48px);
   display: flex;
   align-items: center;
@@ -668,7 +662,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .byc__tekst .knoppen { padding-top: 8px; }
 
 /* ---------- Oranje slotbalk ---------- */
-.slotbalk { background: var(--oranje); clip-path: var(--rafel-beide); }
+.slotbalk { background: var(--oranje); }
 .slotbalk__inhoud {
   padding-top: 56px;
   padding-bottom: 56px;
@@ -681,11 +675,11 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .slotbalk h2 { flex: 1 1 520px; font-weight: 900; font-size: clamp(32px, 4vw, 44px); }
 
 /* ---------- Footer ---------- */
-.footer { margin-top: 24px; background: var(--groen-donker); color: var(--wit); font-size: 15px; clip-path: var(--rafel-boven); }
+.footer { background: var(--groen-donker); color: var(--wit); font-size: 15px; }
 .footer a { color: var(--wit); }
 .footer a:hover { color: var(--wit); text-decoration-thickness: 2px; }
 .footer__inhoud {
-  padding-top: 52px;
+  padding-top: 40px;
   padding-bottom: 40px;
   display: flex;
   flex-wrap: wrap;
@@ -759,11 +753,10 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
   min-width: 0;
   background: var(--groen-vlak);
   color: var(--wit);
-  clip-path: var(--rafel-rondom);
   display: flex;
   flex-direction: column;
 }
-.samenvatting img { width: 100%; height: 220px; object-fit: cover; }
+.samenvatting img { width: 100%; height: 220px; object-fit: cover; clip-path: var(--rafel-rondom); }
 .samenvatting__tekst { padding: clamp(24px, 4vw, 32px); display: flex; flex-direction: column; gap: 16px; }
 .samenvatting h1 { font-weight: 900; font-size: clamp(32px, 4vw, 40px); line-height: 1; }
 .samenvatting__thema { font-family: var(--font-inleiding); font-weight: 700; font-size: 22px; line-height: 1.3; }
@@ -935,7 +928,6 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 .evenementpaneel {
   background: var(--groen-vlak);
   color: var(--wit);
-  clip-path: var(--rafel-rondom);
   padding: clamp(24px, 4vw, 40px);
   display: flex;
   flex-direction: column;
@@ -1081,10 +1073,9 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
   align-items: flex-start;
   gap: 12px;
   background: var(--wit);
-  clip-path: var(--rafel-rondom);
   padding: 24px;
 }
-.projectkaart img { width: 100%; height: 200px; object-fit: cover; border-radius: var(--rond); }
+.projectkaart img { width: 100%; height: 200px; object-fit: cover; clip-path: var(--rafel-rondom); }
 .projectkaart h2 { font-weight: 900; font-size: 26px; line-height: 1.1; }
 .projectkaart p { color: var(--tekst-gedempt); }
 .projectkaart .knop { margin-top: auto; }
