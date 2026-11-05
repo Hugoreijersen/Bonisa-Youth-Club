@@ -491,16 +491,27 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 /* ---------- Stichting Bonisa ---------- */
 .bonisa { background: var(--groen-vlak); color: var(--wit); }
 .bonisa .sectie-inhoud { gap: 48px; }
-.bonisa__intro { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 24px 48px; }
-.bonisa__tekst { min-width: 0; display: flex; flex-direction: column; gap: 20px; font-size: 20px; }
-.bonisa__tekst h2 { font-weight: 900; font-size: clamp(40px, 6vw, 64px); line-height: 1; }
+.bonisa__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 20px 48px;
+  font-size: 20px;
+}
+/* The text block's children become grid items: label and title sit beside the
+   logo, everything below runs the full width, under the logo. */
+.bonisa__tekst { display: contents; }
+.bonisa__tekst > * { grid-column: 1 / -1; }
+.bonisa__tekst > .pil { grid-column: 1; grid-row: 1; justify-self: start; }
+.bonisa__tekst > h2 { grid-column: 1; grid-row: 2; font-weight: 900; font-size: clamp(40px, 6vw, 64px); line-height: 1; }
 .bonisa__tekst .knoppen { padding-top: 8px; }
 /* Wit logo direct op groen, zoals de huisstijlgids voorschrijft; klein rechtsboven */
-.bonisa__logo { padding-top: 4px; }
+.bonisa__logo { grid-column: 2; grid-row: 1 / span 2; }
 .bonisa__logo img { width: clamp(160px, 18vw, 220px); }
 @media (max-width: 720px) {
   .bonisa__intro { grid-template-columns: minmax(0, 1fr); }
-  .bonisa__logo { order: -1; padding-top: 0; }
+  .bonisa__logo { grid-column: 1; grid-row: auto; order: -1; }
+  .bonisa__tekst > .pil, .bonisa__tekst > h2 { grid-row: auto; }
 }
 .bonisa .bovenkop { color: var(--wit); }
 
