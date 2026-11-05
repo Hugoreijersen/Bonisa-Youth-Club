@@ -6,8 +6,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Hide the round ticket button while the big ticket button at the top is on screen.
   const groteKnop = document.querySelector(".hero .knop--oranje");
   if (groteKnop && document.querySelector(".zwevend") && "IntersectionObserver" in window) {
+    // Show the round button only once the big hero button has scrolled out above the screen.
     new IntersectionObserver(([e]) => {
-      document.body.classList.toggle("ticketknop-in-beeld", e.isIntersecting);
+      const nogNietVoorbij = e.isIntersecting || e.boundingClientRect.top > 0;
+      document.body.classList.toggle("grote-ticketknop-niet-voorbij", nogNietVoorbij);
     }).observe(groteKnop);
   }
 

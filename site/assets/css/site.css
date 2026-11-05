@@ -244,6 +244,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .knop--zwart { background: var(--tekst); color: var(--wit); }
 .knop--zwart:hover { color: var(--wit); }
 .knop--groot { min-height: 56px; padding: 0 32px; font-size: 20px; }
+.hero .knop--oranje { min-width: min(100%, 300px); padding: 0 44px; }
 .knop--klein { min-height: 44px; padding: 0 20px; font-size: 16px; }
 
 .knoppen { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -767,9 +768,9 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
   transform: rotate(-8deg);
 }
 .zwevend:hover { color: var(--tekst); }
-/* Verborgen zolang de grote ticketknop bovenaan in beeld is (menu.js); zonder JavaScript altijd zichtbaar. */
+/* Op de homepage pas zichtbaar als de grote ticketknop bovenaan uit beeld is gescrold (menu.js); zonder JavaScript altijd zichtbaar. */
 .zwevend { transition: opacity 0.2s, visibility 0.2s; }
-.ticketknop-in-beeld .zwevend { opacity: 0; visibility: hidden; }
+.grote-ticketknop-niet-voorbij .zwevend { opacity: 0; visibility: hidden; }
 @media (prefers-reduced-motion: reduce) { .zwevend { transition: none; } }
 @media (max-width: 560px) {
   .zwevend { width: 92px; height: 92px; font-size: 15px; }
