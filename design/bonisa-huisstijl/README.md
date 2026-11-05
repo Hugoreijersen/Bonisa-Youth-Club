@@ -37,7 +37,7 @@ De huisstijl gebruikt betaalde lettertypen. Op de site staan voorlopig gratis lo
 
 De gids gebruikt vlakken met **gescheurde randen**. Op de site gebruiken we die spaarzaam, zodat het strak blijft (keuze van Hugo, 5 november):
 
-- `--rafel-rondom` op **foto's** (hero, collecteprojecten, bestelpagina, geefpagina's), op de drie **themakaarten** (Recht, Vrede, Blijdschap), op de hele **shirtkaartjes** en op het **BYC-logo**.
+- `--rafel-rondom` op **foto's** (hero, collecteprojecten, bestelpagina, geefpagina's), op de drie **themakaarten** (Recht, Vrede, Blijdschap), op de hele **shirtkaartjes** en op het **BYC-logo**. `--rafel-onder` op de logokaart in de menubalk.
 - Rond **programma, hosts en musici en tickets/locatie** blijven de kaarten afgerond zoals in het eerste ontwerp (`--rond-kaart`, `--rond-groot`), ook de foto's van hosts en musici.
 - **Niet** op de foto's van de terugblik, en niet op banden, blokken, menubalk of footer: die hebben rechte randen.
 - Overige hoeken zijn bijna recht (`--rond: 4px`).
@@ -47,12 +47,13 @@ De randen zijn een `clip-path`. Wil je een andere scheurlijn, dan kun je de punt
 
 ## Logo's
 
-In `logos/` staan de logo's als vector (`.svg`), uit de gids gehaald: Bonisa en BYC, zwart (op wit) en wit (op groen). Regels uit de gids: zwart logo op wit, wit logo op groen.
+In `logos/` staan de logo's als vector (`.svg`), uit de gids gehaald: Bonisa en BYC, zwart (op wit) en wit (op groen). Los aangeleverd (5 november): `bonisa-50.png` (jubileumlogo) en `byc-kaart.svg` (BYC-logo op een gescheurde witte kaart). Regels uit de gids: zwart logo op wit, wit logo op groen.
 
 Op de site (`site/assets/img/`):
 
 - `bonisa-logo-wit.svg`: footer en het Bonisa-blok op de homepage (wit op groen).
 - `byc-logo.svg`: "Wie zijn wij", op een wit vlak.
+- `bonisa-50-logo.png`: het jubileumlogo (Bonisa 50), samen met `byc-logo.svg` in de witte kaart linksboven in de menubalk. Die kaart hangt met een gescheurde onderrand over de balk, zoals op de site van 2026, zodat meteen duidelijk is dat de site van Bonisa is. Alleen als PNG aangeleverd (300 bij 136 pixels); een SVG-versie zou scherper zijn.
 - `bonisa-logo.svg`: zwarte versie, beschikbaar in het bewerkscherm.
 
 Het BBC-logo (Bonisa Business Club) staat wel in de gids, maar wordt op de site nog niet gebruikt.

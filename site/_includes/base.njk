@@ -32,9 +32,10 @@
 <div class="menubalk">
   <div class="container">
     <header class="menubalk__inhoud">
-      <a class="logo-tekst" href="/#top" aria-label="Katwijkse Jongerenzang, naar boven">
-        <span class="logo-tekst__klein">Katwijkse</span>
-        <span class="logo-tekst__groot">JONGERENZANG</span>
+      {#- Logo card hanging over the bar, like 2026: makes clear at once that this is a Bonisa site. -#}
+      <a class="kop-logo" href="/#top" aria-label="Katwijkse Jongerenzang van de Bonisa Youth Club en Stichting Bonisa, naar boven">
+        <img class="kop-logo__byc" src="/assets/img/byc-logo.svg" alt="" width="144" height="86">
+        <img class="kop-logo__bonisa" src="/assets/img/bonisa-50-logo.png" alt="" width="300" height="136" sizes="140px" eleventy:widths="150,300">
       </a>
       {%- if eenvoudigeKop %}
       <a class="terug" href="/">← Terug naar de site</a>

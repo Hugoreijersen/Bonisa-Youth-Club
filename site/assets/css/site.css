@@ -265,24 +265,21 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   gap: 12px 16px;
   padding: 14px 0;
 }
-.logo-tekst {
+/* Witte kaart met het BYC- en Bonisa 50-logo, die over de onderrand van de balk hangt (zoals in 2026). */
+.kop-logo {
+  position: relative;
+  z-index: 1;
+  flex: none;
   display: flex;
-  flex-direction: column;
-  min-height: 44px;
-  justify-content: center;
-  color: var(--wit);
-  line-height: 1;
-  text-decoration: none;
+  align-items: center;
+  gap: 14px;
+  margin: -16px 0 -30px;
+  padding: 14px 18px 26px;
+  background: var(--wit);
+  clip-path: var(--rafel-onder);
 }
-.logo-tekst:hover { color: var(--wit); }
-.logo-tekst__klein { font-family: var(--font-streamer); font-size: 19px; }
-.logo-tekst__groot {
-  font-family: var(--font-kop);
-  font-stretch: var(--kop-breedte);
-  font-weight: 900;
-  font-size: 30px;
-  letter-spacing: 0.01em;
-}
+.kop-logo__byc { width: 112px; height: auto; }
+.kop-logo__bonisa { width: 132px; height: auto; }
 
 .menu { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 20px; font-size: 16px; font-weight: 500; }
 .menu__lijst { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 0; padding: 0; list-style: none; }
@@ -317,8 +314,9 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 @media (max-width: 560px) {
   .menubalk__inhoud { padding: 8px 0; }
   .js .menubalk__inhoud { flex-wrap: nowrap; }
-  .logo-tekst__klein { font-size: 16px; }
-  .logo-tekst__groot { font-size: clamp(21px, 6.4vw, 28px); }
+  .kop-logo { gap: 10px; margin: -10px 0 -18px; padding: 10px 12px 18px; }
+  .kop-logo__byc { width: 70px; }
+  .kop-logo__bonisa { width: 84px; }
   .menu-knop { flex: none; padding: 0 14px; }
   .js .menubalk__inhoud:has(.menu.is-open) { flex-wrap: wrap; }
   .hero__tekst > .pil { font-size: 17px; }
