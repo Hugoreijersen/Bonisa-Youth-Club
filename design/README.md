@@ -52,9 +52,10 @@ De tinten worden in het ontwerp berekend uit groen en oranje (functie `mix` in h
 9. Hosts & musici (één host nog geheim)
 10. Tickets (€ 4,50) en locatie
 11. Kingfisher-kleding (4 shirts)
-12. Wie zijn wij (Bonisa Youth Club)
-13. Oranje balk "Ben jij erbij op vrijdag 21 mei?"
-14. Footer met Bonisa-contactgegevens en juridische PDF's
-15. Zwevende ronde knop "Bestel je ticket" rechtsonder
+12. Notitieboekjes van Bonisa (rij die opzij scrolt; staat niet in het ontwerp)
+13. Wie zijn wij (Bonisa Youth Club)
+14. Oranje balk "Ben jij erbij op vrijdag 21 mei?"
+15. Footer met Bonisa-contactgegevens en juridische PDF's
+16. Zwevende ronde knop "Bestel je ticket" rechtsonder
 
 Teksten tussen `[haken]` zijn nog in te vullen (zie `docs/open-vragen.md`).

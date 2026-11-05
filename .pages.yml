@@ -237,6 +237,28 @@ content:
           - { name: opdruk, label: Opdruk, type: string }
           - { name: prijs, label: Prijs (in euro), type: number, options: { min: 0, step: 0.01 } }
 
+  - name: notitieboekjes
+    label: Notitieboekjes
+    type: file
+    path: site/_data/notitieboekjes.json
+    format: json
+    fields:
+      - { name: zichtbaar, label: Toon dit onderdeel op de site, type: boolean }
+      - { name: label, label: Label, type: string }
+      - { name: titel, label: Titel, type: string }
+      - { name: tekst, label: Tekst, type: rich-text, options: { format: markdown } }
+      - { name: winkellink, label: Link naar de webwinkel, type: string, description: 'Leeg laten = geen knop "Bekijk in de webwinkel".' }
+      - name: boekjes
+        label: Boekjes
+        type: object
+        list: true
+        description: De rij scrolt opzij, dus meer boekjes maken het blok niet hoger.
+        fields:
+          - { name: foto, label: Foto, component: foto, description: Liggende foto (3 bij 2) werkt het best. }
+          - { name: alt, component: alt }
+          - { name: naam, label: Naam, type: string }
+          - { name: prijs, label: Prijs (in euro), type: number, options: { min: 0, step: 0.01 } }
+
   - name: byc
     label: Wie zijn wij (BYC)
     type: file

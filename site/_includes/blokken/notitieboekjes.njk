@@ -1,0 +1,29 @@
+{#- 10b. Notitieboekjes van Bonisa, in een rij die opzij scrolt. Inhoud: _data/notitieboekjes.json -#}
+<section id="notitieboekjes" class="notitieboekjes" aria-labelledby="notitieboekjes-titel">
+  <div class="container sectie-inhoud">
+    <div class="notitieboekjes__kop">
+      <div>
+        <span class="bovenkop">{{ notitieboekjes.label }}</span>
+        <h2 id="notitieboekjes-titel">{{ notitieboekjes.titel }}</h2>
+      </div>
+      <div class="notitieboekjes__tekst">
+        {{ notitieboekjes.tekst | renderContent("md") | safe }}
+        {%- if notitieboekjes.winkellink %}
+        <a class="knop knop--zwart" href="{{ notitieboekjes.winkellink }}">Bekijk in de webwinkel</a>
+        {%- endif %}
+      </div>
+    </div>
+    {#- tabindex: the row can be scrolled with the keyboard -#}
+    <ul class="boekjes" tabindex="0" aria-label="Notitieboekjes, scrol opzij voor meer">
+      {%- for b in notitieboekjes.boekjes %}
+      <li class="boekje">
+        <img src="{{ b.foto }}" alt="{{ b.alt }}" sizes="260px">
+        <div class="boekje__tekst">
+          <h3>{{ b.naam }}</h3>
+          <strong>{{ b.prijs | euro }}</strong>
+        </div>
+      </li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
