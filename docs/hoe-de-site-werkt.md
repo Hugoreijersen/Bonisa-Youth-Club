@@ -40,9 +40,9 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   │   └── blokken/       één bestand per onderdeel van de homepage
 │   ├── _data/             de inhoud, één JSON-bestand per onderdeel
 │   └── assets/
-│       ├── css/site.css   alle opmaak, met de kleuren als variabelen bovenaan
+│       ├── css/site.css   alle opmaak, met kleuren, lettertypen en randen als variabelen bovenaan
 │       ├── js/            menu.js (uitklapmenu) en de scripts van de ticketpagina's; vendor/jsQR.js leest QR-codes
-│       ├── fonts/         Bricolage Grotesque en DM Sans (+ licenties)
+│       ├── fonts/         Archivo, Gelasio en Patrick Hand SC (+ licenties), lookalikes van de huisstijl
 │       ├── img/           de originele foto's (worden nooit zo gepubliceerd)
 │       └── docs/          de pdf's (voorwaarden, privacy, disclaimer)
 ├── supabase/              het ticketsysteem: database, functies, tests (zie ticketsysteem.md)
@@ -188,6 +188,7 @@ We gebruiken de online versie op [app.pagescms.org](https://app.pagescms.org) (b
 | Ticketverkoop openzetten | Bewerkscherm → Evenement → Tickets → "Ticketverkoop is open" aan, met als link `/tickets/`. Het evenement moet ook in de database staan (ticketsysteem.md §5) |
 | Nieuw jaar | Evenement (label, thema, datum), Thema (Bijbeltekst, kaarten), Terugblik (foto's), Bonisa (collecteproject, projecten), Hosts en musici |
 | Project voor giften toevoegen | Bewerkscherm → Projecten (giften). Zie giften.md §6 |
+| Echte huisstijl-lettertypen gebruiken | Webversie (`.woff2`) kopen, in `site/assets/fonts/` zetten en bovenaan `site.css` de `@font-face`-regels en de variabelen `--font-...` aanpassen. Zie `design/bonisa-huisstijl/README.md` |
 | Kleur aanpassen | `--groen` of `--oranje` bovenaan `site.css` |
 | Nieuw blok op de homepage | Nieuw bestand in `site/_includes/blokken/`, een `{% include %}` in `site/index.njk`, een datafile in `site/_data/`, en de velden in `.pages.yml` |
 | Pakketten bijwerken | `npm outdated` laat zien wat er nieuw is. `npm update` voor kleine updates; bij een nieuwe hoofdversie (bijv. Eleventy 4) eerst de release notes lezen en lokaal testen |
