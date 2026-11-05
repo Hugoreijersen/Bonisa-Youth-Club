@@ -51,7 +51,9 @@ In `logos/` staan de logo's als vector (`.svg`), uit de gids gehaald: Bonisa en 
 
 Op de site (`site/assets/img/`):
 
-- `bonisa-logo-wit.svg`: footer en het Bonisa-blok op de homepage (wit op groen).
+- `bonisa-50-logo-wit.png`: witte versie van het jubileumlogo (zelf gemaakt uit de PNG: "Bonisa" wit, het rondje wit met een groene 50). In de footer en in het Bonisa-blok (collecte) op de homepage.
+- `byc-logo-wit.svg`: in de footer, naast het Bonisa 50-logo.
+- `bonisa-logo-wit.svg`: de gewone witte versie, beschikbaar in het bewerkscherm.
 - `byc-logo.svg`: "Wie zijn wij", op een wit vlak.
 - `bonisa-50-logo.png`: het jubileumlogo (Bonisa 50), samen met `byc-logo.svg` in de witte kaart linksboven in de menubalk. Die kaart hangt met een gescheurde onderrand over de balk, zoals op de site van 2026, zodat meteen duidelijk is dat de site van Bonisa is. Alleen als PNG aangeleverd (300 bij 136 pixels); een SVG-versie zou scherper zijn.
 - `bonisa-logo.svg`: zwarte versie, beschikbaar in het bewerkscherm.

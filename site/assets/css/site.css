@@ -765,7 +765,9 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   gap: 24px;
 }
 .footer__adres { display: flex; flex-direction: column; gap: 4px; }
-.footer__logo { width: 168px; margin-bottom: 12px; }
+.footer__logos { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; margin-bottom: 12px; }
+.footer__logo--bonisa { width: 160px; }
+.footer__logo--byc { width: 112px; }
 .footer__naam { font-family: var(--font-kop); font-stretch: var(--kop-breedte); font-weight: 700; font-size: 20px; color: var(--wit); }
 .footer__links { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 0 24px; margin: 0; padding: 0; list-style: none; }
 .footer__links a { display: inline-flex; align-items: center; min-height: 44px; }

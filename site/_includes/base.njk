@@ -71,7 +71,10 @@
 <footer class="footer">
   <div class="container footer__inhoud">
     <div class="footer__adres">
-      <img class="footer__logo" src="/assets/img/bonisa-logo-wit.svg" alt="" width="211" height="53">
+      <div class="footer__logos">
+        <img class="footer__logo footer__logo--bonisa" src="/assets/img/bonisa-50-logo-wit.png" alt="Bonisa" width="300" height="136" sizes="160px" eleventy:widths="160,300">
+        <img class="footer__logo footer__logo--byc" src="/assets/img/byc-logo-wit.svg" alt="Bonisa Youth Club" width="144" height="86">
+      </div>
       <p class="footer__naam">{{ stichting.naam }}</p>
       <p>{{ stichting.adres }} · <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a></p>
       <p><a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> · <a href="{{ stichting.website }}">{{ stichting.website | replace('https://', '') | replace('www.', '') }}</a></p>
