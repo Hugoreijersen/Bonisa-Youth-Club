@@ -162,7 +162,15 @@ content:
       - { name: label, label: Label, type: string }
       - { name: titel, label: Titel, type: string }
       - { name: tekst, label: Tekst, type: rich-text, options: { format: markdown } }
-      - { name: collecteProject, label: Collecteproject van dit jaar, type: string, description: Leeg laten = de zin over het collecteproject verdwijnt. }
+      - name: collecte
+        label: Collectedoel van dit jaar
+        type: object
+        description: Titel leeg laten = het vak met het collectedoel verdwijnt.
+        fields:
+          - { name: kop, label: Kleine kop, type: string, description: "Bijvoorbeeld: Collecte 2027 · Bonisa-project 11" }
+          - { name: titel, label: Titel, type: string }
+          - { name: tekst, label: Wat de collecte mogelijk maakt, type: text }
+          - { name: bedrag, label: Bedrag dat nodig is, type: string, description: "Bijvoorbeeld: € 15.000. Leeg laten = geen bedrag." }
       - { name: logo, label: Logo Bonisa, component: foto, description: Leeg laten = geen logovak. }
       - { name: logoAlt, label: Beschrijving van het logo, type: string }
       - { name: projectenTitel, label: Kop boven de projecten, type: string }

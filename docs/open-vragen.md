@@ -36,7 +36,8 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 - [x] Huisstijl aangeleverd (5 november): kleuren, lettertypen en logo's staan in `design/bonisa-huisstijl/`.
 - [ ] Echte lettertypen kopen (Aktiv Grotesk, Miller Text, Carrot Juice) voor de web, of de gratis lookalikes houden (besluit 56).
 - [ ] Citaat bezoeker: naam en leeftijd, met toestemming.
-- [ ] Collecteproject 2027 en gegevens van Project 9 (2025).
+- [x] Collecteproject 2027: Bonisa-project 11, Steun een evangelist, € 15.000 (5 november).
+- [ ] Gegevens van Project 9 (2025).
 - [ ] Kingfisher: winkellink, en of de shirts tijdens de avond te koop zijn.
 
 ## Fase 2 (bonisa.nl)
