@@ -3,12 +3,13 @@
 //   POST {"actie": "...", ...}   (Authorization: Bearer <login token>)
 //
 // Actions: ik, evenementen, overzicht, bestellingen, export, mail_opnieuw,
-// evenement_opslaan, beheerders, beheerder_toevoegen, rol_wijzigen, beheerder_verwijderen,
+// evenement_opslaan, beheerders, beheerder_toevoegen, uitnodiging_opnieuw, rol_wijzigen,
+// beheerder_verwijderen,
 // and for gifts (docs/giften.md): giften_overzicht, giften_export,
 // periodieke_giften, periodiek_stoppen.
 // Everything except "ik" is only for the role kantoor.
 import {
-  authAdmin, corsHeaders, DatabaseFout, gebruikerVan, json, log, rpc, tabel,
+  authAdmin, corsHeaders, DatabaseFout, gebruikerVan, json, log, rpc, siteVan, tabel, uitnodigen,
 } from "../_shared/algemeen.ts";
 import { stopPeriodiek } from "../_shared/giften.ts";
 import { verstuurTicketmail } from "../_shared/ticketmail.ts";
@@ -194,7 +195,16 @@ Deno.serve(async (req) => {
         if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new Fout("ongeldig_email");
         if (!["kantoor", "scanner"].includes(rol)) throw new Fout("ongeldige_rol");
         let userId = (await alleGebruikers()).find((u) => u.email === email)?.id;
-        if (!userId) {
+        let uitgenodigd = false;
+        if (!userId && !wachtwoord) {
+          // Usual way: an invitation by mail; they choose their own password.
+          const nieuw = await uitnodigen(email, `${siteVan(req)}/welkom/`);
+          if (nieuw.status === 429) throw new Fout("te_veel_mails", 429);
+          if (!nieuw.ok) throw new Fout("uitnodigen_mislukt");
+          userId = nieuw.data.id;
+          uitgenodigd = true;
+        } else if (!userId) {
+          // Still possible: an account with a password that office passes on.
           if (wachtwoord.length < 10) throw new Fout("wachtwoord_te_kort");
           const nieuw = await authAdmin("users", {
             method: "POST", body: JSON.stringify({ email, password: wachtwoord, email_confirm: true }),
@@ -207,7 +217,21 @@ Deno.serve(async (req) => {
           headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
           body: JSON.stringify({ user_id: userId, rol }),
         });
-        antwoord = { user_id: userId, rol };
+        antwoord = { user_id: userId, rol, uitgenodigd };
+        break;
+      }
+
+      case "uitnodiging_opnieuw": {
+        // For someone who has not used the invitation yet (link expired or lost).
+        const id = String(v.user_id ?? "");
+        if (!UUID.test(id)) throw new Fout("onbekend", 404);
+        const g = await authAdmin(`users/${id}`);
+        if (!g.ok) throw new Fout("onbekend", 404);
+        if (g.data.email_confirmed_at) throw new Fout("al_aangemeld", 409);
+        const r = await uitnodigen(g.data.email, `${siteVan(req)}/welkom/`);
+        if (r.status === 429) throw new Fout("te_veel_mails", 429);
+        if (!r.ok) throw new Fout("uitnodigen_mislukt");
+        antwoord = { verstuurd: g.data.email };
         break;
       }
 

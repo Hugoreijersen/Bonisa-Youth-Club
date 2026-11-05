@@ -17,7 +17,7 @@ Log in met je eigen account. Bovenaan staat een groen blok met het evenement waa
 | **Exporteer (CSV)** | Twee bestanden voor de wekelijkse back-up (zie [back-up.md](back-up.md)). Opent in Excel |
 | **Gegevens van dit evenement** | Naam, datum, locatie, prijs en maximum per bestelling. De prijs is wat mensen echt betalen: zet dezelfde prijs ook in het bewerkscherm van de site. Onder **Verkoop automatisch openen of sluiten** kun je de verkoop op een vast moment laten openen of sluiten |
 | **+ Nieuw evenement** (bovenaan) | Opent een apart formulier. De **vaste naam** (bijvoorbeeld `jongerenzang-2028`) kies je één keer: de site zoekt het evenement daarmee op. Een nieuw evenement begint met de verkoop dicht |
-| **Accounts** | Accounts toevoegen voor scanners (alleen de scanpagina) en voor kantoor (alles). Geef het wachtwoord persoonlijk door, niet per mail. Bij elk account kies je de **rol**: Geen rol, Scanner of Kantoor. Verwijder accounts na het evenement |
+| **Accounts** | Mensen uitnodigen als scanner (alleen de scanpagina) of kantoor (alles); zie hieronder. Bij elk account kies je de **rol**: Geen rol, Scanner of Kantoor. Verwijder accounts na het evenement |
 
 **Let op:** de knop **Ticketverkoop** hier regelt of bestellen kan. De knop "Bestel je ticket" op de homepage zet je apart aan of uit in het bewerkscherm van de site ("Ticketverkoop is open"). Zet ze samen open en dicht.
 
@@ -25,13 +25,15 @@ Terugbetalen gaat in het dashboard van **Mollie** (Betalingen → de betaling �
 
 ## Iemand uitnodigen
 
-Je kunt iemand ook een uitnodiging per mail sturen. Diegene kiest dan zelf een wachtwoord, zodat je geen wachtwoord hoeft door te geven.
+Nieuwe mensen nodig je uit per mail. Diegene kiest zelf een wachtwoord; jij hoeft geen wachtwoord te bedenken of door te geven.
 
-1. Ga in het Supabase-dashboard naar **Authentication → Users → Add user → Send invitation** en vul het e-mailadres in.
-2. De nieuwe gebruiker klikt op de link in de mail en komt op de pagina **Welkom** (`/welkom/`). Daar kiest diegene een wachtwoord van minstens 10 tekens.
-3. Op de beheerpagina staat het account nu onder **Accounts** met **Geen rol** (zolang de link nog niet gebruikt is: "Uitgenodigd, nog niet aangemeld"). Kies bij **Rol** voor **Kantoor** of **Scanner**. Dat geldt meteen.
+1. Ga op de beheerpagina naar **Accounts → Iemand uitnodigen**. Vul het e-mailadres in, kies de rol (**Scanner** of **Kantoor**) en klik **Uitnodiging versturen**.
+2. Diegene krijgt een mail met een link, komt op de pagina **Welkom** (`/welkom/`) en kiest daar een wachtwoord van minstens 10 tekens. Daarna kan diegene meteen inloggen.
+3. Zolang de link nog niet gebruikt is, staat er bij het account "Uitgenodigd, nog niet aangemeld". Geen mail gekregen, of is de link verlopen? Klik **Opnieuw uitnodigen** (en laat in de spammap kijken).
 
-De link in de mail werkt één keer en maar een beperkte tijd. Verlopen? Stuur een nieuwe uitnodiging. Zonder rol kan een account niets: de beheerpagina en de scanpagina blijven dicht.
+Bestaat het e-mailadres al als account? Dan krijgt dat account alleen de gekozen rol, zonder nieuwe mail.
+
+Je kunt ook iemand uitnodigen via het Supabase-dashboard (**Authentication → Users → Add user → Send invitation**). Dat account staat daarna met **Geen rol** in de lijst: kies dan bij **Rol** voor **Kantoor** of **Scanner**. Zonder rol kan een account niets: de beheerpagina en de scanpagina blijven dicht.
 
 Je eigen rol kun je niet veranderen; vraag dat aan iemand anders van kantoor.
 

@@ -172,7 +172,7 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
 
     <section class="beheer__blok" aria-labelledby="kop-accounts">
       <h2 id="kop-accounts">Accounts</h2>
-      <p class="tekst-gedempt">Scanners kunnen alleen de scanpagina gebruiken. Kantoor kan alles op deze pagina. Iemand die een uitnodiging heeft geaccepteerd, staat hier met "Geen rol": kies dan Scanner of Kantoor.</p>
+      <p class="tekst-gedempt">Scanners kunnen alleen de scanpagina gebruiken. Kantoor kan alles op deze pagina. Iemand die via Supabase is uitgenodigd, staat hier met "Geen rol": kies dan Scanner of Kantoor.</p>
       <div class="tabel-scroll" tabindex="0" role="region" aria-label="Accounts">
         <table class="tabel">
           <thead><tr><th>E-mail</th><th>Rol</th><th>Laatst ingelogd</th><th><span class="visueel-verborgen">Actie</span></th></tr></thead>
@@ -180,16 +180,16 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
         </table>
       </div>
       <form class="formulier" data-accountformulier>
-        <h3>Account toevoegen</h3>
+        <h3>Iemand uitnodigen</h3>
+        <p class="tekst-gedempt">Diegene krijgt een mail met een link en kiest daar zelf een wachtwoord.</p>
         <div class="velden">
           <div class="veld"><label for="ac-email">E-mailadres</label><input id="ac-email" name="email" type="email" required autocomplete="off"></div>
-          <div class="veld"><label for="ac-wachtwoord">Wachtwoord (minstens 10 tekens)</label><input id="ac-wachtwoord" name="wachtwoord" type="text" minlength="10" autocomplete="new-password"></div>
           <div class="veld">
             <label for="ac-rol">Rol</label>
             <select id="ac-rol" name="rol"><option value="scanner">Scanner</option><option value="kantoor">Kantoor</option></select>
           </div>
         </div>
-        <div><button class="knop knop--groen" type="submit">Account toevoegen</button></div>
+        <div><button class="knop knop--groen" type="submit">Uitnodiging versturen</button></div>
       </form>
     </section>
   </div>

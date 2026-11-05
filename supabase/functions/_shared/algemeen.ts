@@ -79,6 +79,29 @@ export async function authAdmin(pad: string, init: RequestInit = {}) {
   return { ok: antwoord.ok, status: antwoord.status, data: tekst ? JSON.parse(tekst) : null };
 }
 
+// Invitation by mail (Supabase Auth). The invitee chooses a password on
+// /welkom/ (site/welkom.njk). Sending it again to someone who has not accepted
+// yet works too. The mail is sent by Supabase Auth itself (docs/beveiliging.md).
+export async function uitnodigen(email: string, naarAdres: string) {
+  const sleutel = env("SUPABASE_SERVICE_ROLE_KEY");
+  const antwoord = await fetch(
+    `${env("SUPABASE_URL")}/auth/v1/invite?redirect_to=${encodeURIComponent(naarAdres)}`,
+    {
+      method: "POST",
+      headers: { apikey: sleutel, Authorization: `Bearer ${sleutel}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    },
+  );
+  const tekst = await antwoord.text();
+  return { ok: antwoord.ok, status: antwoord.status, data: tekst ? JSON.parse(tekst) : null };
+}
+
+// The site that called us (only our own websites), else SITE_URL.
+export function siteVan(req: Request): string {
+  const herkomst = req.headers.get("origin") ?? "";
+  return toegestaneHerkomsten().includes(herkomst) ? herkomst : env("SITE_URL").replace(/\/$/, "");
+}
+
 // --- CORS: only our own websites may call the functions from a browser. ---
 function toegestaneHerkomsten(): string[] {
   return env("SITE_ORIGINS", false).split(",").map((s) => s.trim()).filter(Boolean);
