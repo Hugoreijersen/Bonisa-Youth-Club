@@ -24,7 +24,8 @@
   <script src="{{ script | versie }}" defer></script>
   {%- endfor %}
 </head>
-{%- set zwevendeKnop = ticketknop.verkoopOpen and not eenvoudigeKop %}
+{#- The round ticket button is always shown, except on the order/work pages. -#}
+{%- set zwevendeKnop = not eenvoudigeKop %}
 <body{% if zwevendeKnop %} class="met-zwevende-knop"{% endif %}>
 <a class="overslaan" href="#inhoud">Naar de inhoud</a>
 
@@ -88,7 +89,7 @@
 {%- if zwevendeKnop %}
 <a class="zwevend" href="{{ ticketknop.link }}">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg>
-  <span>Bestel je<br>ticket</span>
+  <span>{% if ticketknop.verkoopOpen %}Bestel je<br>ticket{% else %}Tickets{% endif %}</span>
 </a>
 {%- endif %}
 </body>

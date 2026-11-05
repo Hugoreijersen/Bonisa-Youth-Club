@@ -311,6 +311,17 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 }
 .menu-knop svg { width: 20px; height: 20px; }
 
+/* Telefoon: menubalk op één regel en niet te hoog. */
+@media (max-width: 560px) {
+  .menubalk__inhoud { padding: 8px 0; }
+  .js .menubalk__inhoud { flex-wrap: nowrap; }
+  .logo-tekst__klein { font-size: 16px; }
+  .logo-tekst__groot { font-size: clamp(21px, 6.4vw, 28px); }
+  .menu-knop { flex: none; padding: 0 14px; }
+  .js .menubalk__inhoud:has(.menu.is-open) { flex-wrap: wrap; }
+  .hero__tekst > .pil { font-size: 17px; }
+  .hero__inhoud { padding-top: 32px; gap: 32px; }
+}
 /* Op smalle schermen klapt het menu in (alleen als JavaScript werkt). */
 @media (max-width: 1080px) {
   .js .menu-knop { display: inline-flex; }

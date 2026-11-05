@@ -81,7 +81,7 @@ content:
           - name: verkoopOpen
             label: Ticketverkoop is open
             type: boolean
-            description: Aan = alle knoppen worden "Bestel je ticket" en de ronde knop rechtsonder verschijnt.
+            description: Aan = alle knoppen worden "Bestel je ticket" en gaan naar het bestelformulier. Uit = de knoppen (ook de ronde knop rechtsonder) gaan naar het ticketblok op de homepage.
           - { name: link, label: Link naar het bestelformulier, type: string }
           - { name: tekstVoorVerkoop, label: Tekst zolang de verkoop nog dicht is, type: text }
       - name: slotTitel
