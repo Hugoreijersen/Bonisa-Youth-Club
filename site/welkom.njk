@@ -1,0 +1,39 @@
+---
+layout: base.njk
+permalink: /welkom/
+titel: Account · Katwijkse Jongerenzang
+eenvoudigeKop: true
+verborgen: true
+scripts: ["/assets/js/welkom.js"]
+---
+{#- Landing page for the links Supabase mails: an invitation (type=invite) or a
+    forgotten password (type=recovery). The invitee chooses a password here.
+    Explanation: docs/beheer-tickets.md, "Iemand uitnodigen". -#}
+<div class="container werkpagina" data-welkom
+     data-functies="{{ ticketsysteem.functiesUrl }}" data-auth="{{ ticketsysteem.authUrl }}"
+     data-sleutel="{{ ticketsysteem.publiekeSleutel }}">
+  <form class="formulier inloggen" data-wachtwoordformulier hidden>
+    <div class="formulier__kop">
+      <h1 data-kop>Welkom</h1>
+      <p class="tekst-gedempt" data-uitleg>Kies een wachtwoord voor je account<span data-email></span>.</p>
+    </div>
+    <p class="melding" data-melding role="alert" hidden></p>
+    <div class="veld">
+      <label for="nieuw-wachtwoord">Nieuw wachtwoord (minstens 10 tekens)</label>
+      <input id="nieuw-wachtwoord" name="wachtwoord" type="password" minlength="10" autocomplete="new-password" required>
+    </div>
+    <div class="veld">
+      <label for="herhaal-wachtwoord">Herhaal het wachtwoord</label>
+      <input id="herhaal-wachtwoord" name="herhaal" type="password" minlength="10" autocomplete="new-password" required>
+    </div>
+    <button class="knop knop--groen knop--groot" type="submit">Wachtwoord opslaan</button>
+  </form>
+
+  <div class="formulier inloggen" data-uitkomst hidden>
+    <h1 data-uitkomst-kop>Je account is klaar</h1>
+    <p class="bevestiging" data-uitkomst-tekst role="status"></p>
+    <a class="knop knop--groen knop--groot" data-uitkomst-link href="/beheer/" hidden>Naar de beheerpagina</a>
+  </div>
+
+  <noscript><p class="melding">Deze pagina werkt alleen met JavaScript.</p></noscript>
+</div>

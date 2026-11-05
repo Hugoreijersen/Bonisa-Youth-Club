@@ -14,7 +14,8 @@
     niet_betaald_of_bezig: "Deze bestelling is niet betaald, of de mail wordt op dit moment al verstuurd.",
     wachtwoord_te_kort: "Kies een wachtwoord van minstens 10 tekens.",
     ongeldig_email: "Vul een geldig e-mailadres in.",
-    niet_jezelf: "Je kunt je eigen account niet verwijderen.",
+    niet_jezelf: "Je eigen account kun je niet verwijderen of een andere rol geven.",
+    ongeldige_rol: "Kies een geldige rol.",
     ongeldig_slug: "De vaste naam mag alleen kleine letters, cijfers en streepjes bevatten.",
     ongeldige_periode: "Kies een geldige periode: de begindatum vóór de einddatum.",
     geen_toegang: "Dit account heeft geen toegang.",
@@ -300,7 +301,7 @@
     const lijst = await vraag("beheerders");
     $("[data-accounts]").replaceChildren(...lijst.map((a) => {
       const tr = document.createElement("tr");
-      tr.append(cel(a.email), cel(a.rol === "kantoor" ? "Kantoor" : "Scanner"), cel(datumTijd(a.laatst_ingelogd)));
+      tr.append(cel(a.email), rolCel(a), cel(a.uitnodiging_open ? "Uitgenodigd, nog niet aangemeld" : datumTijd(a.laatst_ingelogd)));
       const actie = document.createElement("td");
       if (!a.ikzelf) {
         const knop = document.createElement("button");
@@ -321,6 +322,32 @@
       return tr;
     }));
   }
+  // The role of another account can be changed right in the table; your own not
+  // (so you cannot lock yourself out). "Geen rol": the account exists but can
+  // use neither page, for example after accepting an invitation.
+  const ROLNAAM = { kantoor: "Kantoor", scanner: "Scanner" };
+  function rolCel(a) {
+    const td = document.createElement("td");
+    if (a.ikzelf) { td.textContent = ROLNAAM[a.rol] ?? "Geen rol"; return td; }
+    const keuze = document.createElement("select");
+    keuze.className = "tabel__knop";
+    keuze.setAttribute("aria-label", `Rol van ${a.email}`);
+    for (const [waarde, naam] of [["geen", "Geen rol"], ["scanner", "Scanner"], ["kantoor", "Kantoor"]]) {
+      keuze.append(new Option(naam, waarde, false, (a.rol ?? "geen") === waarde));
+    }
+    keuze.addEventListener("change", async () => {
+      keuze.disabled = true;
+      try {
+        await vraag("rol_wijzigen", { user_id: a.user_id, rol: keuze.value });
+        melding(keuze.value === "geen" ? `${a.email} heeft nu geen toegang meer.` : `${a.email} heeft nu de rol ${ROLNAAM[keuze.value]}.`, true);
+        laadAccounts();
+      } catch (e) { melding(e.message); keuze.value = a.rol ?? "geen"; }
+      finally { keuze.disabled = false; }
+    });
+    td.append(keuze);
+    return td;
+  }
+
   const accountformulier = $("[data-accountformulier]");
   accountformulier.addEventListener("submit", async (ev) => {
     ev.preventDefault();

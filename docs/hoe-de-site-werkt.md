@@ -34,6 +34,7 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── geven/             geefpagina's voor bonisa.nl, alleen met GIFTEN_PAGINAS=aan (zie giften.md)
 │   ├── scan.njk           scanpagina voor de deur (/scan/)
 │   ├── beheer.njk         beheerpagina voor kantoor (/beheer/)
+│   ├── welkom.njk         wachtwoord kiezen na een uitnodiging (/welkom/)
 │   ├── _includes/
 │   │   ├── base.njk       het basissjabloon: <head>, menu, footer, ronde knop
 │   │   ├── iconen.njk     de iconen van de themakaarten

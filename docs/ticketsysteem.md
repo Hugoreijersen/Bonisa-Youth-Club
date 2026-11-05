@@ -41,7 +41,7 @@ Afspraken uit `beveiliging.md` en hoe ze hier geregeld zijn:
 | QR-codes niet te raden | Elke ticketcode is 128 willekeurige bits (32 tekens). De QR-code bevat alleen die code |
 | Een ticket maar één keer binnen | `scan_ticket()` zet "gescand" in één databasestap; twee scanners tegelijk laten maar één persoon binnen (getest) |
 | Ticketpagina alleen voor de koper | De link bevat een aparte geheime sleutel (`orders.toegang`, 128 bits) achter het `#`-teken; die gaat niet naar de server van de site. De pagina toont alleen de voornaam |
-| Scannen en beheer alleen met login | Supabase Auth met wachtwoord; rol `scanner` of `kantoor` in de tabel `beheerders`. Zelf een account aanmaken kan niet (`enable_signup = false`); kantoor maakt accounts aan op de beheerpagina |
+| Scannen en beheer alleen met login | Supabase Auth met wachtwoord; rol `scanner` of `kantoor` in de tabel `beheerders`. Zelf een account aanmaken kan niet (`enable_signup = false`); kantoor maakt accounts aan op de beheerpagina, of nodigt iemand uit via het Supabase-dashboard (die kiest zelf een wachtwoord op `/welkom/`) en geeft het account daarna een rol op de beheerpagina |
 | Spam en misbruik | Verborgen spamveld; maximaal 5 bestellingen per e-mailadres per uur |
 | Persoonsgegevens alleen in de EU | Functies en database bij Supabase in Frankfurt; de site vraagt `x-region: eu-central-1`, de webhook `forceFunctionRegion=eu-central-1` |
 | Logboeken zonder persoonsgegevens | De functies loggen alleen id's en foutcodes |
@@ -63,7 +63,7 @@ Een bestelling die nog niet betaald is, houdt de plaatsen 30 minuten vast (de ti
 | `supabase/functions/ticketinfo` | Openbare info: prijs en status van de verkoop, en de status van één bestelling voor de bedankpagina. Vraagt bij een open bestelling zelf bij Mollie na, voor als de webhook laat is |
 | `supabase/functions/mijn-tickets` | Ticketpagina: tickets met QR-code bij de geheime sleutel |
 | `supabase/functions/scan` | Scanpagina: controleert een ticket (alleen met login) |
-| `supabase/functions/beheer` | Beheerpagina: cijfers, bestellingen, export, ticketmail opnieuw, evenement instellen, accounts (alleen rol `kantoor`) |
+| `supabase/functions/beheer` | Beheerpagina: cijfers, bestellingen, export, ticketmail opnieuw, evenement instellen, accounts en hun rol (alleen rol `kantoor`) |
 | `supabase/functions/_shared/ticketmail.ts`, `mail.ts`, `nieuwsbrief.ts` | Ticketmail (MailerSend) en nieuwsbrief (MailerLite) |
 | `supabase/functions/_shared/vendor/qrcode.mjs` | QR-codes maken (qrcode-generator 2.0.4, MIT), als GIF |
 | `site/assets/js/vendor/jsQR.js` | QR-codes lezen met de camera (jsQR 1.4.0, Apache-2.0) |
@@ -145,7 +145,7 @@ Testen met de echte Mollie-testomgeving: haal in `.env.local` de regel `MOLLIE_A
    ```
    MailerSend verstuurt alleen vanaf een domein dat je daar hebt geverifieerd (een paar DNS-records bij jongerenzang.nl). Zonder `MAILERLITE_API_KEY` staat de nieuwsbrief-aanmelding uit. Het vinkje blijft wel bewaard (kolom `nieuwsbrief` in de export), zodat je die adressen later zelf in MailerLite kunt zetten.
 4. **Functies** online zetten: `npx supabase@3.0.0 functions deploy`
-5. **Inloggen beveiligen** in het Supabase-dashboard, onder Authentication: "Allow new users to sign up" **uit**, en bij URL Configuration de Site URL op het adres van de site.
+5. **Inloggen beveiligen** in het Supabase-dashboard, onder Authentication: "Allow new users to sign up" **uit**, en bij URL Configuration de Site URL op het adres van de site. Zet onder **Redirect URLs** ook `https://<adres van de site>/welkom/`. Links voor een uitnodiging of een nieuw wachtwoord komen op `/welkom/` uit; komen ze op de homepage uit (de Site URL), dan stuurt `naar-welkom.js` ze door naar `/welkom/`.
 6. **Eerste kantooraccount**: Authentication → Add user (met "Auto Confirm"), daarna in de SQL Editor:
    ```sql
    insert into public.beheerders (user_id, rol)
