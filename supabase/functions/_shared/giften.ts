@@ -2,7 +2,7 @@
 // starting and stopping monthly gifts, and the thank-you mail.
 // Explanation in Dutch: docs/giften.md
 import {
-  centNaarEuro, env, euroNaarCent, log, type MollieBetaling, MollieFout, mollieVerzoek, rpc,
+  bedragInEuro, centNaarEuro, env, euroNaarCent, log, type MollieBetaling, MollieFout, mollieVerzoek, rpc,
 } from "./algemeen.ts";
 import { verstuurMail } from "./mail.ts";
 import { aanmeldenNieuwsbrief } from "./nieuwsbrief.ts";
@@ -88,7 +88,7 @@ export async function verwerkGiftBetaling(paymentId: string): Promise<Verwerkt> 
   const resultaat = await rpc<Verwerkt>("verwerk_gift_betaling", {
     p_payment_id: b.id,
     p_mollie_status: b.status,
-    p_bedrag_cent: euroNaarCent(b.amount?.value),
+    p_bedrag_cent: bedragInEuro(b.amount),
     p_terugbetaald_cent: euroNaarCent(b.amountRefunded?.value) + euroNaarCent(b.amountChargedBack?.value),
     p_subscription_id: b.subscriptionId ?? null,
     p_mandate_id: b.mandateId ?? null,
@@ -201,7 +201,7 @@ type Giftgegevens = {
 };
 
 const html = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const euro = (cent: number) => `€ ${centNaarEuro(cent).replace(".", ",")}`;
 
 export function maakGiftmail(g: Giftgegevens, siteUrl: string) {

@@ -34,7 +34,7 @@ export function datumTijd(iso: string) {
 }
 
 const html = (s: string) =>
-  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 
 export function maakTicketmail(g: Ticketgegevens, siteUrl: string) {
   const { datum, tijd } = datumTijd(g.evenement.begint_op);

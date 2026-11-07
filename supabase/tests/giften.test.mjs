@@ -26,8 +26,11 @@ after(() => nep?.close());
 // --- helpers ---------------------------------------------------------------
 const h = { apikey: SERVICE, Authorization: `Bearer ${SERVICE}`, "Content-Type": "application/json" };
 const lees = async (pad) => (await fetch(`${API}/rest/v1/${pad}`, { headers: h })).json();
-const rpc = async (functie, parameters = {}) =>
-  (await fetch(`${API}/rest/v1/rpc/${functie}`, { method: "POST", headers: h, body: JSON.stringify(parameters) })).json();
+// A function that returns nothing (void) answers with an empty body.
+const rpc = async (functie, parameters = {}) => {
+  const tekst = await (await fetch(`${API}/rest/v1/rpc/${functie}`, { method: "POST", headers: h, body: JSON.stringify(parameters) })).text();
+  return tekst ? JSON.parse(tekst) : null;
+};
 const gift = async (id) => (await lees(`giften?id=eq.${id}&select=*`))[0];
 const giftenVan = (periodiekId) => lees(`giften?periodiek_id=eq.${periodiekId}&select=*`);
 const periodiek = async (id) => (await lees(`periodieke_giften?id=eq.${id}&select=*`))[0];

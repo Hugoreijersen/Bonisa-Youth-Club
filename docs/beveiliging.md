@@ -39,14 +39,19 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 - Beveiligingsregels in `site/_headers.njk` (onder andere een Content-Security-Policy die alleen de eigen site toelaat, plus het ticketsysteem bij Supabase en het doorsturen naar Mollie). Cloudflare stuurt ze mee met elke pagina.
 - Foto's: Eleventy Image haalt bij het bouwen alle EXIF-, GPS- en andere metagegevens uit elke foto (getest op 4 november 2026 met een foto met GPS-plek).
 - Testversies zijn niet vindbaar in Google (`noindex`) tot livegang.
+- De site stuurt `Strict-Transport-Security` mee (twee jaar, ook voor subdomeinen): browsers gebruiken daarna altijd https. Elk subdomein van jongerenzang.nl moet dus https hebben.
 
 ### Database
 - Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven. Ook de SQL-functies zijn alleen voor de functies te gebruiken (getest, zie [ticketsysteem.md](ticketsysteem.md)).
+- Dat geldt ook voor wie is ingelogd (scanners, kantoor, uitgenodigden zonder rol): de rollen `anon` en `authenticated` hebben geen enkel recht op tabellen of functies in `public`, ook niet op tabellen die later worden toegevoegd (migratie `20261107120000_rechten_dichtzetten.sql`, getest). Alleen de functies (service role) lezen en schrijven. Een nieuwe tabel via het dashboard (Table Editor) krijgt wel weer rechten van Supabase zelf: maak tabellen daarom alleen met een migratie.
+- Wachtwoorden: minstens 10 tekens, met letters en cijfers. Supabase controleert dat zelf (Authentication → Password), `/welkom/` en `/beheer/` ook.
 - De beheer- en scanpagina werken alleen na inloggen (Supabase Auth, wachtwoord), met rollen `kantoor` en `scanner` in de tabel `beheerders`. Zelf een account aanmaken kan niet; kantoor nodigt mensen uit per mail vanaf de beheerpagina (of via het Supabase-dashboard). Een uitgenodigd account heeft geen rol en kan dus niets, tot kantoor een rol kiest. De uitnodigingsmail verstuurt Supabase zelf; stel daar eigen SMTP van MailerSend in (zie ticketsysteem.md), zodat ook deze mail via MailerSend gaat. Alleen het e-mailadres gaat mee. Op `/welkom/` haalt de pagina de inlogcode meteen uit de adresbalk. Het inloggen blijft alleen bewaard in het geopende tabblad.
 - De scanpagina toont alleen voornaam en "ticket x van y". Alle andere gegevens alleen op de beheerpagina.
 
 ### Betalingen en tickets
-- Een melding van Mollie wordt altijd nagecontroleerd door de betaling zelf bij Mollie op te vragen.
+- Een melding van Mollie wordt altijd nagecontroleerd door de betaling zelf bij Mollie op te vragen. Alleen bedrag én valuta (euro) van Mollie tellen; klopt dat niet met de bestelling, dan verandert er niets.
+- Een terugbetaling of storno (chargeback) van het hele bedrag maakt de tickets ongeldig bij de scanner.
+- Kent Mollie de betaling niet, dan antwoordt de functie toch 200, zodat Mollie niet blijft proberen.
 - Bedragen worden altijd op de server berekend, nooit overgenomen uit het formulier.
 - QR-codes zijn lange, willekeurige codes (minstens 128 bits), niet te raden.
 - Een ticket kan maar één keer gescand worden (getest, ook met twee scanners tegelijk).
@@ -65,6 +70,16 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 - Bestellingen: verwijderen of anonimiseren [X] maanden na het evenement (nog vaststellen).
 - Giften: naam en e-mail bewaren zolang de administratie dat vraagt (fiscaal meestal 7 jaar); daarna anonimiseren. Termijn nog vaststellen. Gestopte maandelijkse giften: ook bij Mollie de klant verwijderen.
 - Nieuwsbriefadressen: tot iemand zich afmeldt.
+
+### Controle vóór livegang (beveiligingsreview 7 november 2026)
+In het Supabase-dashboard en bij de secrets van de functies; Claude kan dit niet zelf:
+1. **SQL Editor:** de drie controlevragen uit de review draaien (zie de pull request "Beveiligingsreview"). Verwacht: geen rechten voor `anon`/`authenticated`, overal RLS aan.
+2. **Project Settings → Data API → Exposed schemas:** alleen `public` (de functies hebben die nodig). `graphql_public` mag eruit.
+3. **Authentication → Providers → Email → Password:** minimale lengte 10, eisen "Letters and digits". Ook "Prevent use of leaked passwords" aan (alleen op Pro).
+4. **Authentication → Rate limits:** niet hoger dan de standaard.
+5. **Authentication → URL Configuration:** Site URL `https://jongerenzang.nl`; Redirect URLs `https://jongerenzang.nl/welkom/` en `https://www.jongerenzang.nl/welkom/` (en het workers.dev-adres alleen zolang dat nog gebruikt wordt).
+6. **Secret `SITE_ORIGINS`** (komma's ertussen, zonder `/` op het eind): `https://jongerenzang.nl,https://www.jongerenzang.nl`, later ook `https://bonisa.nl,https://www.bonisa.nl`. `SITE_URL` op `https://jongerenzang.nl`.
+7. **Verkoop dicht** tot de startdatum: op `/beheer/` bij het evenement "Verkoop open vanaf" leegmaken of op het startmoment zetten.
 
 ### Datalek
 - Binnen 72 uur melden bij de Autoriteit Persoonsgegevens.

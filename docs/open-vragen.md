@@ -19,13 +19,15 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 
 - [ ] In het bestaande Mollie-account van Bonisa een websiteprofiel voor jongerenzang.nl aanmaken (besluit 39). Eerst de `test_`-sleutel daarvan in Supabase zetten om met de echte Mollie-testomgeving te testen, later de `live_`-sleutel (docs/ticketsysteem.md §5).
 - [ ] Startdatum van de ticketverkoop.
-- [ ] Maximum aantal tickets (capaciteit van de kerk) en maximum per bestelling (nu voorlopig 10, besluit 33).
+- [ ] Maximum aantal tickets (capaciteit van de kerk) en maximum per bestelling (nu voorlopig 10, besluit 33; online staat het evenement op 50, aanpassen op `/beheer/`).
 - [ ] Ticketmail: MailerSend-account (gratis tot 500 mails per maand), domein jongerenzang.nl daar verifiëren, en een afzender kiezen (voorstel: tickets@jongerenzang.nl, antwoorden naar het adres van de BYC). Navragen waar MailerSend de mailgegevens bewaart.
 - [ ] MailerLite: API-sleutel en de groep waarin nieuwe aanmeldingen moeten komen.
 - [ ] Domein jongerenzang.nl (in eigen beheer) bij livegang naar Cloudflare laten wijzen. Let op: neem bestaande mailinstellingen (MX-records) mee, anders stopt de mail op dat domein. (Volgens Hugo geen zorg; regelen bij livegang.)
 - [ ] Toestemming voor foto's van herkenbare jongeren op de site (onder 16: ouders).
 - [ ] Privacyverklaring en voorwaarden laten nakijken en aanpassen (apart nieuwsbriefvakje).
-- [ ] Bewaartermijn van bestellingen vaststellen.
+- [ ] Bewaartermijn van bestellingen vaststellen. Daarna bouwt Claude het anonimiseren na het evenement (beveiligingsreview T7) en komt de termijn in de privacyverklaring.
+- [ ] Tweestapsverificatie (app met code) voor kantooraccounts? Advies van de beveiligingsreview (T6): ja, omdat kantoor alle kopersgegevens kan exporteren.
+- [ ] Controle vóór livegang uit [beveiliging.md](beveiliging.md) afwerken (Supabase-instellingen, `SITE_ORIGINS`, verkoop dicht).
 - [ ] Afgeschermde back-upmap in de EU kiezen (zie back-up.md); nagaan waar die opslag staat.
 - [ ] Supabase tijdens de verkoop: Pro voor die maanden, of gratis met een automatische dagelijkse controle (zie besluit 20).
 - [ ] Wie meldt een eventueel datalek bij de Autoriteit Persoonsgegevens?

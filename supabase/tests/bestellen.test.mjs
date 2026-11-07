@@ -392,14 +392,15 @@ test("beheer: evenement instellen en accounts voor scanners", async () => {
 
   const email = `deur${Date.now()}@voorbeeld.nl`;
   assert.equal((await (await beheer(kantoor.token, "beheerder_toevoegen", { email, wachtwoord: "kort", rol: "scanner" })).json()).fout, "wachtwoord_te_kort");
-  const { user_id } = await (await beheer(kantoor.token, "beheerder_toevoegen", { email, wachtwoord: "lang-genoeg-wachtwoord", rol: "scanner" })).json();
-  const token = await inloggen(email, "lang-genoeg-wachtwoord");
+  assert.equal((await (await beheer(kantoor.token, "beheerder_toevoegen", { email, wachtwoord: "alleen-letters", rol: "scanner" })).json()).fout, "wachtwoord_te_kort");
+  const { user_id } = await (await beheer(kantoor.token, "beheerder_toevoegen", { email, wachtwoord: "lang-genoeg-wachtwoord-1", rol: "scanner" })).json();
+  const token = await inloggen(email, "lang-genoeg-wachtwoord-1");
   assert.equal((await (await beheer(token, "ik")).json()).rol, "scanner");
   const lijst = await (await beheer(kantoor.token, "beheerders")).json();
   assert.ok(lijst.some((x) => x.email === email && x.rol === "scanner"));
   assert.equal((await (await beheer(kantoor.token, "beheerder_verwijderen", { user_id: kantoor.id })).json()).fout, "niet_jezelf");
   await beheer(kantoor.token, "beheerder_verwijderen", { user_id });
-  assert.equal(await inloggen(email, "lang-genoeg-wachtwoord"), undefined);
+  assert.equal(await inloggen(email, "lang-genoeg-wachtwoord-1"), undefined);
 });
 
 test("beheer: uitgenodigd account krijgt een wachtwoord en daarna de rol kantoor", async () => {
@@ -424,10 +425,10 @@ test("beheer: uitgenodigd account krijgt een wachtwoord en daarna de rol kantoor
   // /welkom/: choose a password.
   const gezet = await fetch(`${API}/auth/v1/user`, {
     method: "PUT", headers: { ...authHeaders, Authorization: `Bearer ${token}` },
-    body: JSON.stringify({ password: "mijn-eigen-wachtwoord" }),
+    body: JSON.stringify({ password: "mijn-eigen-wachtwoord-1" }),
   });
   assert.equal(gezet.status, 200);
-  const eigenToken = await inloggen(email, "mijn-eigen-wachtwoord");
+  const eigenToken = await inloggen(email, "mijn-eigen-wachtwoord-1");
   assert.ok(eigenToken);
   assert.equal((await (await beheer(eigenToken, "ik")).json()).rol, null);
   assert.equal((await beheer(eigenToken, "overzicht", { evenement: SLUG })).status, 403);
@@ -487,4 +488,67 @@ test("nieuwe functies: bezoekers kunnen de nieuwe SQL-functies niet aanroepen", 
     const r = await fetch(`${API}/rest/v1/rpc/${f}`, { method: "POST", headers: h, body: "{}" });
     assert.ok(r.status >= 400, f);
   }
+});
+
+// --- Security review 2026-11-07 ----------------------------------------------
+test("T1: ingelogde scanners en accounts zonder rol kunnen niets via de Data API", async () => {
+  const scanner = await maakAccount("scanner");
+  const zonderRol = await maakAccount(null);
+  const kantoor = await maakAccount("kantoor");
+  for (const account of [scanner, zonderRol, kantoor]) {
+    const h = { apikey: ANON, Authorization: `Bearer ${account.token}`, "Content-Type": "application/json" };
+    for (const tabel of ["orders", "tickets", "events", "beheerders", "giften", "periodieke_giften"]) {
+      const r = await fetch(`${API}/rest/v1/${tabel}?select=*&limit=1`, { headers: h });
+      const tekst = await r.text();
+      assert.ok(r.status === 401 || r.status === 403 || tekst === "[]", `${tabel}: ${r.status} ${tekst}`);
+      const schrijf = await fetch(`${API}/rest/v1/${tabel}`, { method: "POST", headers: h, body: "{}" });
+      assert.ok(schrijf.status >= 400, `${tabel} schrijven`);
+    }
+    for (const f of ["rol_van", "scan_ticket", "beheer_overzicht", "giften_export", "mijn_tickets", "maak_bestelling", "verwerk_betaling"]) {
+      const r = await fetch(`${API}/rest/v1/rpc/${f}`, { method: "POST", headers: h, body: "{}" });
+      assert.ok(r.status >= 400, f);
+    }
+  }
+});
+
+test("T2: elke beheeractie behalve 'ik' alleen voor kantoor", async () => {
+  const acties = ["overzicht", "bestellingen", "export", "evenementen", "evenement_opslaan", "mail_opnieuw",
+    "beheerders", "beheerder_toevoegen", "beheerder_verwijderen", "rol_wijzigen", "uitnodiging_opnieuw",
+    "giften_overzicht", "periodieke_giften", "periodiek_stoppen", "giften_export", "bestaat-niet"];
+  const kantoor = await maakAccount("kantoor");
+  for (const rol of ["scanner", null]) {
+    const account = await maakAccount(rol);
+    assert.equal((await beheer(account.token, "ik")).status, 200);
+    for (const a of acties) {
+      const r = await beheer(account.token, a, { evenement: SLUG, user_id: kantoor.id, rol: "kantoor", van: "2026-01-01", tot: "2026-12-31" });
+      assert.equal(r.status, 403, a);
+    }
+    // nothing changed: the account did not give itself a role
+    assert.equal((await (await beheer(account.token, "ik")).json()).rol, rol);
+    assert.equal((await db(`beheerders?user_id=eq.${kantoor.id}&select=rol`))[0].rol, "kantoor");
+  }
+  // office cannot change or remove itself
+  assert.equal((await (await beheer(kantoor.token, "rol_wijzigen", { user_id: kantoor.id, rol: "scanner" })).json()).fout, "niet_jezelf");
+  assert.equal((await (await beheer(kantoor.token, "beheerder_verwijderen", { user_id: kantoor.id })).json()).fout, "niet_jezelf");
+});
+
+test("T4: storno maakt de tickets ongeldig; een ander valuta telt niet als betaald", async () => {
+  const b = await betaaldeBestelling({ aantal: "1" });
+  await nepZet(b.pid, { amountChargedBack: { currency: "EUR", value: "4.50" } });
+  assert.equal((await webhook(b.pid)).status, 200);
+  assert.equal((await order(b.id)).status, "terugbetaald");
+
+  const { bestelling } = await (await bestelJson({ aantal: "1" })).json();
+  const pid = await paymentVan(bestelling);
+  await nepZet(pid, { status: "paid", amount: { currency: "USD", value: "4.50" } });
+  await webhook(pid);
+  assert.equal((await order(bestelling)).status, "open");
+  assert.equal((await tickets(bestelling)).length, 0);
+});
+
+test("T5: naam van de koper komt letterlijk (ontsnapt) in de ticketmail", async () => {
+  const b = await betaaldeBestelling({ voornaam: `<b>x</b>"&'` });
+  const [m] = await mailsAan(b.email);
+  assert.ok(m.html.includes("&lt;b&gt;x&lt;/b&gt;&quot;&amp;&#39;"));
+  assert.ok(!m.html.includes("<b>x</b>"));
 });

@@ -215,6 +215,12 @@ export function centNaarEuro(cent: number): string {
   return (cent / 100).toFixed(2);
 }
 
+// The amount Mollie reports, in cents. Only euros count: any other currency
+// gives -1, which never matches an order or gift, so nothing is marked paid.
+export function bedragInEuro(bedrag: { value: string; currency: string } | undefined): number {
+  return bedrag?.currency === "EUR" ? euroNaarCent(bedrag.value) : -1;
+}
+
 // "4.50" -> 450, without floating point surprises
 export function euroNaarCent(waarde: string | undefined): number {
   if (!waarde || !/^\d+\.\d{2}$/.test(waarde)) return 0;

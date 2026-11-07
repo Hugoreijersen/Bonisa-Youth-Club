@@ -28,7 +28,7 @@ Terugbetalen gaat in het dashboard van **Mollie** (Betalingen → de betaling �
 Nieuwe mensen nodig je uit per mail. Diegene kiest zelf een wachtwoord; jij hoeft geen wachtwoord te bedenken of door te geven.
 
 1. Ga op de beheerpagina naar **Accounts → Iemand uitnodigen**. Vul het e-mailadres in, kies de rol (**Scanner** of **Kantoor**) en klik **Uitnodiging versturen**.
-2. Diegene krijgt een mail met een link, komt op de pagina **Welkom** (`/welkom/`) en kiest daar een wachtwoord van minstens 10 tekens. Daarna kan diegene meteen inloggen.
+2. Diegene krijgt een mail met een link, komt op de pagina **Welkom** (`/welkom/`) en kiest daar een wachtwoord van minstens 10 tekens, met letters en cijfers. Daarna kan diegene meteen inloggen.
 3. Zolang de link nog niet gebruikt is, staat er bij het account "Uitgenodigd, nog niet aangemeld". Geen mail gekregen, of is de link verlopen? Klik **Opnieuw uitnodigen** (en laat in de spammap kijken).
 
 Bestaat het e-mailadres al als account? Dan krijgt dat account alleen de gekozen rol, zonder nieuwe mail.

@@ -6,7 +6,10 @@ eenvoudigeKop: true
 scripts: ["/assets/js/bestellen.js"]
 ---
 {#- Bestelpagina. Werkt ook zonder JavaScript: het formulier gaat dan direct naar create-order. -#}
-{%- set maxPerBestelling = 10 %}
+{#- Upper limit without JavaScript: the same hard limit as in /beheer/ (50).
+    The real maximum per order is set per event in /beheer/; bestellen.js takes
+    it from ticketinfo, and create-order checks it again on the server. -#}
+{%- set maxPerBestelling = 50 %}
 <div class="container bestellen">
   {% include "blokken/ticket-samenvatting.njk" %}
 
