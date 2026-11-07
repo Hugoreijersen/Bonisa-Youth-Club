@@ -32,7 +32,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 ### Sleutels en code
 - Geheime sleutels (Mollie, Supabase service key, MailerSend, MailerLite) staan alleen in de instellingen van Supabase. Nooit in GitHub, nooit in de website-code.
 - `.env`-bestanden staan in `.gitignore`.
-- Automatische meldingen van GitHub over verouderde onderdelen (Dependabot) aanzetten.
+- Automatische meldingen van GitHub over verouderde onderdelen (Dependabot) aanzetten; `.github/dependabot.yml` stelt maandelijks updates voor. Wie wat bijwerkt en welke meldingen aan moeten: [onderhoud.md](onderhoud.md).
 
 ### Website
 - Geen bronnen van andere domeinen: lettertypen staan op de eigen site (niet Google Fonts), geen trackers of scripts van derden.

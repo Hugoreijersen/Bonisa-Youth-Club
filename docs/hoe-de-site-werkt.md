@@ -21,7 +21,7 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 ├── eleventy.config.js     instellingen van Eleventy (filters, foto's, mappen)
 ├── package.json           welke pakketten nodig zijn en de opdrachten npm start / npm run build
 ├── package-lock.json      de exacte versies van die pakketten (niet met de hand aanpassen)
-├── .node-version          welke Node-versie Cloudflare gebruikt (22)
+├── .node-version          welke Node-versie Cloudflare gebruikt (24)
 ├── .pages.yml             welke velden kantoor ziet in het bewerkscherm
 ├── wrangler.jsonc         instellingen voor Cloudflare: serveer de map _site (zie hieronder)
 ├── .gitignore             wat níet in git komt
@@ -63,7 +63,7 @@ Zelf controleren hoe Cloudflare de site serveert, met de beveiligingsregels: `np
 
 ## 3. Zelf draaien
 
-Eenmalig: Node.js (versie 20 of hoger) installeren, dan in de map Website:
+Eenmalig: Node.js (versie 22 of hoger, liefst 24) installeren, dan in de map Website:
 
 ```
 npm install

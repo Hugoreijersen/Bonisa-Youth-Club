@@ -17,6 +17,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 3. `docs/beveiliging.md`: harde regels over gegevens en locatie
 4. `design/README.md` en `design/bonisa-huisstijl/`: het ontwerp, de huisstijl en de ontwerpregels
 5. `docs/open-vragen.md`: wat nog openstaat
+6. `docs/onderhoud.md`: wie wat bijwerkt, meldingen, controlelijst
 
 ## Techniek
 
