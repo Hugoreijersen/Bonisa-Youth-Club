@@ -1,0 +1,17 @@
+# Dependabot: GitHub checks the npm packages (Eleventy) once a month and opens
+# a pull request when there is an update. Cloudflare builds a test version of
+# each pull request; check it and merge. Explanation in Dutch: docs/onderhoud.md
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    # One pull request for all updates together, not one per package.
+    groups:
+      alles:
+        patterns: ["*"]
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "build"
+      include: "scope"
