@@ -3,6 +3,7 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { execSync } from "node:child_process";
+import { createHmac } from "node:crypto";
 import { start as startNepDiensten } from "./nep-diensten.mjs";
 
 // Keys of the local Supabase (`npm run db:start`). Not secret: they only work locally.
@@ -239,7 +240,31 @@ async function betaaldeBestelling(extra = {}) {
 }
 
 const authHeaders = { apikey: ANON, "Content-Type": "application/json" };
-async function maakAccount(rol) {
+// Code of an authenticator app (TOTP, RFC 6238) for a base32 key.
+function totp(geheim, tijd = Date.now()) {
+  const alfabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+  let bits = "";
+  for (const c of geheim.replace(/=+$/, "").toUpperCase()) bits += alfabet.indexOf(c).toString(2).padStart(5, "0");
+  const sleutel = Buffer.from(bits.match(/.{8}/g).map((b) => parseInt(b, 2)));
+  const teller = Buffer.alloc(8);
+  teller.writeBigUInt64BE(BigInt(Math.floor(tijd / 30000)));
+  const h = createHmac("sha1", sleutel).update(teller).digest();
+  const o = h[h.length - 1] & 15;
+  return String((h.readUInt32BE(o) & 0x7fffffff) % 1_000_000).padStart(6, "0");
+}
+const authMet = (token, pad, body) => fetch(`${API}/auth/v1/${pad}`, {
+  method: "POST", headers: { ...authHeaders, Authorization: `Bearer ${token}` }, body: JSON.stringify(body ?? {}),
+}).then((r) => r.json());
+// Sets up the app for an account and returns a token after the code (aal2).
+async function tweestap(token) {
+  const factor = await authMet(token, "factors", { factor_type: "totp" });
+  const uitdaging = await authMet(token, `factors/${factor.id}/challenge`);
+  const sessie = await authMet(token, `factors/${factor.id}/verify`, { challenge_id: uitdaging.id, code: totp(factor.totp.secret) });
+  return { token: sessie.access_token, factorId: factor.id, geheim: factor.totp.secret };
+}
+
+// Office accounts get two-step login by default, like on the real page.
+async function maakAccount(rol, { metApp = rol === "kantoor" } = {}) {
   const email = `${rol ?? "geen"}${Date.now()}${teller++}@voorbeeld.nl`;
   const wachtwoord = "testwachtwoord-123";
   const r = await fetch(`${API}/auth/v1/admin/users`, {
@@ -248,7 +273,9 @@ async function maakAccount(rol) {
   });
   const user = await r.json();
   if (rol) await db("beheerders", { method: "POST", body: JSON.stringify({ user_id: user.id, rol }) });
-  return { id: user.id, email, wachtwoord, token: await inloggen(email, wachtwoord) };
+  const token = await inloggen(email, wachtwoord);
+  if (!metApp) return { id: user.id, email, wachtwoord, token };
+  return { id: user.id, email, wachtwoord, ...(await tweestap(token)) };
 }
 async function inloggen(email, wachtwoord) {
   const r = await fetch(`${API}/auth/v1/token?grant_type=password`, {
@@ -350,7 +377,7 @@ test("scannen: alleen met login en rol; elk ticket maar één keer", async () =>
 test("beheer: alleen kantoor; overzicht, bestellingen, export en mail opnieuw", async () => {
   const kantoor = await maakAccount("kantoor");
   const scanner = await maakAccount("scanner");
-  assert.deepEqual(await (await beheer(scanner.token, "ik")).json(), { email: scanner.email, rol: "scanner" });
+  assert.deepEqual(await (await beheer(scanner.token, "ik")).json(), { email: scanner.email, rol: "scanner", aal: "aal1", tweestap: false });
   assert.equal((await beheer(scanner.token, "overzicht", { evenement: SLUG })).status, 403);
   assert.equal((await beheer("onzin", "ik")).status, 401);
 
@@ -442,7 +469,10 @@ test("beheer: uitgenodigd account krijgt een wachtwoord en daarna de rol kantoor
   assert.equal((await (await beheer(kantoor.token, "rol_wijzigen", { user_id: kantoor.id, rol: "scanner" })).json()).fout, "niet_jezelf");
   assert.equal((await (await beheer(kantoor.token, "rol_wijzigen", { user_id: nieuw.user_id, rol: "kantoor" })).json()).rol, "kantoor");
   assert.equal((await (await beheer(eigenToken, "ik")).json()).rol, "kantoor");
-  assert.equal((await beheer(eigenToken, "overzicht", { evenement: SLUG })).status, 200);
+  // office: first the code from the authenticator app (two-step login)
+  assert.equal((await (await beheer(eigenToken, "overzicht", { evenement: SLUG })).json()).fout, "tweestap_nodig");
+  const metApp = (await tweestap(eigenToken)).token;
+  assert.equal((await beheer(metApp, "overzicht", { evenement: SLUG })).status, 200);
 
   // And back to no role: the account stays, the access goes.
   await beheer(kantoor.token, "rol_wijzigen", { user_id: nieuw.user_id, rol: "geen" });
@@ -514,7 +544,7 @@ test("T1: ingelogde scanners en accounts zonder rol kunnen niets via de Data API
 test("T2: elke beheeractie behalve 'ik' alleen voor kantoor", async () => {
   const acties = ["overzicht", "bestellingen", "export", "evenementen", "evenement_opslaan", "mail_opnieuw",
     "beheerders", "beheerder_toevoegen", "beheerder_verwijderen", "rol_wijzigen", "uitnodiging_opnieuw",
-    "giften_overzicht", "periodieke_giften", "periodiek_stoppen", "giften_export", "bestaat-niet"];
+    "giften_overzicht", "periodieke_giften", "periodiek_stoppen", "giften_export", "tweestap_wissen", "bestaat-niet"];
   const kantoor = await maakAccount("kantoor");
   for (const rol of ["scanner", null]) {
     const account = await maakAccount(rol);
@@ -551,4 +581,45 @@ test("T5: naam van de koper komt letterlijk (ontsnapt) in de ticketmail", async 
   const [m] = await mailsAan(b.email);
   assert.ok(m.html.includes("&lt;b&gt;x&lt;/b&gt;&quot;&amp;&#39;"));
   assert.ok(!m.html.includes("<b>x</b>"));
+});
+
+test("tweestap: kantoor zonder code uit de app kan alleen 'ik'; met code alles", async () => {
+  const k = await maakAccount("kantoor", { metApp: false });
+  const ik = await (await beheer(k.token, "ik")).json();
+  assert.deepEqual([ik.rol, ik.aal, ik.tweestap], ["kantoor", "aal1", false]);
+  for (const a of ["overzicht", "bestellingen", "export", "beheerders", "giften_export"]) {
+    const r = await beheer(k.token, a, { evenement: SLUG, van: "2026-01-01", tot: "2026-12-31" });
+    assert.equal(r.status, 403, a);
+    assert.equal((await r.json()).fout, "tweestap_nodig", a);
+  }
+  // a forged aal2 claim without a valid signature is refused
+  const [kop, , ] = k.token.split(".");
+  const nep = `${kop}.${Buffer.from(JSON.stringify({ sub: k.id, role: "authenticated", aal: "aal2", exp: 9999999999 })).toString("base64url")}.x`;
+  assert.equal((await beheer(nep, "bestellingen", { evenement: SLUG })).status, 401);
+
+  const app = await tweestap(k.token);
+  const na = await (await beheer(app.token, "ik")).json();
+  assert.deepEqual([na.aal, na.tweestap], ["aal2", true]);
+  assert.equal((await beheer(app.token, "overzicht", { evenement: SLUG })).status, 200);
+  // after logging in again with only the password: code needed again
+  const opnieuw = await inloggen(k.email, k.wachtwoord);
+  assert.equal((await (await beheer(opnieuw, "overzicht", { evenement: SLUG })).json()).fout, "tweestap_nodig");
+  // a wrong code does not work
+  const uitdaging = await authMet(opnieuw, `factors/${app.factorId}/challenge`);
+  const fout = await authMet(opnieuw, `factors/${app.factorId}/verify`, { challenge_id: uitdaging.id, code: "000000" === totp(app.geheim) ? "111111" : "000000" });
+  assert.equal(fout.access_token, undefined);
+});
+
+test("tweestap: telefoon kwijt; een ander kantooraccount zet de app opnieuw", async () => {
+  const a = await maakAccount("kantoor");
+  const b = await maakAccount("kantoor");
+  const lijst = await (await beheer(a.token, "beheerders")).json();
+  assert.equal(lijst.find((x) => x.user_id === b.id).tweestap, true);
+  assert.equal((await (await beheer(a.token, "tweestap_wissen", { user_id: a.id })).json()).fout, "niet_jezelf");
+  assert.equal((await beheer(a.token, "tweestap_wissen", { user_id: b.id })).status, 200);
+  const ik = await (await beheer(await inloggen(b.email, b.wachtwoord), "ik")).json();
+  assert.equal(ik.tweestap, false);
+  // a scanner cannot do this
+  const s = await maakAccount("scanner");
+  assert.equal((await beheer(s.token, "tweestap_wissen", { user_id: a.id })).status, 403);
 });

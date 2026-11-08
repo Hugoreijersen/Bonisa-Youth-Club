@@ -7,9 +7,11 @@
 // beheerder_verwijderen,
 // and for gifts (docs/giften.md): giften_overzicht, giften_export,
 // periodieke_giften, periodiek_stoppen.
-// Everything except "ik" is only for the role kantoor.
+// Everything except "ik" is only for the role kantoor, after two-step login
+// (code from an authenticator app, besluit 67). tweestap_wissen: reset the app
+// of someone else who lost their phone.
 import {
-  authAdmin, corsHeaders, DatabaseFout, gebruikerVan, json, log, rpc, siteVan, tabel, uitnodigen,
+  authAdmin, corsHeaders, DatabaseFout, gebruikerVan, heeftTweestap, json, log, rpc, siteVan, tabel, uitnodigen,
 } from "../_shared/algemeen.ts";
 import { stopPeriodiek } from "../_shared/giften.ts";
 import { verstuurTicketmail } from "../_shared/ticketmail.ts";
@@ -90,8 +92,12 @@ Deno.serve(async (req) => {
     const v = await req.json().catch(() => ({})) as Record<string, unknown>;
     actie = String(v.actie ?? "");
 
-    if (actie === "ik") return json(req, { email: gebruiker.email, rol: gebruiker.rol });
+    if (actie === "ik") {
+      return json(req, { email: gebruiker.email, rol: gebruiker.rol, aal: gebruiker.aal, tweestap: gebruiker.tweestap });
+    }
     if (gebruiker.rol !== "kantoor") return json(req, { fout: "geen_toegang" }, 403);
+    // Office can export everyone's personal data: password alone is not enough.
+    if (gebruiker.aal !== "aal2") return json(req, { fout: "tweestap_nodig" }, 403);
 
     let antwoord: unknown;
     switch (actie) {
@@ -152,6 +158,14 @@ Deno.serve(async (req) => {
         const rollen = await tabel("beheerders?select=user_id,rol,aangemaakt_op") as
           { user_id: string; rol: string }[];
         const gebruikers = await alleGebruikers();
+        // The list of all users leaves out the apps (MFA factors); ask per account.
+        // Only a handful of accounts, so this stays quick.
+        const metApp = new Set(
+          (await Promise.all(gebruikers.map(async (g) => {
+            const een = await authAdmin(`users/${g.id}`);
+            return een.ok && heeftTweestap(een.data.factors) ? g.id : null;
+          }))).filter(Boolean),
+        );
         antwoord = gebruikers
           .map((g) => ({
             user_id: g.id,
@@ -160,6 +174,7 @@ Deno.serve(async (req) => {
             laatst_ingelogd: g.last_sign_in_at ?? null,
             // Invited, but the link has not been used yet.
             uitnodiging_open: Boolean(g.invited_at && !g.email_confirmed_at),
+            tweestap: metApp.has(g.id),
             ikzelf: g.id === gebruiker.id,
           }))
           .sort((a, b) => (a.rol ? 1 : 0) - (b.rol ? 1 : 0) || a.email.localeCompare(b.email));
@@ -233,6 +248,22 @@ Deno.serve(async (req) => {
         if (r.status === 429) throw new Fout("te_veel_mails", 429);
         if (!r.ok) throw new Fout("uitnodigen_mislukt");
         antwoord = { verstuurd: g.data.email };
+        break;
+      }
+
+      case "tweestap_wissen": {
+        // Lost phone: remove the authenticator app, so they set up a new one at
+        // the next login. Never your own (another office account does that).
+        const id = String(v.user_id ?? "");
+        if (!UUID.test(id)) throw new Fout("onbekend", 404);
+        if (id === gebruiker.id) throw new Fout("niet_jezelf");
+        const g = await authAdmin(`users/${id}`);
+        if (!g.ok) throw new Fout("onbekend", 404);
+        for (const f of (g.data.factors ?? []) as { id: string }[]) {
+          const weg = await authAdmin(`users/${id}/factors/${f.id}`, { method: "DELETE" });
+          if (!weg.ok && weg.status !== 404) throw new Fout("fout", 500);
+        }
+        antwoord = { user_id: id, tweestap: false };
         break;
       }
 

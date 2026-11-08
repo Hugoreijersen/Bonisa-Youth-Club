@@ -26,7 +26,7 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 - [ ] Toestemming voor foto's van herkenbare jongeren op de site (onder 16: ouders).
 - [ ] Privacyverklaring en voorwaarden laten nakijken en aanpassen (apart nieuwsbriefvakje).
 - [ ] Bewaartermijn van bestellingen vaststellen. Daarna bouwt Claude het anonimiseren na het evenement (beveiligingsreview T7) en komt de termijn in de privacyverklaring.
-- [ ] Tweestapsverificatie (app met code) voor kantooraccounts? Advies van de beveiligingsreview (T6): ja, omdat kantoor alle kopersgegevens kan exporteren.
+- [x] Tweestapsverificatie (app met code) voor kantooraccounts: ja (8 nov 2026, besluit 67).
 - [ ] Controle vóór livegang uit [beveiliging.md](beveiliging.md) afwerken (Supabase-instellingen, `SITE_ORIGINS`, verkoop dicht).
 - [ ] Afgeschermde back-upmap in de EU kiezen (zie back-up.md); nagaan waar die opslag staat.
 - [ ] Supabase tijdens de verkoop: Pro voor die maanden, of gratis met een automatische dagelijkse controle (zie besluit 20).

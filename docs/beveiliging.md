@@ -45,6 +45,7 @@ Gevolg: alles wat op de site staat, kan overal ter wereld bekeken en bewaard wor
 - Toegangsregels (Row Level Security) op elke tabel: bezoekers kunnen niets lezen; alleen de functies schrijven. Ook de SQL-functies zijn alleen voor de functies te gebruiken (getest, zie [ticketsysteem.md](ticketsysteem.md)).
 - Dat geldt ook voor wie is ingelogd (scanners, kantoor, uitgenodigden zonder rol): de rollen `anon` en `authenticated` hebben geen enkel recht op tabellen of functies in `public`, ook niet op tabellen die later worden toegevoegd (migratie `20261107120000_rechten_dichtzetten.sql`, getest). Alleen de functies (service role) lezen en schrijven. Een nieuwe tabel via het dashboard (Table Editor) krijgt wel weer rechten van Supabase zelf: maak tabellen daarom alleen met een migratie.
 - Wachtwoorden: minstens 10 tekens, met letters en cijfers. Supabase controleert dat zelf (Authentication → Password), `/welkom/` en `/beheer/` ook.
+- Kantoor logt in met wachtwoord én een code uit een app (tweestapsverificatie, TOTP van Supabase Auth, besluit 67). De functie `beheer` controleert dat op de server (`aal2` in het inlogbewijs); zonder code kan een kantooraccount alleen zien wie het is. Telefoon kwijt: een ander kantooraccount zet de app opnieuw ([beheer-tickets.md](beheer-tickets.md)).
 - De beheer- en scanpagina werken alleen na inloggen (Supabase Auth, wachtwoord), met rollen `kantoor` en `scanner` in de tabel `beheerders`. Zelf een account aanmaken kan niet; kantoor nodigt mensen uit per mail vanaf de beheerpagina (of via het Supabase-dashboard). Een uitgenodigd account heeft geen rol en kan dus niets, tot kantoor een rol kiest. De uitnodigingsmail verstuurt Supabase zelf; stel daar eigen SMTP van MailerSend in (zie ticketsysteem.md), zodat ook deze mail via MailerSend gaat. Alleen het e-mailadres gaat mee. Op `/welkom/` haalt de pagina de inlogcode meteen uit de adresbalk. Het inloggen blijft alleen bewaard in het geopende tabblad.
 - De scanpagina toont alleen voornaam en "ticket x van y". Alle andere gegevens alleen op de beheerpagina.
 
@@ -77,9 +78,10 @@ In het Supabase-dashboard en bij de secrets van de functies; Claude kan dit niet
 2. **Project Settings → Data API → Exposed schemas:** alleen `public` (de functies hebben die nodig). `graphql_public` mag eruit.
 3. **Authentication → Providers → Email → Password:** minimale lengte 10, eisen "Letters and digits". Ook "Prevent use of leaked passwords" aan (alleen op Pro).
 4. **Authentication → Rate limits:** niet hoger dan de standaard.
-5. **Authentication → URL Configuration:** Site URL `https://jongerenzang.nl`; Redirect URLs `https://jongerenzang.nl/welkom/` en `https://www.jongerenzang.nl/welkom/` (en het workers.dev-adres alleen zolang dat nog gebruikt wordt).
-6. **Secret `SITE_ORIGINS`** (komma's ertussen, zonder `/` op het eind): `https://jongerenzang.nl,https://www.jongerenzang.nl`, later ook `https://bonisa.nl,https://www.bonisa.nl`. `SITE_URL` op `https://jongerenzang.nl`.
-7. **Verkoop dicht** tot de startdatum: op `/beheer/` bij het evenement "Verkoop open vanaf" leegmaken of op het startmoment zetten.
+5. **Authentication → Multi-Factor:** "TOTP (App Authenticator)" aan (gratis op elk abonnement). Zonder dit kan kantoor niet meer op `/beheer/`.
+6. **Authentication → URL Configuration:** Site URL `https://jongerenzang.nl`; Redirect URLs `https://jongerenzang.nl/welkom/` en `https://www.jongerenzang.nl/welkom/` (en het workers.dev-adres alleen zolang dat nog gebruikt wordt).
+7. **Secret `SITE_ORIGINS`** (komma's ertussen, zonder `/` op het eind): `https://jongerenzang.nl,https://www.jongerenzang.nl`, later ook `https://bonisa.nl,https://www.bonisa.nl`. `SITE_URL` op `https://jongerenzang.nl`.
+8. **Verkoop dicht** tot de startdatum: op `/beheer/` bij het evenement "Verkoop open vanaf" leegmaken of op het startmoment zetten.
 
 ### Datalek
 - Binnen 72 uur melden bij de Autoriteit Persoonsgegevens.

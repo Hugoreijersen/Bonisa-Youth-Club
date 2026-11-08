@@ -53,7 +53,30 @@ export async function tabel(pad: string, init: RequestInit = {}) {
 // --- Logged-in users (scan page, management page) --------------------------
 // Checks the login token with Supabase Auth and looks up the role in the
 // table beheerders. Returns null when the token is missing or not valid.
-export type Gebruiker = { id: string; email: string; rol: "kantoor" | "scanner" | null };
+// aal: "aal2" once the six-digit code of the authenticator app was entered in
+// this session (two-step login, besluit 67). tweestap: an app is set up.
+export type Gebruiker = {
+  id: string;
+  email: string;
+  rol: "kantoor" | "scanner" | null;
+  aal: "aal1" | "aal2";
+  tweestap: boolean;
+};
+
+type Factor = { id: string; factor_type: string; status: string };
+export const heeftTweestap = (factors: Factor[] | undefined) =>
+  (factors ?? []).some((f) => f.factor_type === "totp" && f.status === "verified");
+
+// Reads the "aal" claim. Only called after Supabase Auth accepted the token,
+// so the signature has been checked there.
+function aalVan(token: string): "aal1" | "aal2" {
+  try {
+    const deel = token.split(".")[1].replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(atob(deel)).aal === "aal2" ? "aal2" : "aal1";
+  } catch {
+    return "aal1";
+  }
+}
 
 export async function gebruikerVan(req: Request): Promise<Gebruiker | null> {
   const token = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
@@ -65,7 +88,13 @@ export async function gebruikerVan(req: Request): Promise<Gebruiker | null> {
   const user = await antwoord.json();
   if (!user?.id) return null;
   const rol = await rpc<string | null>("rol_van", { p_user_id: user.id });
-  return { id: user.id, email: user.email ?? "", rol: (rol as Gebruiker["rol"]) ?? null };
+  return {
+    id: user.id,
+    email: user.email ?? "",
+    rol: (rol as Gebruiker["rol"]) ?? null,
+    aal: aalVan(token),
+    tweestap: heeftTweestap(user.factors),
+  };
 }
 
 // Supabase Auth admin API (create and remove accounts for scanners and office).

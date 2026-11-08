@@ -1,6 +1,8 @@
 // Login for the scan page and the management page (Supabase Auth).
 // The login is kept in sessionStorage: closing the tab logs you out.
-// Usage: Inloggen.start({ rollen: ["scanner", "kantoor"], klaar: (ik) => {...} })
+// Usage: Inloggen.start({ rollen: ["scanner", "kantoor"], tweestap: true, klaar: (ik) => {...} })
+// tweestap: office must also enter the code of an authenticator app (TOTP,
+// Supabase Auth MFA). The first time, the page shows a QR code to set it up.
 window.Inloggen = (() => {
   const SLEUTEL = "jz-sessie";
   let instellingen = null;
@@ -17,15 +19,15 @@ window.Inloggen = (() => {
     verloopt: Date.now() + (d.expires_in ?? 3600) * 1000,
   });
 
-  async function auth(pad, body, token) {
+  async function auth(pad, body, token, method = "POST") {
     const r = await fetch(`${instellingen.auth}/${pad}`, {
-      method: "POST",
+      method,
       headers: {
         apikey: instellingen.sleutel,
         "Content-Type": "application/json",
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
-      body: JSON.stringify(body ?? {}),
+      ...(method === "GET" ? {} : { body: JSON.stringify(body ?? {}) }),
     });
     const tekst = await r.text();
     return { ok: r.ok, data: tekst ? JSON.parse(tekst) : null };
@@ -59,10 +61,72 @@ window.Inloggen = (() => {
 
   function toonInlog(melding) {
     instellingen.app.hidden = true;
+    if (instellingen.tweestapFormulier) instellingen.tweestapFormulier.hidden = true;
     instellingen.formulier.hidden = false;
     const m = instellingen.formulier.querySelector("[data-melding]");
     m.textContent = melding ?? "";
     m.hidden = !melding;
+  }
+
+  // --- Two-step login (office on the management page) -----------------------
+  let factorId = null;
+
+  async function toonTweestap(ik) {
+    const t = await token();
+    const f = instellingen.tweestapFormulier;
+    const instellen = f.querySelector("[data-tweestap-instellen]");
+    const m = f.querySelector("[data-melding]");
+    m.hidden = true;
+    factorId = null;
+    if (ik.tweestap) {
+      const { data } = await auth("user", null, t, "GET");
+      factorId = (data?.factors ?? []).find((x) => x.factor_type === "totp" && x.status === "verified")?.id ?? null;
+    }
+    if (!factorId) {
+      // First time: remove half-finished attempts, then set up a new app.
+      const { data } = await auth("user", null, t, "GET");
+      for (const x of data?.factors ?? []) {
+        if (x.status !== "verified") await auth(`factors/${x.id}`, null, t, "DELETE");
+      }
+      const nieuw = await auth("factors", { factor_type: "totp" }, t);
+      if (!nieuw.ok) return toonInlog("Tweestapsverificatie instellen lukt nu niet. Probeer het later opnieuw.");
+      factorId = nieuw.data.id;
+      // The Auth API gives the QR code as SVG text; show it as an image.
+      const qr = nieuw.data.totp.qr_code;
+      f.querySelector("[data-tweestap-qr]").src = qr.startsWith("data:") ? qr : `data:image/svg+xml;charset=utf-8,${encodeURIComponent(qr)}`;
+      f.querySelector("[data-tweestap-geheim]").textContent = nieuw.data.totp.secret;
+    }
+    instellen.hidden = ik.tweestap && Boolean(factorId);
+    instellingen.formulier.hidden = true;
+    instellingen.app.hidden = true;
+    f.hidden = false;
+    f.querySelector("input").focus();
+  }
+
+  async function controleerCode(e) {
+    e.preventDefault();
+    const f = instellingen.tweestapFormulier;
+    const code = String(new FormData(f).get("code") ?? "").replace(/\s/g, "");
+    const m = f.querySelector("[data-melding]");
+    const knop = f.querySelector("button[type=submit]");
+    const fout = (tekst) => { m.textContent = tekst; m.hidden = false; };
+    if (!/^\d{6}$/.test(code)) return fout("Vul de 6 cijfers uit de app in.");
+    knop.disabled = true;
+    try {
+      const t = await token();
+      if (!t) return toonInlog("Je bent uitgelogd. Log opnieuw in.");
+      const uitdaging = await auth(`factors/${factorId}/challenge`, {}, t);
+      if (!uitdaging.ok) return fout("Er ging iets mis. Probeer het opnieuw.");
+      const { ok, data } = await auth(`factors/${factorId}/verify`, { challenge_id: uitdaging.data.id, code }, t);
+      if (!ok) return fout("Deze code klopt niet. Kijk of de tijd op je telefoon goed staat en probeer de volgende code.");
+      bewaar(uitAntwoord(data));
+      f.reset();
+      await naInloggen();
+    } catch {
+      fout("Controleren lukt nu niet. Controleer je internetverbinding.");
+    } finally {
+      knop.disabled = false;
+    }
   }
 
   async function naInloggen() {
@@ -71,6 +135,8 @@ window.Inloggen = (() => {
       bewaar(null);
       return toonInlog("Dit account heeft geen toegang tot deze pagina.");
     }
+    if (instellingen.tweestap && data.rol === "kantoor" && data.aal !== "aal2") return toonTweestap(data);
+    if (instellingen.tweestapFormulier) instellingen.tweestapFormulier.hidden = true;
     instellingen.formulier.hidden = true;
     instellingen.app.hidden = false;
     instellingen.klaar(data);
@@ -91,9 +157,11 @@ window.Inloggen = (() => {
       auth: root.dataset.auth,
       sleutel: root.dataset.sleutel,
       formulier: root.querySelector("[data-inlogformulier]"),
+      tweestapFormulier: root.querySelector("[data-tweestap]"),
       app: root.querySelector("[data-app]"),
     };
     root.querySelectorAll("[data-uitloggen]").forEach((k) => k.addEventListener("click", uitloggen));
+    instellingen.tweestapFormulier?.addEventListener("submit", controleerCode);
 
     instellingen.formulier.addEventListener("submit", async (e) => {
       e.preventDefault();

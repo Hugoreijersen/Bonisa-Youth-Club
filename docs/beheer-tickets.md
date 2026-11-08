@@ -37,6 +37,16 @@ Je kunt ook iemand uitnodigen via het Supabase-dashboard (**Authentication → U
 
 Je eigen rol kun je niet veranderen; vraag dat aan iemand anders van kantoor.
 
+## Inloggen met een code uit je app (kantoor)
+
+Kantoor kan de gegevens van alle kopers zien. Daarom vraagt de beheerpagina na je wachtwoord ook een code van 6 cijfers uit een app op je telefoon (besluit 67). Scanners hebben dat niet nodig.
+
+1. **De eerste keer:** installeer een app voor inlogcodes, bijvoorbeeld Google Authenticator, Microsoft Authenticator of op een iPhone de app Wachtwoorden. Log in op `/beheer/`, scan met de app de QR-code die de pagina toont, en vul de 6 cijfers in.
+2. **Daarna:** na je wachtwoord vul je steeds de code in die de app op dat moment toont (hij verandert elke 30 seconden).
+3. **Telefoon kwijt of nieuw?** Vraag een ander kantooraccount om bij **Accounts** op **App opnieuw instellen** te klikken. Bij de volgende keer inloggen zie je weer een QR-code. Is er geen ander kantooraccount, dan kan de beheerder van Supabase het doen: Authentication → Users → het account → bij MFA de factor verwijderen.
+
+In de lijst **Accounts** zie je in de kolom **Code-app** wie het al heeft ingesteld.
+
 ## Bij de deur: jongerenzang.nl/scan/
 
 Voor elke vrijwilliger een eigen account (rol **Scanner**), aan te maken op de beheerpagina.

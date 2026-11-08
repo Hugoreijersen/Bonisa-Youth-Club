@@ -980,6 +980,11 @@ body.met-zwevende-knop .footer__inhoud { padding-bottom: 180px; }
 .werkpagina { padding-top: clamp(24px, 5vw, 48px); padding-bottom: var(--sectie); }
 .inloggen { max-width: 440px; background: var(--wit); border-radius: var(--rond); padding: clamp(24px, 5vw, 40px); }
 .inloggen h1 { font-weight: 900; font-size: clamp(32px, 5vw, 44px); }
+/* Two-step login: setting up the authenticator app (beheer.njk) */
+.tweestap:not([hidden]) { display: flex; flex-direction: column; gap: 12px; }
+.tweestap__stappen { margin: 0; padding-left: 1.25em; display: flex; flex-direction: column; gap: 4px; }
+.tweestap__qr { width: 200px; height: 200px; background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 8px; }
+.tweestap__geheim { word-break: break-all; }
 .werkpagina button.knop:disabled { opacity: 0.6; cursor: not-allowed; }
 .veld select {
   min-height: 52px;
