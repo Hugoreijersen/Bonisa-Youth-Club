@@ -1,6 +1,6 @@
 // Fetch a payment from Mollie and store its status. Used by the webhook and,
 // as a backup, by the thank-you page (ticketinfo).
-import { euroNaarCent, haalBetaling, log, rpc } from "./algemeen.ts";
+import { bedragInEuro, euroNaarCent, haalBetaling, log, rpc } from "./algemeen.ts";
 import { aanmeldenNieuwsbrief } from "./nieuwsbrief.ts";
 import { verstuurTicketmail } from "./ticketmail.ts";
 
@@ -10,8 +10,9 @@ export async function verwerkBetaling(paymentId: string) {
   const resultaat = await rpc<{ resultaat: string; status?: string; order_id?: string }>("verwerk_betaling", {
     p_payment_id: betaling.id,
     p_mollie_status: betaling.status,
-    p_bedrag_cent: euroNaarCent(betaling.amount?.value),
-    p_terugbetaald_cent: euroNaarCent(betaling.amountRefunded?.value),
+    p_bedrag_cent: bedragInEuro(betaling.amount),
+    // A chargeback counts as a refund: the tickets are no longer valid.
+    p_terugbetaald_cent: euroNaarCent(betaling.amountRefunded?.value) + euroNaarCent(betaling.amountChargedBack?.value),
   });
   if (resultaat.status === "betaald" && resultaat.order_id) await naBetaling(resultaat.order_id);
   return resultaat;

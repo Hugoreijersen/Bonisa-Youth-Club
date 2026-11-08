@@ -63,7 +63,8 @@
   formulier.addEventListener("submit", async (e) => {
     e.preventDefault();
     const f = formulier.elements;
-    if (f.wachtwoord.value.length < 10) return fout("Kies een wachtwoord van minstens 10 tekens.");
+    const w = f.wachtwoord.value;
+    if (w.length < 10 || !/[a-z]/i.test(w) || !/\d/.test(w)) return fout("Kies een wachtwoord van minstens 10 tekens, met letters én cijfers.");
     if (f.wachtwoord.value !== f.herhaal.value) return fout("De twee wachtwoorden zijn niet hetzelfde.");
     fout("");
     const knop = formulier.querySelector("button");

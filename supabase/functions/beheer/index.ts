@@ -205,7 +205,8 @@ Deno.serve(async (req) => {
           uitgenodigd = true;
         } else if (!userId) {
           // Still possible: an account with a password that office passes on.
-          if (wachtwoord.length < 10) throw new Fout("wachtwoord_te_kort");
+          // Same rule as Supabase Auth (Authentication -> Password): 10+, letters and digits.
+          if (wachtwoord.length < 10 || !/[a-z]/i.test(wachtwoord) || !/\d/.test(wachtwoord)) throw new Fout("wachtwoord_te_kort");
           const nieuw = await authAdmin("users", {
             method: "POST", body: JSON.stringify({ email, password: wachtwoord, email_confirm: true }),
           });

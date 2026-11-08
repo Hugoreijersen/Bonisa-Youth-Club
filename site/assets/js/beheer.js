@@ -12,7 +12,7 @@
   const FOUTEN = {
     minder_dan_verkocht: "Het aantal tickets kan niet lager zijn dan wat al verkocht is.",
     niet_betaald_of_bezig: "Deze bestelling is niet betaald, of de mail wordt op dit moment al verstuurd.",
-    wachtwoord_te_kort: "Kies een wachtwoord van minstens 10 tekens.",
+    wachtwoord_te_kort: "Kies een wachtwoord van minstens 10 tekens, met letters én cijfers.",
     ongeldig_email: "Vul een geldig e-mailadres in.",
     niet_jezelf: "Je eigen account kun je niet verwijderen of een andere rol geven.",
     ongeldige_rol: "Kies een geldige rol.",

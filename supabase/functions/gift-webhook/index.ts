@@ -26,8 +26,10 @@ Deno.serve(async (req) => {
     // Unknown payments also get 200, so the response reveals nothing.
     return new Response("OK", { status: 200 });
   } catch (e) {
-    if (e instanceof MollieFout && e.status === 404) {
-      log("gift_webhook_onbekend", { payment_id: id });
+    // Unknown or invalid id at Mollie: retrying will not help, so answer 200
+    // (Mollie keeps calling on anything else). Our own errors stay 500.
+    if (e instanceof MollieFout && [400, 404, 410].includes(e.status)) {
+      log("gift_webhook_onbekend", { payment_id: id, mollie_status: e.status });
       return new Response("OK", { status: 200 });
     }
     // A non-200 answer makes Mollie try again later.
