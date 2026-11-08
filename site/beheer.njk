@@ -14,6 +14,32 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
      data-sleutel="{{ ticketsysteem.publiekeSleutel }}" data-evenement="{{ ticketsysteem.evenement }}">
   {% include "blokken/inlogformulier.njk" %}
 
+  {#- Two-step login for office (besluit 67): code from an authenticator app.
+      The first time, the QR code and the key to set the app up are shown. -#}
+  <form class="formulier inloggen" data-tweestap hidden>
+    <div class="formulier__kop">
+      <h1>Code uit je app</h1>
+      <p class="tekst-gedempt">Kantoor kan de gegevens van alle kopers zien. Daarom vragen we naast je wachtwoord een code uit een app op je telefoon.</p>
+    </div>
+    <div class="tweestap" data-tweestap-instellen hidden>
+      <ol class="tweestap__stappen">
+        <li>Installeer een app voor inlogcodes, bijvoorbeeld Google Authenticator, Microsoft Authenticator of de app Wachtwoorden op een iPhone.</li>
+        <li>Scan in die app deze QR-code.</li>
+        <li>Vul hieronder de 6 cijfers in die de app toont.</li>
+      </ol>
+      <img class="tweestap__qr" data-tweestap-qr alt="QR-code om de app in te stellen" width="200" height="200">
+      <p class="tekst-gedempt">Lukt scannen niet? Typ dan deze sleutel in de app: <code class="tweestap__geheim" data-tweestap-geheim></code></p>
+    </div>
+    <p class="melding" data-melding role="alert" hidden></p>
+    <div class="veld">
+      <label for="tweestap-code">Code (6 cijfers)</label>
+      <input id="tweestap-code" name="code" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9 ]{6,7}" maxlength="7" required>
+    </div>
+    <button class="knop knop--groen knop--groot" type="submit">Controleren</button>
+    <button class="knop knop--klein" type="button" data-uitloggen>Uitloggen</button>
+    <p class="tekst-gedempt">Telefoon kwijt of nieuw? Vraag een ander kantooraccount om op deze pagina bij Accounts op "App opnieuw instellen" te klikken.</p>
+  </form>
+
   <div class="beheer" data-app hidden>
     <div class="beheer__balk">
       <p class="bovenkop">Beheer tickets</p>
@@ -175,7 +201,7 @@ scripts: ["/assets/js/inloggen.js", "/assets/js/beheer.js"]
       <p class="tekst-gedempt">Scanners kunnen alleen de scanpagina gebruiken. Kantoor kan alles op deze pagina. Iemand die via Supabase is uitgenodigd, staat hier met "Geen rol": kies dan Scanner of Kantoor.</p>
       <div class="tabel-scroll" tabindex="0" role="region" aria-label="Accounts">
         <table class="tabel">
-          <thead><tr><th>E-mail</th><th>Rol</th><th>Laatst ingelogd</th><th><span class="visueel-verborgen">Actie</span></th></tr></thead>
+          <thead><tr><th>E-mail</th><th>Rol</th><th>Laatst ingelogd</th><th>Code-app</th><th><span class="visueel-verborgen">Actie</span></th></tr></thead>
           <tbody data-accounts></tbody>
         </table>
       </div>

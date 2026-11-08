@@ -22,6 +22,7 @@
     ongeldig_slug: "De vaste naam mag alleen kleine letters, cijfers en streepjes bevatten.",
     ongeldige_periode: "Kies een geldige periode: de begindatum vóór de einddatum.",
     geen_toegang: "Dit account heeft geen toegang.",
+    tweestap_nodig: "Log opnieuw in met de code uit je app.",
   };
 
   // On phones the tables are shown as stacked cards; each cell gets its column name
@@ -317,8 +318,26 @@
     const lijst = await vraag("beheerders");
     $("[data-accounts]").replaceChildren(...lijst.map((a) => {
       const tr = document.createElement("tr");
-      tr.append(cel(a.email), rolCel(a), cel(a.uitnodiging_open ? "Uitgenodigd, nog niet aangemeld" : datumTijd(a.laatst_ingelogd)));
+      tr.append(cel(a.email), rolCel(a), cel(a.uitnodiging_open ? "Uitgenodigd, nog niet aangemeld" : datumTijd(a.laatst_ingelogd)),
+        cel(a.tweestap ? "Ingesteld" : a.rol === "kantoor" ? "Nog niet" : "–"));
       const actie = document.createElement("td");
+      if (a.tweestap && !a.ikzelf) {
+        // Lost phone: the app is removed; at the next login they set up a new one.
+        const wis = document.createElement("button");
+        wis.type = "button";
+        wis.className = "tabel__knop";
+        wis.textContent = "App opnieuw instellen";
+        wis.setAttribute("aria-label", `Tweestapsverificatie van ${a.email} opnieuw instellen`);
+        wis.addEventListener("click", async () => {
+          if (wis.dataset.zeker !== "ja") { wis.dataset.zeker = "ja"; wis.textContent = "Zeker weten?"; return; }
+          try {
+            await vraag("tweestap_wissen", { user_id: a.user_id });
+            melding(`${a.email} stelt bij de volgende keer inloggen een nieuwe app in.`, true);
+            laadAccounts();
+          } catch (e) { melding(e.message); }
+        });
+        actie.append(wis, " ");
+      }
       if (a.uitnodiging_open) {
         const opnieuw = document.createElement("button");
         opnieuw.type = "button";
@@ -459,6 +478,7 @@
 
   Inloggen.start({
     rollen: ["kantoor"],
+    tweestap: true,
     klaar: async () => {
       try {
         await laadEvenementen();
