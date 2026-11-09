@@ -35,7 +35,7 @@
           <div class="project__tekst">
             <span class="bovenkop">{{ p.kop }}</span>
             <h4>{{ p.titel }}</h4>
-            <p class="tekst-gedempt">{{ p.tekst }}</p>
+            <div class="tekst-blok tekst-gedempt">{{ p.tekst | renderContent("md") | safe }}</div>
           </div>
         </article>
         {%- endfor %}

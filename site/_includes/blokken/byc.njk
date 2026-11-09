@@ -8,6 +8,7 @@
       <span class="bovenkop">{{ byc.label }}</span>
       <h2 id="byc-titel">{{ byc.titel }}</h2>
       <div class="tekst-blok tekst-gedempt">{{ byc.tekst | renderContent("md") | safe }}</div>
+      <p class="byc__vragen">{% include "vragen.njk" %}</p>
       <div class="knoppen">
         <a class="knop knop--groen" href="mailto:{{ stichting.bycEmail }}">Doe mee met de BYC</a>
         <a class="knop knop--oranje" href="{{ stichting.donatieLink }}">Doneer</a>

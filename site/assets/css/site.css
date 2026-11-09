@@ -511,6 +511,22 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
   .mozaiek .hoog { grid-row: span 2; }
 }
 
+/* Video of geluid van vorig jaar, onder de foto's. */
+.terugblik__media {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: center;
+  gap: 24px 48px;
+}
+.terugblik__media figcaption { display: flex; flex-direction: column; gap: 8px; }
+.terugblik__media h3 { font-size: clamp(28px, 3vw, 36px); line-height: 1.1; }
+.terugblik__media .bovenkop { color: var(--rood); }
+.terugblik__media video { width: 100%; height: auto; border-radius: 2px; background: var(--tekst); }
+.terugblik__media audio { width: 100%; min-height: 44px; }
+@media (max-width: 760px) {
+  .terugblik__media { grid-template-columns: 1fr; }
+}
+
 /* ---------- Stichting Bonisa ---------- */
 .bonisa { background: var(--groen-vlak); color: var(--wit); }
 .bonisa .sectie-inhoud { gap: 48px; }
@@ -667,7 +683,7 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .prijs span { font-family: var(--font-tekst); font-size: 17px; font-weight: 400; }
 .klein { font-size: 15px; }
 .adres { font-weight: 600; }
-.blok .maillink { align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+.tickets__instagram { margin-top: auto; padding-top: 8px; font-weight: 600; }
 
 /* ---------- Kingfisher ---------- */
 .kingfisher { background: var(--zand); }
@@ -746,6 +762,8 @@ h1, h2 { text-transform: uppercase; letter-spacing: 0.005em; }
 .byc__tekst { flex: 1 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
 .byc__tekst h2 { font-weight: 900; font-size: clamp(38px, 5vw, 52px); line-height: 1; }
 .byc__tekst .knoppen { padding-top: 8px; }
+.byc__vragen { font-weight: 600; }
+.byc__vragen a { display: inline-flex; align-items: center; min-height: 44px; }
 
 /* ---------- Oranje slotbalk ---------- */
 .slotbalk { background: var(--oranje); }

@@ -77,6 +77,7 @@
       <p class="footer__naam">{{ stichting.naam }}</p>
       <p>{{ stichting.adres }} · <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a></p>
       <p><a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> · <a href="{{ stichting.website }}">{{ stichting.website | replace('https://', '') | replace('www.', '') }}</a></p>
+      <p class="footer__vragen">{% include "vragen.njk" %}</p>
       <p>{{ stichting.voettekst }}</p>
     </div>
     <nav aria-label="Juridisch">
