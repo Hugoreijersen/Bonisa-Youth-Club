@@ -1,0 +1,3 @@
+{#- "Vragen? Mail ons via jong@bonisa.nl". Text: stichting.vragenTekst, {email} becomes the mail link. -#}
+{%- set delen = (stichting.vragenTekst or "Vragen? Mail ons via {email}").split("{email}") -%}
+{{ delen[0] }}<a href="mailto:{{ stichting.bycEmail }}">{{ stichting.bycEmail }}</a>{{ delen[1] if delen.length > 1 }}

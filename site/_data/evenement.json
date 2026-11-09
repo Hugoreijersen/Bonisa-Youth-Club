@@ -20,7 +20,8 @@
     "tekst": "Meld je aan, dan is je plaats gereserveerd. Tijdens de avond is er een collecte voor het werk van Stichting Bonisa.",
     "verkoopOpen": false,
     "link": "/tickets/",
-    "tekstVoorVerkoop": "De ticketverkoop start binnenkort. Volg ons op Instagram, dan hoor je het als eerste."
+    "tekstVoorVerkoop": "De ticketverkoop start binnenkort.",
+    "instagramTekst": "Volg ons op Instagram en wees als eerste op de hoogte!"
   },
   "slotTitel": "Ben jij erbij op {datum}?"
 }

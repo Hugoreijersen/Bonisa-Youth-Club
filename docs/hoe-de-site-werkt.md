@@ -154,7 +154,7 @@ Pages CMS is een bewerkscherm dat rechtstreeks in de GitHub-repository werkt. He
 
 In `.pages.yml`:
 
-- `media`: waar geüploade foto's en pdf's terechtkomen (`site/assets/img`, `site/assets/docs`).
+- `media`: waar geüploade foto's, pdf's en video/geluid terechtkomen (`site/assets/img`, `site/assets/docs`, `site/assets/media`). Video en geluid worden niet bewerkt bij het bouwen; houd een bestand onder de 25 MB (grens van Cloudflare per bestand).
 - `components`: velden die vaker voorkomen (een foto, een fotobeschrijving, een persoon).
 - `content`: per datafile de velden, met een Nederlands label en waar nodig een uitleg.
 
@@ -187,7 +187,7 @@ We gebruiken de online versie op [app.pagescms.org](https://app.pagescms.org) (b
 | --- | --- |
 | Tekst, foto, datum of prijs aanpassen | Bewerkscherm, of het JSON-bestand in `site/_data/` |
 | Ticketverkoop openzetten | Bewerkscherm → Evenement → Tickets → "Ticketverkoop is open" aan, met als link `/tickets/`. Het evenement moet ook in de database staan (ticketsysteem.md §5) |
-| Nieuw jaar | Evenement (label, thema, datum), Thema (Bijbeltekst, kaarten), Terugblik (foto's), Bonisa (collecteproject, projecten), Hosts en musici |
+| Nieuw jaar | Evenement (label, thema, datum), Thema (Bijbeltekst, kaarten), Terugblik (foto's, video of geluid), Bonisa (collecteproject, projecten), Hosts en musici |
 | Project voor giften toevoegen | Bewerkscherm → Projecten (giften). Zie giften.md §6 |
 | Echte huisstijl-lettertypen gebruiken | Webversie (`.woff2`) kopen, in `site/assets/fonts/` zetten en bovenaan `site.css` de `@font-face`-regels en de variabelen `--font-...` aanpassen. Zie `design/bonisa-huisstijl/README.md` |
 | Kleur aanpassen | `--groen` of `--oranje` bovenaan `site.css` |

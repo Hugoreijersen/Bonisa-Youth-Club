@@ -21,5 +21,20 @@
         sizes="{% if f.formaat == 'groot' or f.formaat == 'breed' %}(min-width: 900px) 560px, 100vw{% else %}(min-width: 900px) 280px, 50vw{% endif %}">
       {%- endfor %}
     </div>
+    {%- set media = terugblik.video %}
+    {%- if media and media.bestand %}
+    <figure class="terugblik__media">
+      <figcaption>
+        {%- if media.label %}<span class="bovenkop">{{ media.label }}</span>{% endif %}
+        <h3>{{ media.titel }}</h3>
+        {%- if media.onderschrift %}<p class="tekst-gedempt">{{ media.onderschrift }}</p>{% endif %}
+      </figcaption>
+      {%- if media.bestand.toLowerCase().endsWith(".mp3") %}
+      <audio controls preload="metadata" src="{{ media.bestand }}"></audio>
+      {%- else %}
+      <video controls preload="metadata" playsinline src="{{ media.bestand }}"></video>
+      {%- endif %}
+    </figure>
+    {%- endif %}
   </div>
 </section>

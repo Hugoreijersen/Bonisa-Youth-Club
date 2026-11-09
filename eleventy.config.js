@@ -14,6 +14,8 @@ export default function (eleventyConfig) {
     "site/assets/js": "assets/js",
     "site/assets/fonts": "assets/fonts",
     "site/assets/docs": "assets/docs",
+    // Video and sound (look-back). Max. 25 MB per file (Cloudflare limit).
+    "site/assets/media": "assets/media",
   });
 
   // Every <img> in the output is resized, converted to WebP and stripped of

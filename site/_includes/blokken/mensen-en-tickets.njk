@@ -47,14 +47,16 @@
       <p class="klein">Met je bestelling ga je akkoord met de <a href="{{ stichting.documenten.voorwaarden }}">algemene voorwaarden</a> en de <a href="{{ stichting.documenten.privacy }}">privacyverklaring</a>.</p>
       {%- else %}
       <p><strong>{{ evenement.tickets.tekstVoorVerkoop }}</strong></p>
-      <a class="knop knop--oranje" href="{{ stichting.instagram }}">Volg ons op Instagram</a>
+      {%- endif %}
+      {%- if evenement.tickets.instagramTekst %}
+      <p class="tickets__instagram">{{ evenement.tickets.instagramTekst }}</p>
+      <a class="knop{% if not ticketknop.verkoopOpen %} knop--oranje{% endif %}" href="{{ stichting.instagram }}">Volg ons op Instagram</a>
       {%- endif %}
     </div>
     <div class="blok">
       <h2>Locatie</h2>
       <p class="adres">{{ evenement.locatie.naam }}<br>{{ evenement.locatie.adres }}</p>
       <p class="tekst-gedempt">{{ evenement.locatie.parkeren }}</p>
-      <a class="maillink" href="mailto:{{ stichting.bycEmail }}">Vragen? Mail {{ stichting.bycEmail }}</a>
     </div>
   </section>
 </div>

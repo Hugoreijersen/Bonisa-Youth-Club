@@ -12,5 +12,6 @@
     "voorwaarden": "/assets/docs/algemene-voorwaarden.pdf",
     "privacy": "/assets/docs/privacyverklaring.pdf",
     "disclaimer": "/assets/docs/disclaimer.pdf"
-  }
+  },
+  "vragenTekst": "Vragen? Mail ons via {email}"
 }

@@ -13,6 +13,11 @@ media:
     input: site/assets/docs
     output: /assets/docs
     extensions: [pdf]
+  - name: media
+    label: Video en geluid
+    input: site/assets/media
+    output: /assets/media
+    extensions: [mp4, mp3]
 
 components:
   foto:
@@ -78,6 +83,7 @@ content:
             options: { min: 0, step: 0.01 }
             description: Alleen wat op de site staat. De prijs die mensen echt betalen, staat in de beheerpagina van het ticketsysteem; houd ze gelijk.
           - { name: tekst, label: Tekst bij de prijs, type: text }
+          - { name: instagramTekst, label: Regel onderaan het ticketblok (met knop naar Instagram), type: string, description: Leeg laten = geen regel en geen knop. }
           - name: verkoopOpen
             label: Ticketverkoop is open
             type: boolean
@@ -152,6 +158,15 @@ content:
                 - { name: breed, label: Breed (2 vakjes naast elkaar) }
                 - { name: hoog, label: Hoog (2 vakjes onder elkaar) }
                 - { name: groot, label: Groot (4 vakjes) }
+      - name: video
+        label: Video of geluid van vorig jaar
+        type: object
+        description: Bestand leeg laten = geen video. Een mp4 wordt een video, een mp3 alleen geluid. Maximaal 25 MB per bestand.
+        fields:
+          - { name: label, label: Kleine kop, type: string }
+          - { name: titel, label: Titel (bijvoorbeeld de naam van het lied), type: string }
+          - { name: onderschrift, label: Korte tekst eronder, type: text }
+          - { name: bestand, label: Bestand (mp4 of mp3), type: file, options: { media: media } }
 
   - name: bonisa
     label: Stichting Bonisa en collecte
@@ -182,9 +197,9 @@ content:
         fields:
           - { name: foto, label: Foto, component: foto }
           - { name: alt, component: alt }
-          - { name: kop, label: Jaar en project, type: string, description: 'Bijvoorbeeld "2026 · Bonisa-project 68A"' }
+          - { name: kop, label: Jaar en project, type: string, description: 'Bijvoorbeeld "Collecte 2026 · Bonisa-project 68A"' }
           - { name: titel, label: Titel, type: string }
-          - { name: tekst, label: Tekst, type: text }
+          - { name: tekst, label: Tekst, type: text, description: Een lege regel begint een nieuwe alinea. }
 
   - name: avond
     label: Over de avond en programma
@@ -284,6 +299,7 @@ content:
       - { name: website, label: Website stichting, type: string }
       - { name: donatieLink, label: Link voor doneren, type: string }
       - { name: bycEmail, label: E-mail BYC, type: string }
+      - { name: vragenTekst, label: Regel met het mailadres voor vragen, type: string, description: 'Staat onderaan elke pagina en onder "Wie zijn wij". {email} wordt het mailadres van de BYC.' }
       - { name: instagram, label: Instagram, type: string }
       - { name: voettekst, label: Zin onderaan de pagina, type: text }
       - name: documenten
