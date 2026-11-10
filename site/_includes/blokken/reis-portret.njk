@@ -1,0 +1,6 @@
+{#- Foto van een deelnemer, of de eerste letter van de voornaam als er geen foto is. -#}
+{%- if deelnemer.foto %}
+<img class="reis-portret" src="{{ deelnemer.foto }}" alt="{{ deelnemer.alt or deelnemer.voornaam }}" width="480" height="480" sizes="(min-width: 800px) 320px, 100vw">
+{%- else %}
+<span class="reis-portret reis-portret--letter" aria-hidden="true">{{ deelnemer.voornaam | first }}</span>
+{%- endif %}

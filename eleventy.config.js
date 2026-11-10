@@ -70,7 +70,11 @@ export default function (eleventyConfig) {
 
   // Gift pages (/geven/, bonisa.nl) only with the build variable
   // GIFTEN_PAGINAS=aan; jongerenzang.nl is built without them. docs/giften.md
-  if (process.env.GIFTEN_PAGINAS !== "aan") eleventyConfig.ignores.add("site/geven/**");
+  // The same goes for the sponsor pages of the Ontmoetingsreis.
+  if (process.env.GIFTEN_PAGINAS !== "aan") {
+    eleventyConfig.ignores.add("site/geven/**");
+    eleventyConfig.ignores.add("site/ontmoetingsreis/**");
+  }
 
   // "Recht" -> "recht" (for the theme words in the hero)
   // Adds ?v=<hash of the file> to /assets/ links. Those files are cached for a

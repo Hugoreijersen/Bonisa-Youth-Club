@@ -1,0 +1,61 @@
+{
+  "label": "Bonisa jongerenreis · zomer 2027",
+  "titel": "Ontmoetingsreis",
+  "motto": "Hart voor Azië, meer dan een reis.",
+  "intro": "D.V. in de zomer van 2027 gaat een groep jongeren van Bonisa naar Azië. Zij ontmoeten daar christenen en lokale werkers, om hen te bemoedigen en van hen te leren. Elke deelnemer haalt daarvoor sponsorgeld op. Helpt u mee?",
+  "woorden": ["Ontmoeten", "Bemoedigen", "Doorvertellen"],
+  "doelPerDeelnemer": 5000,
+  "bedragen": [25, 50, 100],
+  "bijbeltekst": {
+    "tekst": "Hoe liefelijk zijn de voeten dergenen, die vrede verkondigen, dergenen, die het goede verkondigen!",
+    "bron": "Romeinen 10:15"
+  },
+  "waarom": {
+    "titel": "Meer dan een reis",
+    "tekst": "Bonisa steunt in Azië evangelisten, voorgangers en andere christenen die het Evangelie doorgeven, vaak onder moeilijke omstandigheden. Tijdens deze reis zien jongeren dat werk met eigen ogen.",
+    "doelen": [
+      { "titel": "Bemoedigen", "tekst": "We bezoeken christenen en werkers van Bonisa. Zij merken dat zij niet vergeten zijn." },
+      { "titel": "Leren", "tekst": "We luisteren naar hun verhalen en leren het werk en de projecten van Bonisa van dichtbij kennen." },
+      { "titel": "Geven", "tekst": "Samen halen we geld op voor projecten die Bonisa ondersteunt." },
+      { "titel": "Doorvertellen", "tekst": "Na de reis vertelt elke deelnemer minstens een jaar als ambassadeur over wat hij of zij heeft gezien." }
+    ]
+  },
+  "gift": {
+    "titel": "Waar is uw gift voor?",
+    "tekst": "Elke deelnemer haalt minimaal € 5.000 op. Dat geld is voor projecten van Bonisa en voor de reis zelf. Zo steunt u lokale evangelisten, voorgangers en andere werkers, zodat het Evangelie in Azië verder kan gaan.\n\nBonisa betaalt uit het sponsorgeld de vlucht, het verblijf, het eten en het vervoer ter plaatse. Persoonlijke uitgaven, verzekeringen en vaccinaties betalen de deelnemers zelf.",
+    "punten": [
+      "Uw gift komt op de rekening van Stichting Bonisa.",
+      "U betaalt veilig met iDEAL.",
+      "U krijgt een bevestiging per e-mail."
+    ]
+  },
+  "deelnemersTitel": "Kies een deelnemer",
+  "deelnemersTekst": "Elke deelnemer heeft een eigen pagina. Daar ziet u hoeveel er al is opgehaald en kunt u direct geven.",
+  "veiligheid": {
+    "titel": "Waarom zo weinig details?",
+    "tekst": "De veiligheid van onze werkers en partners gaat voor. Daarom noemen we geen land, plaatsen of namen, en delen we geen foto's van de mensen die we bezoeken. Na de reis vertellen de deelnemers graag persoonlijk wat zij hebben meegemaakt."
+  },
+  "slotTitel": "Help een deelnemer op weg",
+  "deelnemers": [
+    {
+      "slug": "anna",
+      "voornaam": "Anna",
+      "foto": "",
+      "alt": "",
+      "kort": "Voorbeeld: één zin over deze deelnemer.",
+      "tekst": "Dit is een voorbeeld. Hier vertelt de deelnemer in een paar zinnen waarom hij of zij meegaat en welke acties er gepland zijn.",
+      "bank": 0,
+      "open": true
+    },
+    {
+      "slug": "daan",
+      "voornaam": "Daan",
+      "foto": "",
+      "alt": "",
+      "kort": "Voorbeeld: één zin over deze deelnemer.",
+      "tekst": "Dit is een voorbeeld. Hier vertelt de deelnemer in een paar zinnen waarom hij of zij meegaat en welke acties er gepland zijn.",
+      "bank": 1250,
+      "open": true
+    }
+  ]
+}

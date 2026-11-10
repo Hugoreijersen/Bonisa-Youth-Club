@@ -1,0 +1,124 @@
+---
+permalink: /ontmoetingsreis/
+terug: { link: "#deelnemers", tekst: "Sponsor een deelnemer" }
+scripts: ["/assets/js/geven.js"]
+eleventyComputed:
+  titel: "{{ ontmoetingsreis.titel }} · Stichting Bonisa"
+  beschrijving: "{{ ontmoetingsreis.intro }}"
+---
+{#- Sponsorpagina van de Ontmoetingsreis. Inhoud: _data/ontmoetingsreis.json (Pages CMS).
+    Uitleg: docs/ontmoetingsreis.md. Noem nooit het land, plaatsen of namen van partners. -#}
+{%- set reis = ontmoetingsreis %}
+<div id="geven" class="reis" data-functies="{{ ticketsysteem.functiesUrl }}">
+
+<section class="reis-hero" aria-labelledby="reis-titel">
+  <div class="container reis-hero__inhoud">
+    <div class="reis-hero__tekst">
+      <span class="pil">{{ reis.label }}</span>
+      <h1 id="reis-titel" class="reis-hero__titel">{{ reis.titel }}</h1>
+      <p class="reis-hero__motto">{{ reis.motto }}</p>
+      <p class="reis-hero__intro">{{ reis.intro }}</p>
+      {%- if giften.reisDeelnemers.length %}
+      {%- set project = giften.reisGroep %}
+      <div class="reis-stand">
+        <p class="bovenkop">Samen opgehaald</p>
+        {% include "blokken/voortgang.njk" %}
+      </div>
+      {%- endif %}
+      <div class="knoppen">
+        <a class="knop knop--oranje knop--groot" href="#deelnemers">Sponsor een deelnemer</a>
+        <a class="knop" href="#gift">Waar is mijn gift voor?</a>
+      </div>
+    </div>
+    <ul class="reis-woorden" role="list" aria-hidden="true">
+      {%- for woord in reis.woorden %}
+      <li class="reis-woord reis-woord--{{ loop.index }}">{{ woord }}</li>
+      {%- endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="bijbeltekst reis-band" aria-label="Bijbeltekst">
+  <div class="bijbeltekst__inhoud">
+    <span class="pil">{{ reis.bijbeltekst.bron }}</span>
+    <blockquote>{{ reis.bijbeltekst.tekst }}</blockquote>
+  </div>
+</section>
+
+<section class="container reis-waarom" aria-labelledby="waarom-titel">
+  <div class="reis-kop">
+    <p class="bovenkop">Waarom deze reis</p>
+    <h2 id="waarom-titel">{{ reis.waarom.titel }}</h2>
+    <p>{{ reis.waarom.tekst }}</p>
+  </div>
+  <ol class="reis-doelen" role="list">
+    {%- for doel in reis.waarom.doelen %}
+    <li class="reis-doel">
+      <span class="reis-doel__nummer" aria-hidden="true">{{ loop.index }}</span>
+      <h3>{{ doel.titel }}</h3>
+      <p>{{ doel.tekst }}</p>
+    </li>
+    {%- endfor %}
+  </ol>
+</section>
+
+<section id="deelnemers" class="reis-deelnemers" aria-labelledby="deelnemers-titel">
+  <div class="container reis-deelnemers__inhoud">
+    <div class="reis-kop">
+      <p class="bovenkop">De groep</p>
+      <h2 id="deelnemers-titel">{{ reis.deelnemersTitel }}</h2>
+      <p>{{ reis.deelnemersTekst }}</p>
+    </div>
+    {%- if giften.reisDeelnemers.length %}
+    <ul class="reis-lijst" role="list">
+      {%- for deelnemer in giften.reisDeelnemers %}
+      {%- set project = deelnemer.project %}
+      <li class="reis-kaart">
+        {% include "blokken/reis-portret.njk" %}
+        <h3>{{ deelnemer.voornaam }}</h3>
+        {%- if deelnemer.kort %}<p>{{ deelnemer.kort }}</p>{% endif %}
+        {% include "blokken/voortgang.njk" %}
+        <a class="knop knop--groen" href="/ontmoetingsreis/{{ deelnemer.slug }}/">Sponsor {{ deelnemer.voornaam }}</a>
+      </li>
+      {%- endfor %}
+    </ul>
+    {%- else %}
+    <p class="reis-leeg">De deelnemers stellen zich hier binnenkort voor.</p>
+    {%- endif %}
+  </div>
+</section>
+
+<section id="gift" class="reis-gift" aria-labelledby="gift-titel">
+  <div class="container reis-gift__inhoud">
+    <div class="reis-gift__tekst">
+      <span class="pil">Uw gift</span>
+      <h2 id="gift-titel">{{ reis.gift.titel }}</h2>
+      {{ reis.gift.tekst | renderContent("md") | safe }}
+    </div>
+    <div class="reis-gift__kaart">
+      <p class="reis-gift__bedrag"><strong>{{ reis.doelPerDeelnemer | euroKort }}</strong> per deelnemer</p>
+      <ul>
+        {%- for punt in reis.gift.punten %}
+        <li>{{ punt }}</li>
+        {%- endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="container reis-veilig" aria-labelledby="veilig-titel">
+  <h2 id="veilig-titel">{{ reis.veiligheid.titel }}</h2>
+  <div class="tekst-blok">
+    <p>{{ reis.veiligheid.tekst }}</p>
+    <p>Vragen over de reis of over uw gift? Mail naar <a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> of bel <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a>.</p>
+  </div>
+</section>
+
+<section class="slotbalk" aria-labelledby="slot-titel">
+  <div class="container slotbalk__inhoud">
+    <h2 id="slot-titel">{{ reis.slotTitel }}</h2>
+    <a class="knop knop--groen knop--groot" href="#deelnemers">Sponsor een deelnemer</a>
+  </div>
+</section>
+
+</div>

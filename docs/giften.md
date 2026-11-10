@@ -75,6 +75,10 @@ Een maandelijkse gift (`periodieke_giften.status`): `wacht_op_eerste` → `actie
 
 Online giften telt de database (`projectstanden()`): alle betaalde giften per project. Giften die per bankoverschrijving binnenkomen, vult kantoor per project in bij **Giften via de bank** in Pages CMS. De balk telt die twee op. Giften via de site komen ook op de bankrekening (Mollie betaalt ze uit); die niet nog eens invullen.
 
+### Ontmoetingsreis
+
+De deelnemers van de Ontmoetingsreis zijn ook geefprojecten (`reis-<vaste naam>`), met eigen sponsorpagina's op `/ontmoetingsreis/`. Ze staan in `site/_data/ontmoetingsreis.json`, niet in `projecten.json`. Zie [ontmoetingsreis.md](ontmoetingsreis.md).
+
 ## 4. Lokaal draaien en testen
 
 Zoals bij het ticketsysteem ([ticketsysteem.md](ticketsysteem.md) §4): `npm run db:start`, `.env.example` kopiëren naar `.env.local` (daar staan ook de instellingen voor giften), `npm run functies`, en dan:

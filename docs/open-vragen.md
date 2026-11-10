@@ -53,6 +53,9 @@ De bouw begint lokaal en met testaccounts. Deze punten moeten geregeld zijn voor
 - [ ] Giften: bewaartermijn van gegevens van gevers, en of kantoor een jaaroverzicht per gever wil (voor de belastingaangifte van gevers).
 - [ ] Webshop: bonisa.nl heeft nu WooCommerce (in WordPress). Uitzoeken: welke producten en hoeveel, verzending en voorraad, en welke betaalplugin WooCommerce gebruikt. Bekend (4 nov 2026): de webshop is gekoppeld aan het Mollie-account van Bonisa.
 - [ ] Welke webshopdienst bouwen we in, of volstaat bij weinig producten een eenvoudig bestelformulier op basis van het ticketsysteem?
+- [ ] Ontmoetingsreis: namen (voornaam), foto en persoonlijke tekst van de deelnemers; de voorbeelden Anna en Daan vervangen (docs/ontmoetingsreis.md).
+- [ ] Ontmoetingsreis: mag de pagina openbaar met voornamen en foto's van deelnemers? In de deelnameovereenkomst staat dat deelnemers niets over de reis openbaar delen zonder toestemming van Bonisa.
+- [ ] Ontmoetingsreis: klopt de tekst "voor projecten van Bonisa en voor de reis", of wil Bonisa een verdeling noemen?
 
 ## Na de bouw van fase 1 (website)
 

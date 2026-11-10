@@ -32,6 +32,7 @@ site/assets/ (css, foto's...)  ─┘      (bouwen)        (wordt niet bewaard i
 │   ├── _headers.njk       beveiligingsregels voor Cloudflare (wordt _headers)
 │   ├── tickets/           bestelpagina, bedankpagina en ticketpagina (zie ticketsysteem.md)
 │   ├── geven/             geefpagina's voor bonisa.nl, alleen met GIFTEN_PAGINAS=aan (zie giften.md)
+│   ├── ontmoetingsreis/   sponsorpagina's van de jongerenreis, ook alleen met GIFTEN_PAGINAS=aan (zie ontmoetingsreis.md)
 │   ├── scan.njk           scanpagina voor de deur (/scan/)
 │   ├── beheer.njk         beheerpagina voor kantoor (/beheer/)
 │   ├── welkom.njk         wachtwoord kiezen na een uitnodiging (/welkom/)

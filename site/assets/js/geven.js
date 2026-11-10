@@ -33,7 +33,9 @@
       .catch(() => ({}))
       .then((standen) => {
         balken.forEach((blok) => {
-          const online = standen[blok.dataset.voortgang]?.opgehaald_cent ?? 0;
+          // Several projects, separated by commas: their sum (the whole trip group).
+          const online = blok.dataset.voortgang.split(",")
+            .reduce((som, slug) => som + (standen[slug]?.opgehaald_cent ?? 0), 0);
           const totaal = online + Number(blok.dataset.bankCent || 0);
           const balk = blok.querySelector("progress");
           if (balk) balk.value = Math.min(totaal, Number(balk.max));
@@ -55,7 +57,7 @@
     const keuze = form.querySelector('input[name="bedrag"]:checked')?.value;
     anders.hidden = keuze !== "anders";
     const maandelijks = form.querySelector('input[name="frequentie"]:checked')?.value === "maandelijks";
-    uitleg.hidden = !maandelijks;
+    if (uitleg) uitleg.hidden = !maandelijks;
     knop.textContent = maandelijks ? "Start maandelijkse gift met iDEAL" : "Geef met iDEAL";
   };
   form.addEventListener("change", werkBij);
