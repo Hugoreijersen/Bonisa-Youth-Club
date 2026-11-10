@@ -18,6 +18,7 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 4. `design/README.md` en `design/bonisa-huisstijl/`: het ontwerp, de huisstijl en de ontwerpregels
 5. `docs/open-vragen.md`: wat nog openstaat
 6. `docs/onderhoud.md`: wie wat bijwerkt, meldingen, controlelijst
+7. `docs/ontmoetingsreis.md`: de sponsorpagina's van de jongerenreis en wat daar nooit op mag
 
 ## Techniek
 
@@ -65,4 +66,5 @@ Tijdens de bouw: lokaal en met testaccounts (Mollie-testmodus). Accounts op naam
 - Fase 2 gebouwd en lokaal getest: bestellen en betalen (`supabase/`, `site/tickets/`), met een nagebootste Mollie. Nog geen echte Mollie (besluit 30).
 - Fase 3 gebouwd en lokaal getest: ticketmail met QR-codes, ticketpagina `/tickets/mijn/`, scanpagina `/scan/`, beheerpagina `/beheer/`, nieuwsbrief naar MailerLite.
 - Giften voor bonisa.nl gebouwd en lokaal getest: eenmalig en maandelijks, per project (`docs/giften.md`). Geefpagina's alleen met `GIFTEN_PAGINAS=aan`.
+- Sponsorpagina's van de Ontmoetingsreis gebouwd (10 november, `docs/ontmoetingsreis.md`): per deelnemer een pagina op het bestaande geefsysteem. **Nooit het land, plaatsen of precieze datums noemen**, ook niet in bestandsnamen, commits of pull requests; alleen "Azië".
 - Nog niets online. Volgende stap: online zetten in Hugo's accounts (besluit 38); vanaf 25 november de voorkant van bonisa.nl.

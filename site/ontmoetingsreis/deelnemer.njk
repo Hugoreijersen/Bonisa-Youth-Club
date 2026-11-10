@@ -1,0 +1,95 @@
+---
+pagination:
+  data: giften.reisDeelnemers
+  size: 1
+  alias: deelnemer
+permalink: "/ontmoetingsreis/{{ deelnemer.slug }}/"
+terug: { link: "/ontmoetingsreis/#deelnemers", tekst: "← Alle deelnemers" }
+scripts: ["/assets/js/geven.js", "/assets/js/delen.js"]
+eleventyComputed:
+  titel: "Sponsor {{ deelnemer.voornaam }} · {{ ontmoetingsreis.titel }} · Stichting Bonisa"
+  beschrijving: "{{ deelnemer.voornaam }} gaat mee met de {{ ontmoetingsreis.titel }} van Bonisa en haalt daarvoor {{ ontmoetingsreis.doelPerDeelnemer | euroKort }} op. Helpt u mee?"
+---
+{#- Sponsorpagina van één deelnemer. De gift gaat via het gewone geefformulier
+    (create-gift) naar het project "reis-<vaste naam>". Werkt ook zonder JavaScript. -#}
+{%- set reis = ontmoetingsreis %}
+{%- set project = deelnemer.project %}
+<div id="geven" class="reis" data-functies="{{ ticketsysteem.functiesUrl }}">
+
+<section class="reis-persoon" aria-labelledby="persoon-titel">
+  <div class="container reis-persoon__inhoud">
+    {% include "blokken/reis-portret.njk" %}
+    <div class="reis-persoon__tekst">
+      <span class="pil">{{ reis.titel }} · {{ reis.motto }}</span>
+      <h1 id="persoon-titel">Sponsor {{ deelnemer.voornaam }}</h1>
+      {{ deelnemer.tekst | renderContent("md") | safe }}
+      <div class="reis-stand">
+        {% include "blokken/voortgang.njk" %}
+      </div>
+      <div class="knoppen">
+        <a class="knop knop--oranje knop--groot" href="#geefformulier">Geef nu</a>
+        <button class="knop" type="button" data-delen data-titel="Sponsor {{ deelnemer.voornaam }}" hidden>Deel deze pagina</button>
+      </div>
+      <p class="klein tekst-gedempt" data-delen-melding role="status" hidden></p>
+    </div>
+  </div>
+</section>
+
+<div class="container reis-geef">
+  <form id="geefformulier" class="formulier" method="post" action="{{ ticketsysteem.functiesUrl }}/create-gift" novalidate>
+    <h2>Uw gift voor {{ deelnemer.voornaam }}</h2>
+    <div class="melding" id="melding" role="alert" hidden></div>
+    <input type="hidden" name="project" value="{{ project.slug }}">
+    <input type="hidden" name="frequentie" value="eenmalig">
+    {#- Spamval: mensen zien dit veld niet, robots vullen het in. #}
+    <div class="visueel-verborgen" aria-hidden="true">
+      <label for="website">Laat dit veld leeg</label>
+      <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <fieldset class="keuzes">
+      <legend>Bedrag *</legend>
+      {%- for bedrag in reis.bedragen %}
+      <label class="keuze"><input type="radio" name="bedrag" value="{{ bedrag }}"{% if loop.first %} checked{% endif %}><span>{{ bedrag | euroKort }}</span></label>
+      {%- endfor %}
+      <label class="keuze"><input type="radio" name="bedrag" value="anders"{% if not reis.bedragen.length %} checked{% endif %}><span>Ander bedrag</span></label>
+      <div class="veld keuzes__anders">
+        <label for="bedrag_anders">Ander bedrag in euro</label>
+        <input id="bedrag_anders" name="bedrag_anders" type="text" inputmode="decimal" maxlength="9" placeholder="bijvoorbeeld 20" autocomplete="off">
+      </div>
+    </fieldset>
+
+    <div class="velden">
+      <div class="veld">
+        <label for="voornaam">Voornaam *</label>
+        <input id="voornaam" name="voornaam" type="text" required maxlength="100" autocomplete="given-name">
+      </div>
+      <div class="veld">
+        <label for="achternaam">Achternaam *</label>
+        <input id="achternaam" name="achternaam" type="text" required maxlength="100" autocomplete="family-name">
+      </div>
+      <div class="veld">
+        <label for="email">E-mailadres *</label>
+        <input id="email" name="email" type="email" required maxlength="254" autocomplete="email">
+      </div>
+    </div>
+
+    <label class="vinkje" for="nieuwsbrief">
+      <input id="nieuwsbrief" name="nieuwsbrief" type="checkbox">
+      <span>Ja, houd me op de hoogte van nieuws en activiteiten van Bonisa. Afmelden kan altijd.</span>
+    </label>
+
+    <button type="submit" class="knop knop--oranje knop--groot" id="geefknop">Geef met iDEAL</button>
+    <p class="klein tekst-gedempt">U betaalt op de beveiligde pagina van Mollie. Uw naam komt niet op de site te staan. Lees hoe we met uw gegevens omgaan in de <a href="{{ stichting.documenten.privacy }}">privacyverklaring</a>.</p>
+  </form>
+
+  <aside class="reis-over" aria-labelledby="over-titel">
+    <p class="bovenkop">Over de reis</p>
+    <h2 id="over-titel">{{ reis.waarom.titel }}</h2>
+    <p>{{ reis.intro }}</p>
+    <p>{{ reis.gift.tekst.split("\n\n")[0] }}</p>
+    <a class="knop knop--groen" href="/ontmoetingsreis/">Lees meer over de reis</a>
+  </aside>
+</div>
+
+</div>

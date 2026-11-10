@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ titel or site.titel }}</title>
-  <meta name="description" content="{{ site.beschrijving }}">
+  <meta name="description" content="{{ beschrijving or site.beschrijving }}">
   {%- if not site.zichtbaarVoorZoekmachines or verborgen %}
   <meta name="robots" content="noindex, nofollow">
   {%- endif %}
@@ -13,9 +13,9 @@
   <meta property="og:type" content="website">
   <meta property="og:locale" content="nl_NL">
   <meta property="og:title" content="{{ titel or site.titel }}">
-  <meta property="og:description" content="{{ site.beschrijving }}">
+  <meta property="og:description" content="{{ beschrijving or site.beschrijving }}">
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:image" content="{{ site.url }}{% deelfoto site.deelfoto %}">
+  <meta property="og:image" content="{{ site.url }}{% deelfoto deelfoto or site.deelfoto %}">
   <meta name="theme-color" content="#457d28">
   <link rel="preload" href="/assets/fonts/archivo-latin-standard-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | versie }}">
@@ -32,12 +32,17 @@
 <div class="menubalk">
   <div class="container">
     <header class="menubalk__inhoud">
+      {%- if merk == "bonisa" %}
+      {#- Pages of Bonisa itself (Ontmoetingsreis): the white Bonisa logo, as the style guide prescribes on green. #}
+      <a class="logo-beeld" href="{{ merkLink or '/' }}"><img src="/assets/img/bonisa-logo-wit.svg" alt="Stichting Bonisa" width="158" height="40" loading="eager"></a>
+      {%- else %}
       <a class="logo-tekst" href="/#top" aria-label="Katwijkse Jongerenzang, naar boven">
         <span class="logo-tekst__klein">Katwijkse</span>
         <span class="logo-tekst__groot">JONGERENZANG</span>
       </a>
+      {%- endif %}
       {%- if eenvoudigeKop %}
-      <a class="terug" href="/">← Terug naar de site</a>
+      <a class="terug" href="{{ terug.link if terug else '/' }}">{{ terug.tekst if terug else "← Terug naar de site" }}</a>
       {%- else %}
       <button class="menu-knop" type="button" aria-expanded="false" aria-controls="hoofdmenu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -78,7 +83,7 @@
       <p>{{ stichting.adres }} · <a href="tel:{{ stichting.telefoon | replace(' ', '') | replace('–', '') }}">{{ stichting.telefoon }}</a></p>
       <p><a href="mailto:{{ stichting.email }}">{{ stichting.email }}</a> · <a href="{{ stichting.website }}">{{ stichting.website | replace('https://', '') | replace('www.', '') }}</a></p>
       <p class="footer__vragen">{% include "vragen.njk" %}</p>
-      <p>{{ stichting.voettekst }}</p>
+      <p>{{ voettekst or stichting.voettekst }}</p>
     </div>
     <nav aria-label="Juridisch">
       <ul class="footer__links">

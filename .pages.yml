@@ -372,6 +372,93 @@ content:
             default: true
             description: Uit = het project verdwijnt van de site en er kunnen geen giften meer voor binnenkomen.
 
+  - name: ontmoetingsreis
+    label: Ontmoetingsreis (sponsorpagina)
+    type: file
+    path: site/_data/ontmoetingsreis.json
+    format: json
+    description: Noem nooit het land, plaatsen, bezienswaardigheden of namen van partners. Alleen "Azië". Uitleg in docs/ontmoetingsreis.md.
+    fields:
+      - { name: label, label: Label boven de titel, type: string, description: 'Geen precieze datums. Bijvoorbeeld "Bonisa jongerenreis · zomer 2027"' }
+      - { name: titel, label: Titel, type: string, required: true }
+      - { name: motto, label: Motto, type: string }
+      - { name: intro, label: Inleiding, type: text }
+      - { name: woorden, label: Drie woorden naast de titel, type: string, list: { max: 3 } }
+      - name: doelPerDeelnemer
+        label: Doelbedrag per deelnemer (in euro)
+        type: number
+        options: { min: 0, step: 1 }
+      - name: bedragen
+        label: Vaste bedragen op het geefformulier (in euro)
+        type: number
+        list: { max: 4 }
+        options: { min: 1, max: 10000, step: 0.01 }
+      - name: bijbeltekst
+        label: Bijbeltekst
+        type: object
+        fields:
+          - { name: tekst, label: Tekst, type: text }
+          - { name: bron, label: Bron, type: string }
+      - name: waarom
+        label: Waarom deze reis
+        type: object
+        fields:
+          - { name: titel, label: Titel, type: string }
+          - { name: tekst, label: Tekst, type: text }
+          - name: doelen
+            label: Doelen
+            type: object
+            list: true
+            fields:
+              - { name: titel, label: Titel, type: string }
+              - { name: tekst, label: Tekst, type: text }
+      - name: gift
+        label: Waar is de gift voor
+        type: object
+        fields:
+          - { name: titel, label: Titel, type: string }
+          - { name: tekst, label: Tekst, type: text, description: Een lege regel begint een nieuwe alinea. }
+          - { name: punten, label: Punten op de witte kaart, type: string, list: true }
+      - { name: deelnemersTitel, label: Kop boven de deelnemers, type: string }
+      - { name: deelnemersTekst, label: Tekst boven de deelnemers, type: text }
+      - name: veiligheid
+        label: Uitleg over veiligheid
+        type: object
+        fields:
+          - { name: titel, label: Titel, type: string }
+          - { name: tekst, label: Tekst, type: text }
+      - { name: slotTitel, label: Tekst in de oranje balk, type: string }
+      - name: deelnemers
+        label: Deelnemers
+        type: object
+        list: true
+        description: Elke deelnemer krijgt een eigen sponsorpagina met een eigen teller.
+        fields:
+          - { name: voornaam, label: Voornaam, type: string, required: true, description: Alleen de voornaam, geen achternaam. }
+          - name: slug
+            label: Vaste naam (voor het webadres)
+            type: string
+            required: true
+            pattern: { regex: '^[a-z0-9-]{1,50}$', message: 'Alleen kleine letters, cijfers en streepjes, bijvoorbeeld "anna"' }
+            description: Wordt het adres /ontmoetingsreis/<vaste naam>/ en staat bij elke gift. Niet meer wijzigen zodra er giften binnenkomen.
+          - name: foto
+            label: Foto
+            component: foto
+            description: "Vierkante foto van de deelnemer zelf, gemaakt in Nederland. Geen foto's van de reis of van partners. Leeg laten = de eerste letter van de naam."
+          - { name: alt, component: alt, required: false }
+          - { name: kort, label: Eén zin voor het overzicht, type: string }
+          - name: tekst
+            label: Persoonlijke tekst
+            type: text
+            description: 'Waarom ga je mee en welke acties doe je? Geen land, plaatsen of namen van partners. Een lege regel begint een nieuwe alinea.'
+          - name: bank
+            label: Giften via de bank en acties (in euro)
+            type: number
+            default: 0
+            options: { min: 0, step: 0.01 }
+            description: Totaal dat buiten de site om is binnengekomen. Giften via de site niet nog eens invullen.
+          - { name: open, label: Toon deze deelnemer en neem giften aan, type: boolean, default: true }
+
 # Commitberichten volgens Conventional Commits (CLAUDE.md). Inhoud gaat direct
 # naar main; Cloudflare zet de wijziging daarna vanzelf online.
 settings:

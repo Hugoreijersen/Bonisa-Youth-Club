@@ -1,0 +1,9 @@
+{
+  "layout": "base.njk",
+  "merk": "bonisa",
+  "merkLink": "/ontmoetingsreis/",
+  "eenvoudigeKop": true,
+  "verborgen": true,
+  "deelfoto": "/assets/img/ontmoetingsreis-delen.png",
+  "voettekst": "De Ontmoetingsreis is een reis van Stichting Bonisa."
+}
